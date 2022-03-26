@@ -570,6 +570,25 @@ SELECT **topic.id AS topic_id** , ... 으로 바꿨다
   
 18.인터넷과 데이터베이스의 관계
 ===
-인터넷과 데이터베이스가 만나서 폭발적인 효과를 낸다.  
+  
+Client - Server가 연결되는 구조로 동작하는데, 데이터베이스 또한 똑같다  
+![image](https://user-images.githubusercontent.com/101965836/160239857-98b8811b-f66f-46c2-859a-03f624e9c604.png)  
+  
+우리가 지금까지 실습한 MySQL은 database client이다.  
+database의 관점에서 보면, 우리가 database에 명령을 요청했기 때문이다.  
+  
+  
+---
+
+19,20.MySQL Client , MySQL workbench
+===
+# MySQL Client
+기존에 우리가 하던 CLI를 이용할 수도 있긴 하지만, 좀 더 편리하게 GUI를 이용할 수 있다.  
+이러한 프로그램들을 Database Client 프로그램 이라고 한다.  
+그리고 다양한 무료 및 유료 Client 프로그램이 있고, 그 중 대표적인게 MySQL workbench이다.
+### MySQL workbench 
+<br>
+<br>
+GUI
 
 
