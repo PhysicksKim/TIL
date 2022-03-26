@@ -349,7 +349,8 @@ UPDATE 테이블이름 SET column이름='값'
 ORACLE is 뒤에 ...을 update 하고 싶다!  
 
 ### 수정 명령
-![image](https://user-images.githubusercontent.com/101965836/160229648-e151a739-7b6e-4678-aedb-8d934f51d6a3.png)  
+![image](https://user-images.githubusercontent.com/101965836/160229694-7de79fc1-e48a-4b55-b237-00705587e530.png)  
+   
 UPDATE topic SET description='Oracle is ...', title='Oracle' WHERE id=2;  
 **뒤에 WHERE 안 붙이면 전부 다 Oracle is... 으로 바뀐다!**
   
