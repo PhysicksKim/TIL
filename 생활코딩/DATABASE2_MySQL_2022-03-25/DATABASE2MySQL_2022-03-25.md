@@ -110,7 +110,7 @@ CREATE DATABASE physicks;
 DROP DATABASE physicks;
 ```
   
-## (3) 목록 보기
+## (3) 데이터베이스 목록 보기
 ```
 SHOW DATABASES;
 ```
@@ -119,7 +119,12 @@ SHOW DATABASES;
 ```
 USE physicks;
 ```
-  
+
+## (5) 테이블 목록 보기
+```
+SHOW TABLES;
+```
+
   
   
 ---
@@ -433,4 +438,38 @@ author에 대한 정보를 변경하려면, 단순히 author 테이블의 해당
 \
 16.테이블 분리하기
 ===
+### 테이블 만들기
+![image](https://user-images.githubusercontent.com/101965836/160237815-9283dc06-08ed-4c68-94a4-e96bae0c4e87.png)  
+```
+CREATE TABLE `author` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `profile` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+```
+```
+CREATE TABLE `topic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(30) NOT NULL,
+  `description` text,
+  `created` datetime NOT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+```
 
+### 테이블에 데이터 넣기
+![image](https://user-images.githubusercontent.com/101965836/160237883-f1790be5-b539-4b03-ac3e-4fa28d264e49.png)  
+```
+INSERT INTO `author` VALUES (1,'egoing','developer');
+INSERT INTO `author` VALUES (2,'duru','database administrator');
+INSERT INTO `author` VALUES (3,'taeho','data scientist, developer');
+```
+```
+INSERT INTO `topic` VALUES (1,'MySQL','MySQL is...','2018-01-01 12:10:11',1);
+INSERT INTO `topic` VALUES (2,'Oracle','Oracle is ...','2018-01-03 13:01:10',1);
+INSERT INTO `topic` VALUES (3,'SQL Server','SQL Server is ...','2018-01-20 11:01:10',2);
+INSERT INTO `topic` VALUES (4,'PostgreSQL','PostgreSQL is ...','2018-01-23 01:03:03',3);
+INSERT INTO `topic` VALUES (5,'MongoDB','MongoDB is ...','2018-01-30 12:31:03',1);
+```
