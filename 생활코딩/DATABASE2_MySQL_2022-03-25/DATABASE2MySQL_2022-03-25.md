@@ -255,4 +255,89 @@ PRIMARY KEY가 되기에 적합하다.
   ![image](https://user-images.githubusercontent.com/101965836/160227529-9ec82123-95d9-403e-a029-90f68220f72d.png)  
 
   
+---
 
+
+9.CRUD
+===
+
+---
+
+10.INSERT
+===
+데이터를 추가하는것을 CREATE라 하고 어떻게 SQL로 하는지 본다
+
+키워드 : mySQL insert into syntax
+
+## SHOW TABLES; 
+ 
+```
+mysql\> SHOW TABLES;
++--------------------+
+| Tables_in_physicks |
++--------------------+
+| topic              |
++--------------------+
+1 row in set (0.01 sec)
+```
+현재 데이터베이스의 테이블들을 보여준다. 
+
+
+## DESC topic;
+```
+mysql> DESC topic;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int          | NO   | PRI | NULL    | auto_increment |
+| title       | varchar(100) | NO   |     | NULL    |                |
+| description | text         | YES  |     | NULL    |                |
+| created     | datetime     | NO   |     | NULL    |                |
+| author      | varchar(30)  | YES  |     | NULL    |                |
+| profile     | varchar(100) | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+6 rows in set (0.01 sec)
+```
+DESC [테이블이름]; 하면 해당 테이블의 양식을 보여준다
+
+## INSERT INTO topic (...) VALUES(...)
+```
+mysql> INSERT INTO topic (title,description,created,author,profile) 
+  -> VALUES('MySQL','MySQL is ...',NOW(),'egoing','developer');
+Query OK, 1 row affected (0.01 sec)
+```
+INSERT INTO topic (입력할 데이터의 Field) VALUES(입력할 데이터)  
+위의 DESC [테이블이름]; 명령어를 참고해서 적으면 된다.  
+위 코드 예제에서 id는 자동으로 할당되도록 했으므로 입력해 넣지 않아도 된다.  
+  
+  
+  
+---
+  
+  
+11.SELECT
+===
+
+## SELECT * FROM topic
+![image](https://user-images.githubusercontent.com/101965836/160229354-c951acdb-68f1-42a5-a5f7-5c8fb9539a28.png)  
+모든 데이터를 출력한다.  
+  
+  
+## SELECT [표시할 값] FROM topic
+![image](https://user-images.githubusercontent.com/101965836/160229406-38a2e644-af52-4246-93aa-9174cadfbda7.png)   
+  
+id title created author만 표시하도록 했다.  
+  
+  
+이외에 내림차순으로 정렬할 수도 있고
+WHERE author='egoing'를 뒤에 추가해서 author이 egoing인 데이터만 출력하는 등이 가능하다.  
+  
+다양한 기능이 있으니 검색을 통해 적절히 알아내면 된다.  
+  
+  
+---
+  
+  
+  
+12.UPDATE
+===
