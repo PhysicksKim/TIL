@@ -1,1 +1,12 @@
-# StudyNotes
+# 수강한 강의들
+
+## 생활코딩
+
+WEB1 - HTML & Internet (2022-03-19)
+WEB2 - CSS (2022-03-19 ~ 2022-03-20)
+WEB2 - JavaScript (2022-03-21)
+WEB2 - JavaScript > React (2022-03-21 ~ 2022-03-22)
+WEB2 - Node.js (2022-03-22 ~ 2022-03-24)
+
+DATABASE1 (2022-03-25)
+DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)
