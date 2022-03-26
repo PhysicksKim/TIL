@@ -341,3 +341,19 @@ WHERE author='egoing'를 뒤에 추가해서 author이 egoing인 데이터만 �
   
 12.UPDATE
 ===
+![image](https://user-images.githubusercontent.com/101965836/160229582-d02ec4ec-48f2-4c3e-93b8-b2e9f761a4ac.png)  
+UPDATE 테이블이름 SET column이름='값'
+
+### 수정 전 데이터
+![image](https://user-images.githubusercontent.com/101965836/160229636-2b640f44-c96e-4960-ab5d-96aa3567d4f0.png)    
+ORACLE is 뒤에 ...을 update 하고 싶다!  
+
+### 수정 명령
+![image](https://user-images.githubusercontent.com/101965836/160229648-e151a739-7b6e-4678-aedb-8d934f51d6a3.png)  
+UPDATE topic SET description='Oracle is ...', title='Oracle' WHERE id=2;  
+**뒤에 WHERE 안 붙이면 전부 다 Oracle is... 으로 바뀐다!**
+  
+  
+### 수정 후 데이터
+![image](https://user-images.githubusercontent.com/101965836/160229676-7490516f-eeef-43c6-bb43-e7241d5b284e.png)  
+  
