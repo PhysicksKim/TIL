@@ -358,3 +358,19 @@ UPDATE topic SET description='Oracle is ...', title='Oracle' WHERE id=2;
 ### 수정 후 데이터
 ![image](https://user-images.githubusercontent.com/101965836/160229676-7490516f-eeef-43c6-bb43-e7241d5b284e.png)  
   
+---
+
+13.DELETE
+===
+![image](https://user-images.githubusercontent.com/101965836/160229730-e4bfbf30-0442-4410-abe3-c6e39a48d7d2.png)  
+  
+  
+DELETE FROM topic WHERE id = 5;  
+where 안쓰면 전부 삭제되니 주의  
+  
+  
+  
+---
+
+14.수업의정상
+===
