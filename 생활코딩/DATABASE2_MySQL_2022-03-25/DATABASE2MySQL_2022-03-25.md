@@ -583,12 +583,23 @@ database의 관점에서 보면, 우리가 database에 명령을 요청했기 �
 19,20.MySQL Client , MySQL workbench
 ===
 # MySQL Client
-기존에 우리가 하던 CLI를 이용할 수도 있긴 하지만, 좀 더 편리하게 GUI를 이용할 수 있다.  
+기존에 우리가 하던 CLI를 이용할 수도 있긴 하다. (MySQL monitor라고 한다)  
+그치만 좀 더 편리하게 GUI를 이용할 수 있다.  
 이러한 프로그램들을 Database Client 프로그램 이라고 한다.  
-그리고 다양한 무료 및 유료 Client 프로그램이 있고, 그 중 대표적인게 MySQL workbench이다.
+그리고 다양한 무료 및 유료 Client 프로그램이 있고, 그 중 대표적인게 MySQL workbench이다.  
+<br>
+<br>
 ### MySQL workbench 
-<br>
-<br>
-GUI
-
-
+![image](https://user-images.githubusercontent.com/101965836/160240437-b8cea2ff-d25e-425e-b156-247c8c61a831.png)
+  
+# 핵심
+결국 하는 일은  
+GUI Client로 어떤 명령을 내리더라도,  
+SQL script를 생성해서 이를 SQL에다가 보내는(명령하는) 것이다.
+  
+  
+MySQL Server가 중심이고, 거기에 다양한 GUI를 쓰는 MySQL client들, 그리고 수많은 app들 등등... 엄청 많은 database client가 있다.  
+  
+  
+21.수업을 마치며
+===
