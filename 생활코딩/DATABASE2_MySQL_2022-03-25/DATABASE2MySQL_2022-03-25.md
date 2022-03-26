@@ -119,3 +119,140 @@ SHOW DATABASES;
 ```
 USE physicks;
 ```
+  
+  
+  
+---
+---
+  
+  
+    
+  
+  
+7.SQL과 테이블의 구조
+===
+
+  
+# SQL
+### **S** tructured  
+### **Q** uery  
+### **L** anguage  
+S : 관계형 데이터 베이스가 표 형태로 정리한다. 그 표를 작성 해 정리하는 것을 '구조화 되었다' 라고 한다.
+Q : 데이터 베이스에게 데이터를 넣고 읽고 수정하고 삭제하고 스키마 만들고 하는 것을 데이터베이스에게 요청한다는 뜻에서 쿼리라고 한다
+L : 데이터 베이스에게 아무렇게 이야기 하는 게 아니라, 데이터 베이스 서버에게 SQL 언어로 요청한다.  
+  
+  
+SQL은 
+(1) 언어가 쉽다. HTML 처럼 문법 자체는 쉽다
+(2) 중요하다. 표준화 까지 되어있고, 엄청 방대한 데이터를 다루는 게 데이터 베이스를 다루니까 그만큼 중요하다.
+
+# 표
+table, 표의 구조와 용어   
+![image](https://user-images.githubusercontent.com/101965836/160225991-37ceb2d8-91a7-425f-9a10-6e46597a7a2e.png)  
+  
+  
+  
+---
+---
+  
+  
+    
+  
+8.테이블의 생성, 데이터 입출력
+===
+
+# 테이블 생성
+  
+
+>## 검색을 통해 해결하는 과정 보기
+>조금 장황한 내용이지만, 단순히 코드를 따라쓰고 각 명령어나 문법을 단순 암기하기 보다는  
+>상황에 따라 적절한 검색어로 구글링 하는 실력을 늘리는 게 핵심이라고 강의에서 거듭 강조한다  
+>
+>  
+>검색어  create table in mysql cheat sheet 
+>  (공식 문서를 봐도 되지만, 너무 초심자에겐 복잡할 수 있다. 
+>  \~ cheat sheet를 검색어 뒤에 붙이면 잘 요약된 이미지들이 나온다  
+>    
+>![image](https://user-images.githubusercontent.com/101965836/160226188-2ab294a5-c8c2-4feb-986b-245fd4e242b8.png)  
+>  
+>```
+>mysql> USE physicks;
+>Database changed
+>mysql> CREATE TABLE topic(...)
+>```
+>
+>USE로 내가 편집하고자 하는 데이터 베이스로 이동,  
+>CREATE TABLE topic(...)으로 테이블을 만들 수 있다.  
+>그런데 위의 cheat sheet를 보면, c1 datatype(length) 같은 식으로 나와있는데 뭔지 잘 모르겠다.  
+>(사실 cheat sheet는 완전 처음 배울 때 보는건 아니고, 나중에 문법 어떻게 쓰더라 같은 거 기억 안날 때 보는 용도이다)  
+>그래서 다시 mysql datatype 검색.  
+>
+>![image](https://user-images.githubusercontent.com/101965836/160226397-9545e648-eabb-4b15-96ba-e38f059187c7.png)   
+>[출처](https://www.techonthenet.com/mysql/datatypes.php)  
+>  
+>>## 데이터 형식은 왜?
+>>엑셀과 SQL의 차이는  
+>>엑셀의 셀에는 어떤 데이터나 다 넣을 수 있다. 숫자 날짜 시간 요일 문장 등등  
+>>그러나 SQL에서는, 데이터가 반드시 숫자, 날짜, 알파벳 으로 들어와야 한다고 강제할 수 있다.  
+>>
+>>이렇게 데이터 형식을 강제하면  
+>>해당 데이터들은 반드시 \[어떤] 형태이다 임을 확신할 수 있다.  
+>   
+>    
+>이런식으로 검색을 통해서 찾아서 해결하는 힘을 길러야 한다고 강조한다  
+>  
+# 그래서 이번 강의에는 뭔 코드를 썼는가??
+
+
+```
+CREATE TABLE topic(
+    -> id INT(11) NOT NULL AUTO_INCREMENT,
+    -> title VARCHAR(100) NOT NULL,
+    -> description TEXT NULL,
+    -> created DATETIME NOT NULL,
+    -> author VARCHAR(30) NULL,
+    -> profile VARCHAR(100) NULL,
+    -> PRIMARY KEY(id));
+```
+  
+### id 
+datatype은 INT형, 길이는 11로 정한다. 여기서 CHAR과 INT안에 들어가는 **길이**의 역할이 좀 다르다.  
+> Char형의 뒤에는 캐릭터 형의 길이를 명시하기 위해 (숫자) 와 같은 형식으로 값이 붙게 되는데 Int형 뒤에도 붙일 수 있다. 
+>하지만 Int형의 괄호는 숫자 개수의 제약을 의미하는 것이 아니라 Zerofill을 위한 것이다. 
+>예를 들어 Int(5)는 5자리 내 숫자는 모두 0으로 채워준다는 뜻이다. 단 ORACLE에서는 실제 자리 수를 표현하는데 사용된다.
+> 
+>[출처](https://jins-dev.tistory.com/entry/MySQL%EC%97%90%EC%84%9C-Int%ED%98%95-%EB%92%A4%EC%9D%98-%EC%88%AB%EC%9E%90%EC%9D%98-%EC%9D%98%EB%AF%B8)  
+>   
+> ZEROFILL 이란 값이 123 이면 000123 처럼 앞을 0으로 채워주는 것을 말한다  
+
+
+NOT NULL은 null값을 가질 수 없다는 규칙.(id 없이 데이터가 등록되면 안된다고 규정지어줌)  
+AUTO_INCREMENT는 데이터가 들어올때마다 id가 1, 2, 3 이런식으로 자동으로 증가하면서 할당되도록 규정지음  
+  
+  
+### title
+VARCHAR형은 CHAR형이면서 Variable-length string을 뜻한다. 즉 변할 수 있는 글자 데이터에 varchar를 쓴다. 
+길이는 100으로 해서 대충 제목 데이터니까 100글자 정도면 되니 100으로 설정한다  
+
+### description
+TEXT 형식은 char보다 더 긴 글자들을 넣기 위해서 썼다.   
+![image](https://user-images.githubusercontent.com/101965836/160227447-701bd981-998b-4820-933f-5a3fcca7a56d.png)  
+  
+### created
+생성된 날짜와 시간을 기록하기 위해 DATETIME 형식을 썼다.  
+![image](https://user-images.githubusercontent.com/101965836/160227467-d7214da1-1116-4892-b9c7-cc0dfef7fd7a.png)  
+  
+  
+### author, profile
+작성자와 프로필은 비어있을 수 있으니 NULL로 두고 길이는 각 항목에 맞춰 적당히 30과 100으로 정했다.  
+  
+  
+### PRIMARY KEY
+데이터를 찾거나 정렬할때, 편의성 뿐만 아니라 속도 면에서도 어떤 기준이 되는 값이 있어야 좋다.  
+여기서는 id가 1, 2, 3 , ... 으로 각각 고유한 값으로 할당되기 때문에  
+PRIMARY KEY가 되기에 적합하다.  
+  
+  ![image](https://user-images.githubusercontent.com/101965836/160227529-9ec82123-95d9-403e-a029-90f68220f72d.png)  
+
+  
+
