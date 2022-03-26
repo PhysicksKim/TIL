@@ -399,7 +399,8 @@ egoing으로 중복되는 데이터가 같은 사람이 아니라 동명이인�
 ![image](https://user-images.githubusercontent.com/101965836/160237018-696776bf-4cff-4fcf-831c-66261d3fd1b5.png)  
   
 ### 변경 후
-![image](https://user-images.githubusercontent.com/101965836/160237030-6d2bce2c-9f39-46b6-8685-b2bc8a1b619a.png)  
+![image](https://user-images.githubusercontent.com/101965836/160237354-05501986-829f-4059-a3de-4fc13bfcf255.png)  
+
   
 **사람(author)** 에 대한 정보와  
 **글(topic)** 에 대한 정보를 분리시켰다  
@@ -419,10 +420,10 @@ author에 대한 정보를 변경하려면, 단순히 author 테이블의 해당
 
 ## 하지만 MySQL을 활용해 단점을 극복할 수 있다
 
-![image](https://user-images.githubusercontent.com/101965836/160237283-6bd17dbc-fa73-4690-a735-d03d2e959204.png)  
-이렇게 각자 author와 topic은 따로따로 있지만,  
+![image](https://user-images.githubusercontent.com/101965836/160237360-56317e2d-6a79-47c1-b00f-07cc639e5a1e.png)  
+이렇게 테이블들이 author와 topic으로 각각 따로따로 있지만,  
   
-![image](https://user-images.githubusercontent.com/101965836/160237300-118e8193-afd4-4a16-ac81-034db96a6fec.png)  
+![image](https://user-images.githubusercontent.com/101965836/160237382-f3218bf3-1ad2-4d84-893f-c84f95bfcaa4.png)
 이렇게 MySQL을 통해서 하나로 볼 수 있다.  
   
 
