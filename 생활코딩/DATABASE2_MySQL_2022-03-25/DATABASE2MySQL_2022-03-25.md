@@ -438,6 +438,12 @@ author에 대한 정보를 변경하려면, 단순히 author 테이블의 해당
 \
 16.테이블 분리하기
 ===
+### 기존 테이블 백업(rename)
+![image](https://user-images.githubusercontent.com/101965836/160238169-cf34c753-b7a3-42fd-b152-239f93fac5c4.png)  
+  
+  
+  
+  
 ### 테이블 만들기
 ![image](https://user-images.githubusercontent.com/101965836/160237815-9283dc06-08ed-4c68-94a4-e96bae0c4e87.png)  
 ```
@@ -473,3 +479,97 @@ INSERT INTO `topic` VALUES (3,'SQL Server','SQL Server is ...','2018-01-20 11:01
 INSERT INTO `topic` VALUES (4,'PostgreSQL','PostgreSQL is ...','2018-01-23 01:03:03',3);
 INSERT INTO `topic` VALUES (5,'MongoDB','MongoDB is ...','2018-01-30 12:31:03',1);
 ```
+
+
+17.JOIN
+===
+서로 독립적인 테이블을 읽을 때, 마치 하나의 테이블 처럼 표시하는 기능이다  
+  
+  
+![image](https://user-images.githubusercontent.com/101965836/160238265-eaecbac8-0937-4e06-956a-c623c70fdc6e.png)  
+  
+topic 테이블과 author 테이블을 따로따로 보면  
+topic 테이블의 author_id가 어떤 사람을 뜻하는지 쉽게 알 수 없다.  
+따라서 join 기능을 이용해서 topic 테이블의 author_id와 author 테이블의 id를 매칭 시켜서 볼 수 있다.  
+  
+  
+# JOIN 사용법
+
+## (1) 같이 띄워서 보기
+![image](https://user-images.githubusercontent.com/101965836/160238367-c236e5c8-dfbf-47d2-95e4-9ee634bbefb9.png)  
+  
+  
+```
+SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id;
+```
+
+단순히  
+SELECT * FROM topic LEFT JOIN author; 라고 해버리면
+어떤 기준으로 두 테이블을 연관지어야 할 지 알 수 없다.  
+  
+  
+따라서 뒤에
+SELECT * FROM topic LEFT JOIN author ***ON topic.author_id = author.id*** ;  
+ON 하고 어떤 값끼리 매칭시켜줘야 할지 알려줘야 한다.  
+
+
+
+## (2) 원하는 항목들만 띄워서 보기
+
+![image](https://user-images.githubusercontent.com/101965836/160238502-d6d3f35c-5851-4d55-9fb8-b7d5deca3734.png)  
+  
+```
+SELECT topic.id,title,description,created,name,profile FROM topic LEFT JOIN author ON topic.author_id = author.id;
+```
+
+<ol> 주의할 점 </ol>
+SELECT **topic.id** , ...
+
+만약에 이걸 그냥  
+SELECT **id** , ... 으로 적어버리면
+
+![image](https://user-images.githubusercontent.com/101965836/160238865-ffad8a38-c2ae-4329-ba3a-e4ba1ead0d16.png)  
+  
+이렇게 **ambiguous** 하다는 에러를 띄운다. 즉, **id** 가 topic의 id인지 author의 id 인지 모호하다는 뜻이다.  
+  
+  
+## (3) 원하는 항목의 이름을 바꿔서 띄우기
+
+![image](https://user-images.githubusercontent.com/101965836/160238992-4197961c-44e2-408a-82fc-d79c1158c3a8.png)  
+  
+```
+mysql> SELECT topic.id AS topic_id,title,description,created,name,profile FROM topic LEFT JOIN author ON topic.author_id = author.id;
+```
+SELECT **topic.id** , ... 이였던 부분을  
+SELECT **topic.id AS topic_id** , ... 으로 바꿨다  
+  
+  
+### 이게 어떻게 유용하게 응용될 수 있는가?
+  
+관계형 데이터 베이스의 강점이 여기서 드러난다.  
+![image](https://user-images.githubusercontent.com/101965836/160239307-3db6a926-1d9d-4eda-8396-b6bf9b949d6f.png)   
+이렇게 comment 테이블이 새로 생겼다 하더라도 author_id 값만 있으면 author 테이블과 연관지을 수 있다.  
+   
+   
+![image](https://user-images.githubusercontent.com/101965836/160239351-eeac4151-27ff-4bc5-83c1-154d9cfad7fd.png)  
+![image](https://user-images.githubusercontent.com/101965836/160239450-a1d2451f-f7ef-4da9-82b0-06b0a11cc981.png)  
+  
+  이처럼 JOIN을 활용하고, 또 원하는 내용만 띄우는 방식 등으로 유용하게 활용할 수 있다.  
+  
+  
+![image](https://user-images.githubusercontent.com/101965836/160239440-e3a306da-c6ce-49f7-bfb1-a8a96dc88b0c.png)
+![image](https://user-images.githubusercontent.com/101965836/160239459-fa50b45e-95ed-41f7-b090-d4b04fa41dd3.png)
+
+
+  이 뿐만 아니라, Update에도 곧바로 바뀌어서 대응할 수 있으니, 이런 측면에서 매우 편하다.  
+  
+  
+---
+  
+  
+  
+18.인터넷과 데이터베이스의 관계
+===
+인터넷과 데이터베이스가 만나서 폭발적인 효과를 낸다.  
+
+
