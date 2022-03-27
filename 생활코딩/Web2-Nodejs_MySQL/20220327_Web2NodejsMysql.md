@@ -27,5 +27,6 @@ main.js 코드에는 파일을 핸들링 하고 있는 fs.readdir fs.readFile �
 [실습소스코드](https://github.com/web-n/node.js-mysql/releases/tag/1)  
 zip 다운해서 풀면 된다.  
   
-  
-  
+DATABASE2-MySQL에서 실습한 데이터베이스를 사용 할 것인데, 해당 실습때 썼던 데이터베이스가 있으면 그대로 쓰면 된다. 만약 없다 하더라도, 위의 실습 코드의 메인이 되는 폴더에 example.sql 파일에 해당 데이터가 있다.
+
+또한 터미널을 실행한 다음 main 폴더로 이동해 npm install을 입력하면 package.json 파일을 자동으로 인식해서 디펜던시 인식해서 패키지들을 자동으로 설치한다.
