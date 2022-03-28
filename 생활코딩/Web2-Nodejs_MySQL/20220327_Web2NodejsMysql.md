@@ -564,3 +564,221 @@ update 버튼이랑 delete 버튼을 그대로 살려두기 위해 코드를 추
 
 6.Mysql로 글생성 기능 구현
 ===
+Create 기능 구현  
+
+현재 구현된 Create의 동작 방식은 
+### (1) else if(pathname === '/create'){ ... }   
+create할 내용 입력하는 페이지. post방식으로 데이터 전달, submit 누르면 /create_proces로 페이지 이동.  
+### (2) else if(pathname === '/create_process'){ ... }
+request.on('data', function(data){...} 으로 'data'가 차곡차곡 수신되면 변수에다가 차곡차곡 저장함.  
+request.on('end', function(){...} 으로 'end'로 수신이 끝나면, 안의 callback 함수 실행.  
+  
+따라서 /create_process 의 request.on('end', function(){...} 부분에다가 sql문을 전송해주는 코드를 작성하면 된다.  
+  
+# 데이터 추가하는 SQL문
+```
+INSERT INTO topic (title, description, created, author_id) VALUES('Nodjs', 'Nodejs is...', NOW(), 1);
+```
+일단 author_id는 나중에 구현하도록 하고, 위와 같이 INSERT INTO ...을 통해서 값을 넣을 수 있다.
+
+# 코드로 구현
+```JavaScript
+request.on('end', function(){
+  var post = qs.parse(body);
+  db.query(`
+    INSERT INTO topic (title, description, created, author_id) 
+      VALUES(?, ?, NOW(), ?)`,
+      [post.title, post.description, 1],
+      function(error,result){
+        if(error){
+          throw error;
+        }
+        response.writeHead(302, {Location: `/?id=${result.insertId}`});
+        response.end();
+      }
+    )
+});
+```
+## (1)  db.query(`SQL코드`,\[...],function(...)\{...});
+.query 매소드를 통해서 SQL코드를 전송하고 콜백 함수에 따라서 동작하도록 할 수 있다.
+
+## (2) `SQL코드`,\[...]
+```
+`INSERT INTO topic (title, description, created, author_id) VALUES(?, ?, NOW(), ?)`
+```
+여기서 물음표(?) 부분은 뒤에 나오는 \[...]의 원소가 순서대로 대입된다. ? 3개는 각각 타이틀, 디스크립션, author_id 값이 들어가야 한다. 따라서 \[post.title, post.description, author_id]로 처리되어야 하는데, author_id는 조금 구현과정이 필요하므로 일단 1로 적어두었다.
+
+## (3) result.inserId
+SQL에 데이터를 삽입하기 때문에 어떤 result가 들어올지 감이 안잡힐 수 있다. 여기서 콜백함수의 result는 데이터를 삽입한 뒤에 필요한 정보들이 나온다. 이 강의 코드의 경우, MySQL설정에 따라 id는 데이터가 삽입된 순서대로 증가하면서 배정된다. 그리고 result는 자동으로 할당된 id를 반환하는 부분이 있는데 그 매소드가 바로 .insertID이다.   
+```JavaScript
+response.writeHead(302, {Location: `/?id=${result.insertId}`}); 
+```
+따라서 위의 코드처럼, mysql 패키지의 result.inserId 매소드를 활용해 자동으로 작성한 글 페이지로 리다이렉션 되도록 했다. 
+
+<details>
+  <summary>전체 코드</summary>
+    
+    
+    var http = require('http');
+    var fs = require('fs');
+    var url = require('url');
+    var qs = require('querystring');
+    var template = require('./lib/template.js');
+    var path = require('path');
+    var sanitizeHtml = require('sanitize-html');
+    var mysql = require('mysql2');
+
+    mypassword = fs.readFileSync('mypassword','utf8');
+    var db = mysql.createConnection({
+      host:'localhost',
+      user:'root',
+      password: mypassword,
+      database:'physicks'
+    });
+    db.connect();
+
+    var app = http.createServer(function(request,response){
+        var _url = request.url;
+        var queryData = url.parse(_url, true).query;
+        var pathname = url.parse(_url, true).pathname;
+        if(pathname === '/'){
+          if(queryData.id === undefined){
+            db.query(`SELECT * FROM topic`, function(err, results, fields){
+              var title = 'Welcome';
+              var description = 'Hello, Node.js';
+              var list = template.list(results);
+              var html = template.HTML(title, list, 
+                `<h2>${title}</h2>${description}`,
+                `<a href="/create">create</a>`
+              );
+              response.writeHead(200);
+              response.end(html);
+            });
+          } else {
+            db.query(`SELECT * FROM topic`, function(err, results){
+              if(err){
+                throw err;
+              }
+              db.query(`SELECT * FROM topic WHERE id =?`,[queryData.id], function(err2, result){
+                if(err2){
+                  throw err2;
+                }
+                var title = result[0].title;
+                var description = result[0].description;
+                var list = template.list(results);
+                var html = template.HTML(title, list, 
+                  `<h2>${title}</h2>${description}`,
+                  `<a href="/create">create</a>
+                    <a href="/update?id=${queryData.id}">update</a>
+                    <form action="delete_process" method="post">
+                    <input type="hidden" name="id" value="${queryData.id}">
+                    <input type="submit" value="delete">
+                  </form>`
+                );
+                response.writeHead(200);
+                response.end(html);
+              });
+            });
+          }
+        } else if(pathname === '/create'){
+          db.query(`SELECT * FROM topic`, function(err, results, fields){
+            var title = 'Create';
+            var list = template.list(results);
+            var html = template.HTML(title, list, `
+              <form action="/create_process" method="post">
+                <p><input type="text" name="title" placeholder="title"></p>
+                <p>
+                  <textarea name="description" placeholder="description"></textarea>
+                </p>
+                <p>
+                  <input type="submit">
+                </p>
+              </form>
+            `, `<a href="/create">create</a>`)
+            response.writeHead(200);
+            response.end(html);
+          });
+        } else if(pathname === '/create_process'){
+          var body = '';
+          request.on('data', function(data){
+              body = body + data;
+          });
+          request.on('end', function(){
+            var post = qs.parse(body);
+            db.query(`
+              INSERT INTO topic (title, description, created, author_id) 
+                VALUES(?, ?, NOW(), ?)`,
+                [post.title, post.description, 1],
+                function(error,result){
+                  if(error){
+                    throw error;
+                  }
+                  response.writeHead(302, {Location: `/?id=${result.insertId}`});
+                  response.end();
+                }
+              )
+          });
+        } else if(pathname === '/update'){
+          fs.readdir('./data', function(error, filelist){
+            var filteredId = path.parse(queryData.id).base;
+            fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
+              var title = queryData.id;
+              var list = template.list(filelist);
+              var html = template.HTML(title, list,
+                `
+                <form action="/update_process" method="post">
+                  <input type="hidden" name="id" value="${title}">
+                  <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+                  <p>
+                    <textarea name="description" placeholder="description">${description}</textarea>
+                  </p>
+                  <p>
+                    <input type="submit">
+                  </p>
+                </form>
+                `,
+                `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+              );
+              response.writeHead(200);
+              response.end(html);
+            });
+          });
+        } else if(pathname === '/update_process'){
+          var body = '';
+          request.on('data', function(data){
+              body = body + data;
+          });
+          request.on('end', function(){
+              var post = qs.parse(body);
+              var id = post.id;
+              var title = post.title;
+              var description = post.description;
+              fs.rename(`data/${id}`, `data/${title}`, function(error){
+                fs.writeFile(`data/${title}`, description, 'utf8', function(err){
+                  response.writeHead(302, {Location: `/?id=${title}`});
+                  response.end();
+                })
+              });
+          });
+        } else if(pathname === '/delete_process'){
+          var body = '';
+          request.on('data', function(data){
+              body = body + data;
+          });
+          request.on('end', function(){
+              var post = qs.parse(body);
+              var id = post.id;
+              var filteredId = path.parse(id).base;
+              fs.unlink(`data/${filteredId}`, function(error){
+                response.writeHead(302, {Location: `/`});
+                response.end();
+              })
+          });
+        } else {
+          response.writeHead(404);
+          response.end('Not found');
+        }
+    });
+    app.listen(3000);
+</details>
+
