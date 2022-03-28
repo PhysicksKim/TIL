@@ -145,6 +145,7 @@ connection.end();
 
 # Trouble Shooting
 위의 수정 후 코드로 실행 했는데 에러가 났다.
+![image](https://user-images.githubusercontent.com/101965836/160362649-66446260-0e22-43b7-8dee-357d450f8ac2.png)  
 
 ```
 KHC@DESKTOP-TNMP2Q4 MINGW64 /g/MyHistory/Learning/node.js-mysql-1/node.js-mysql-1
@@ -153,21 +154,413 @@ Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protoc
   ...
   ... 
 ```
+<br>
+<br> 
+# 에러 ER NOT SUPPORTED AUTH MODE
+[참고한 글](https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server)  
 
+## 원인 
+MySQL 8.0버전으로 업그레이드 되면서, 디폴트인 인증 방식(PAM; pluggable authentication methods)이 **mysql_native_password** 에서 **Caching SHA-2 Pluggable Authentication** 방식으로 바뀌었다고 한다. 그런데 nodejs의 mysql패키지는 이를 아직 지원하지 않아서 에러가 발생한 것이다.
 
 
 ## 해결 방법
-크게 3가지 방법이 있는 것 같다.  <br>
-(1) const mysql = require("mysql2"); 으로 변경. <br>
-(2) mysql에 들어간 후 <br>
+<br> 
+크게 2가지 방법이 있다. <br>
+<br> 
+#### 추천 하는 방법 
+(1) npm으로 mysql2 를 설치 
+앞서 설명했듯 node의 mysql패키지가 바뀐 인증 방식을 지원하지 않는다. 따라서 최신 업데이트가 이뤄진 mysql2를 사용하면 된다. [mysql2](https://www.npmjs.com/package/mysql2)  
+  
+먼저 터미널을 열고 아래를 입력한다. 
 ```
-ALTER USER '\[MYSQL 아이디]'@'\[MYSQL 주소]' IDENTIFIED WITH mysql_native_password BY '\[MYSQL 비밀번호]'; 
+npm un mysql && npm i mysql2
 ```
-를 입력 <br>  
-(3) mysql installer > server 옆에 reconfigure > Auth 설정가서 legacy 선택
+이후 코드에 있는 require('mysql') 을 전부 require('mysql2')로 바꾸면 된다.
+
+#### 추천하지 않음 
+(2) mysql installer > server 옆에 reconfigure > Auth 설정가서 legacy 선택
 ![image](https://user-images.githubusercontent.com/101965836/160325365-e63afbec-3eaa-41fe-845d-184895e5c372.png)  
 ![image](https://user-images.githubusercontent.com/101965836/160325422-c6b176c0-8ed3-4b91-bcc8-4490565c09da.png)  
+   
+   
+ 
+자 이제, 저 **쿼리문** 을 개발자가 적절히 잘 짜서 사용한다면, 이제 상황에 따라 알맞게 데이터를 잘 가져올 수 있는 것이다!!  
   
-### 부연설명
-찾아보니 MySQL이 버전 8.0이 되면서 authentication관련된 부분이 이전 버전이랑 달라서 발생한 것 같다. 
-8.0 버전의 방식을 배우는 것도 방법이겠지만, 나는 강의 진행을 위해서 위의 3번째 방법인 legacy 방식으로 바꾸는 작업을 진행했다. 
+  
+# 추가
+비밀번호가 main코드 안에 있는게 싫어서, 따로 파일을 만들어 로컬에 저장해두고 불러오는 식으로 했다.
+```
+mypassword = fs.readFileSync('mypassword','utf8');
+var db = mysql.createConnection({
+  host:'localhost',
+  user:'root',
+  password: mypassword,
+  database:'physicks'
+});
+```
+물론 이렇게 하면 외부에서 파일에 접근해 비밀번호를 알아낼 수 있으므로, 그냥 코드에 적어넣는 것보다 더 위험하다고 생각한다. 다만 포스트를 작성하는 과정에 copy&paste 하다가 괜히 비밀번호가 노출되는 것을 방지하기 위해 이렇게 했다.  
+  
+---
+
+4.MySQL로 홈페이지 구현
+===
+
+더이상 웹 페이지가 data 폴더에서 데이터를 가져오지 않고 mysql에서 데이터를 가져오도록 해보자.  
+  
+```JavaScript
+if(pathname === '/'){
+    if(queryData.id === undefined){
+        fs.readdir('./data', function(error, filelist){
+        var title = 'Welcome';
+        var description = 'Hello, Node.js';
+        var list = template.list(filelist);
+        var html = template.HTML(title, list,
+          `<h2>${title}</h2>${description}`,
+          `<a href="/create">create</a>`
+        );
+        response.writeHead(200);
+        response.end(html);
+      });
+    } else { ...
+```
+pathname === '/' 는 최상위 경로라는 뜻이다. 즉, 여기가 첫 메인페이지를 띄우는 코드 부분이다. fs.readdir부터 파일을 읽고 정보들을 가져와서 html문서로 만들고 html 변수에 저장해서 response.end(html)로 보내는 것을 알 수 있다.  
+  
+  
+이 부분을  
+```JavaScript
+if(queryData.id === undefined){
+  db.query(`SELECT * FROM topic`, function(err, results, fields){
+    console.log(results);
+    response.writeHead(200);
+    response.end('Success');
+  });
+}
+```  
+이렇게 바꿨다
+
+    
+이렇게 하고 페이지에 다시 접속해보면 Success라는 글자가 뜨고, 터미널에는 results 값으로 데이터베이스에 저장된 데이터들이 주루룩 뜬다.
+  
+  
+# 메인 페이지 수정
+```JavaScript
+if(queryData.id === undefined){
+  db.query(`SELECT * FROM topic`, function(err, results, fields){
+    var title = 'Welcome';
+    var description = 'Hello, Node.js';
+    var list = template.list(results);
+    var html = template.HTML(title, list, 
+      `<h2>${title}</h2>${description}`,
+      `<a href="/create">create</a>`
+    );
+
+    response.writeHead(200);
+    response.end(html);
+  });
+} else { ...
+```
+이전에 있던 코드와 거의 동일하고, var list = template.list(results); 부분만 results로 바꿨다. results에 Mysql에서 가져온 데이터가 담겨있기 때문이다. 그다음, template.list() 매소드가 제대로 작동하는지 봐야 하는데, 일단 그대로 실행시키면 아래와 같이 뜬다.  
+![image](https://user-images.githubusercontent.com/101965836/160371601-c5f9271d-9f63-44ee-af9b-6ab0c2c9775d.png)
+<br>
+<br>
+이유는 lib/template.js에서 list 메소드를 보면 알 수 있다. 
+```JavaScript
+list:function(topics){
+    var list = '<ul>';
+    var i = 0;
+    while(i < topics.length){
+      list = list + `<li><a href="/?id=${topics[i]}">${topics[i]}</a></li>`;
+      i = i + 1;
+    }
+    list = list+'</ul>';
+    return list;
+  }
+}
+```
+보면 \<a ... \> \</a\> 부분에서 그냥 topics[i]라고 되어 있는데, 이렇게하면 mysql에서 전달해준 results의 각각 원소들은 Object를 담고 있기 때문에 object라고 뜨는 것이다. 따라서 이 부분을 수정해보자
+
+## template.js의 list 매소드 수정
+```
+<li><a href="/?id=${topics[i].id}">${topics[i].title}</a></li>
+```
+쿼리 스트링이 될 부분은 고유한 값인 id로 해줬고, 사용자가 클릭하게 될 텍스트는 title로 해줬다.
+
+![image](https://user-images.githubusercontent.com/101965836/160372184-fe923cbf-85d4-47ae-9843-141406a1374a.png) ![image](https://user-images.githubusercontent.com/101965836/160372213-72220991-0015-46ad-bf69-a34e20046361.png)  
+<br> 
+이렇게 목록 이름도 제대로 나오고, id값으로 주소가 잘 들어가는 것을 볼 수 있다.  
+  
+  
+# 상세보기 페이지 수정
+
+```JavaScript
+else {
+   fs.readdir('./data', function(error, filelist){
+    var filteredId = path.parse(queryData.id).base;
+    fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
+      var title = queryData.id;
+      var sanitizedTitle = sanitizeHtml(title);
+      var sanitizedDescription = sanitizeHtml(description, {
+        allowedTags:['h1']
+      });
+      var list = template.list(filelist);
+      var html = template.HTML(sanitizedTitle, list,
+        `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
+        ` <a href="/create">create</a>
+          <a href="/update?id=${sanitizedTitle}">update</a>
+          <form action="delete_process" method="post">
+            <input type="hidden" name="id" value="${sanitizedTitle}">
+            <input type="submit" value="delete">
+          </form>`
+      );
+      response.writeHead(200);
+      response.end(html);
+    });
+  }); 
+}
+```
+이부분이 상세보기 페이지를 출력하는 부분이다.  
+일단 앞서서 메인 페이지 출력하던 부분에 썼던 코드를 재활용 해보자.  
+
+<br>
+<br> 
+이제 뭘 짜야할까? \ht\tp://localhost:3000/?id=1 이처럼 끝에 id=1이 붙으니, id 값에 따라서 테이블에서 행을 가져오면 된다.  
+<br> 
+## id 값에 따라서 테이블 가져오기
+```
+mysql> SELECT * FROM topic WHERE id = 3;
++----+------------+-------------------+---------------------+-----------+
+| id | title      | description       | created             | author_id |
++----+------------+-------------------+---------------------+-----------+
+|  3 | SQL Server | SQL Server is ... | 2018-01-20 11:01:10 |         2 |
++----+------------+-------------------+---------------------+-----------+
+1 row in set (0.00 sec)
+```
+<br>
+<br>
+#### 먼저 throw err을 추가했다.
+```Javascript
+db.query(`SELECT * FROM topic`, function(err, results){
+  if(err){
+    throw err;
+  }
+  db.query(`SELECT * FROM topic WHERE id = ${queryData.id}`, 
+    function(err2, result){
+      if(err2){
+        throw err2;
+      }
+      ...(이후 본문 띄우는 코드)...
+    });
+  });
+```
+throw error; 를 사용하면, 에러 발생 시 에러 메세지를 console창에 띄우고 app을 즉시 중단한다.  
+  
+  
+#### 그 다음 result에 들어있는 title같은 값들을 변수에 넣어준다
+```Javascript
+  ...
+  var title = result[0].title;
+  var description = result[0].description;
+  var list = template.list(results);
+  ...
+```
+
+이렇게 되면 페이지들이 이제 내용까지 포함해서 출력하게 된다. <br> 
+
+![image](https://user-images.githubusercontent.com/101965836/160375788-2f57e637-3081-4680-9751-1258b7e3b3d7.png)
+
+# 주의할 점
+```Javascript
+db.query(`SELECT * FROM topic WHERE id = ${queryData.id}` , ...
+```
+이렇게 id값을 주게 되면, 데이터 베이스가 갖고 있는 코드의 특성에 의해 공격을 당할 수 있다.    
+  
+따라서 아래와 같이 바꾸는게 좋다
+``` 
+db.query(`SELECT * FROM topic WHERE id =?`,[queryData.id], ...
+```
+이렇게 하면 ?의 값은 뒤에 나오는 배열 값이 들어가도록 자동적으로 처리가 되며, 만약 공격이 들어오더라도 mysql에서 알아서 걸러주는 기능이 동작하게 된다.   
+
+## 추가 수정
+```Javascript
+var html = template.HTML(title, list, 
+  `<h2>${title}</h2>${description}`,
+  `<a href="/create">create</a>
+    <a href="/update?id=${queryData.id}">update</a>
+    <form action="delete_process" method="post">
+    <input type="hidden" name="id" value="${queryData.id}">
+    <input type="submit" value="delete">
+  </form>`
+);
+```
+update 버튼이랑 delete 버튼을 그대로 살려두기 위해 코드를 추가했다.
+
+<br> 
+<br> 
+<details>
+  <summary>전체 코드</summary>
+        
+        
+      var http = require('http');
+      var fs = require('fs');
+      var url = require('url');
+      var qs = require('querystring');
+      var template = require('./lib/template.js');
+      var path = require('path');
+      var sanitizeHtml = require('sanitize-html');
+      var mysql = require('mysql2');
+
+      mypassword = fs.readFileSync('mypassword','utf8');
+      var db = mysql.createConnection({
+        host:'localhost',
+        user:'root',
+        password: mypassword,
+        database:'physicks'
+      });
+      db.connect();
+
+      var app = http.createServer(function(request,response){
+          var _url = request.url;
+          var queryData = url.parse(_url, true).query;
+          var pathname = url.parse(_url, true).pathname;
+          if(pathname === '/'){
+            if(queryData.id === undefined){
+              db.query(`SELECT * FROM topic`, function(err, results, fields){
+                var title = 'Welcome';
+                var description = 'Hello, Node.js';
+                var list = template.list(results);
+                var html = template.HTML(title, list, 
+                  `<h2>${title}</h2>${description}`,
+                  `<a href="/create">create</a>`
+                );
+                response.writeHead(200);
+                response.end(html);
+              });
+            } else {
+              db.query(`SELECT * FROM topic`, function(err, results){
+                if(err){
+                  throw err;
+                }
+                db.query(`SELECT * FROM topic WHERE id =?`,[queryData.id], function(err2, result){
+                  if(err2){
+                    throw err2;
+                  }
+                  var title = result[0].title;
+                  var description = result[0].description;
+                  var list = template.list(results);
+                  var html = template.HTML(title, list, 
+                    `<h2>${title}</h2>${description}`,
+                    `<a href="/create">create</a>
+                      <a href="/update?id=${queryData.id}">update</a>
+                      <form action="delete_process" method="post">
+                      <input type="hidden" name="id" value="${queryData.id}">
+                      <input type="submit" value="delete">
+                    </form>`
+                  );
+                  response.writeHead(200);
+                  response.end(html);
+                });
+              });
+            }
+          } else if(pathname === '/create'){
+            fs.readdir('./data', function(error, filelist){
+              var title = 'WEB - create';
+              var list = template.list(filelist);
+              var html = template.HTML(title, list, `
+                <form action="/create_process" method="post">
+                  <p><input type="text" name="title" placeholder="title"></p>
+                  <p>
+                    <textarea name="description" placeholder="description"></textarea>
+                  </p>
+                  <p>
+                    <input type="submit">
+                  </p>
+                </form>
+              `, '');
+              response.writeHead(200);
+              response.end(html);
+            });
+          } else if(pathname === '/create_process'){
+            var body = '';
+            request.on('data', function(data){
+                body = body + data;
+            });
+            request.on('end', function(){
+                var post = qs.parse(body);
+                var title = post.title;
+                var description = post.description;
+                fs.writeFile(`data/${title}`, description, 'utf8', function(err){
+                  response.writeHead(302, {Location: `/?id=${title}`});
+                  response.end();
+                })
+            });
+          } else if(pathname === '/update'){
+            fs.readdir('./data', function(error, filelist){
+              var filteredId = path.parse(queryData.id).base;
+              fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
+                var title = queryData.id;
+                var list = template.list(filelist);
+                var html = template.HTML(title, list,
+                  `
+                  <form action="/update_process" method="post">
+                    <input type="hidden" name="id" value="${title}">
+                    <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+                    <p>
+                      <textarea name="description" placeholder="description">${description}</textarea>
+                    </p>
+                    <p>
+                      <input type="submit">
+                    </p>
+                  </form>
+                  `,
+                  `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+                );
+                response.writeHead(200);
+                response.end(html);
+              });
+            });
+          } else if(pathname === '/update_process'){
+            var body = '';
+            request.on('data', function(data){
+                body = body + data;
+            });
+            request.on('end', function(){
+                var post = qs.parse(body);
+                var id = post.id;
+                var title = post.title;
+                var description = post.description;
+                fs.rename(`data/${id}`, `data/${title}`, function(error){
+                  fs.writeFile(`data/${title}`, description, 'utf8', function(err){
+                    response.writeHead(302, {Location: `/?id=${title}`});
+                    response.end();
+                  })
+                });
+            });
+          } else if(pathname === '/delete_process'){
+            var body = '';
+            request.on('data', function(data){
+                body = body + data;
+            });
+            request.on('end', function(){
+                var post = qs.parse(body);
+                var id = post.id;
+                var filteredId = path.parse(id).base;
+                fs.unlink(`data/${filteredId}`, function(error){
+                  response.writeHead(302, {Location: `/`});
+                  response.end();
+                })
+            });
+          } else {
+            response.writeHead(404);
+            response.end('Not found');
+          }
+      });
+      app.listen(3000);
+
+       
+</details>
+
+
+---
+
+6.Mysql로 글생성 기능 구현
+===
