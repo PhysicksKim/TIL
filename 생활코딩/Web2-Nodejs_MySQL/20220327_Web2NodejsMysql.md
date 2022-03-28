@@ -1,15 +1,22 @@
 1.수업소개
 ===
-Web2 Nodejs에서 만든 App과, 생성된 글을 읽고 수정할 수 있다
+이전에 Web2 Nodejs 수업으로 배우고 만든 결과물을 보자.
 ![image](https://user-images.githubusercontent.com/101965836/160280897-18c2e6a3-5466-4b49-b9ae-c36b60c323e3.png)  
-그리고 이 Web2 Nodejs에서 만든 데이터는, data 디렉토리에 저장됐었다.  
-웹 페이지는 data 디렉토리의 파일을 main.js가 감지해서 표현해 주었다.  
+nodejs를 통해 웹app을 만들었고, 웹에서 사용자가 글을 생성하고 읽고 수정하고 삭제하는 것(CRUD)을 구현할 수 있었다.
   
+그런데 이 Web2 Nodejs에서 만든 데이터는 data 디렉토리에 저장됐었다.  
+웹 페이지는 data 디렉토리의 파일을 main.js가 감지해서 표현해 주는 방식이였다.  
+
+# nodejs & mysql 수업을 배우면
+이전에 서버에 파일 형식으로 저장했던 데이터들을 MySQL에서 관리하도록 배우게 된다.  
+데이터베이스(MySQL)를 사용하는이유는 파일로 데이터를 저장할때의 단점을 보완하기 위해서이다.
   
+# 기존 방식의 단점  
+  
+일단 기존 방식이던 파일로 서버의 디렉토리를 바로 이용하면 어떨까?
 파일은 설치할 필요없이, 아주 단순하게, 어느 컴퓨터에서나 사용할 수 있다.  
 하지만 단점이 있다.  
-
-# 기존 방식의 단점
+  
 우리가 가진 페이지가 1억개 라고 생각해보자.  
 1억개의 파일이 저장되어있고, 1억개의 파일이 별도의 정보를 갖고 있으며, 이를 수시로 검색하는 요청이 오고간다면.  
 이는 파일 형태로 관리하기에는 굉장히 부담된다  
@@ -103,3 +110,64 @@ connection.end();
   database : 'opentutorials'
 ```
 강의에서는 위와 같이 수정 했다.  
+  
+  
+(4) connection이라는 변수에 그 결과가 담긴다
+(5) connection.connect();  
+connection 객체에 .connect()라는 매소드를 호출하면 접속이 될 것이다 라는 것을 알려준다.  
+
+(6) connection.query('SQL문', 콜백함수(...){...}); <br>
+- 6-1. SQL문은 말 그대로 SQL 코드를 입력해서 값을 요청하는 부분이다. 그리고 입력된 SQL문에 따라서 콜백 함수의 인자로 값을 반환한다.  
+- 6-2. 콜백함수는 function (error, results, fields) {...}로 구성된다. 에러가 나면 error에 메세지가 담겨서 반환될테고, 값은 results에 넣어져서 반환될것이다. 
+해당 메소드와 관련된 자세한 내용은 [공식문서링크](https://www.npmjs.com/package/mysql#performing-queries) 를 참조.  
+
+## 코드 수정 후
+```JavaScript
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '(your mysql root password)',
+  database : '(your database name)'
+});
+ 
+connection.connect();
+ 
+connection.query('SELECT * FROM topci', function (error, results, fields) {
+  if (error) {
+      console.log(error)
+  }
+  console.log(results);
+});
+ 
+connection.end();
+```
+
+# Trouble Shooting
+위의 수정 후 코드로 실행 했는데 에러가 났다.
+
+```
+KHC@DESKTOP-TNMP2Q4 MINGW64 /g/MyHistory/Learning/node.js-mysql-1/node.js-mysql-1
+$ node nodejs/mysql.js 
+Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; 
+  ...
+  ... 
+```
+
+
+
+## 해결 방법
+크게 3가지 방법이 있는 것 같다.
+(1) const mysql = require("mysql2"); 으로 변경.
+(2) mysql에 들어간 후 
+```
+ALTER USER '\[MYSQL 아이디]'@'\[MYSQL 주소]' IDENTIFIED WITH mysql_native_password BY '\[MYSQL 비밀번호]'; 
+```
+를 입력  
+(3) mysql installer > server 옆에 reconfigure > Auth 설정가서 legacy 선택
+![image](https://user-images.githubusercontent.com/101965836/160325365-e63afbec-3eaa-41fe-845d-184895e5c372.png)  
+![image](https://user-images.githubusercontent.com/101965836/160325422-c6b176c0-8ed3-4b91-bcc8-4490565c09da.png)  
+  
+### 부연설명
+찾아보니 MySQL이 버전 8.0이 되면서 authentication관련된 부분이 이전 버전이랑 달라서 발생한 것 같다. 
+8.0 버전의 방식을 배우는 것도 방법이겠지만, 나는 강의 진행을 위해서 위의 3번째 방법인 legacy 방식으로 바꾸는 작업을 진행했다. 
