@@ -38,3 +38,68 @@ npm install
   
 # NPM이란?
 Node Package Manager(혹은 Node Package Module)의 줄임말로써 Python의 pip나 Ruby의 gem처럼 Node.js의 패키지를 관리할 수 있는 도구이다. 또한 npm을 사용하여 패키지를 공유하는 온라인 패키지 저장소의 이름이기도 하다.   
+
+
+---
+
+3.Mysql설치
+===
+# nodejs를 위한 npm MySQL모듈 설치
+패키지 설치법 소개 페이지 [npm mysql](https://www.npmjs.com/package/mysql)<br>
+  
+vscode에서 터미널창 열고,  
+```
+npm install --save mysql
+```
+여기서 --save 또는 -S 명령어는  
+설치하고자는 mysql 모듈을 package.json의 dependency에 추가하는 것 까지 같이 하는 것이다.  
+  
+### 설치 전 
+![image](https://user-images.githubusercontent.com/101965836/160311175-3571a554-19ba-462a-85ca-0422c3842d4c.png)  
+### 설치 후
+![image](https://user-images.githubusercontent.com/101965836/160311238-e8de5289-b782-4f69-9e45-0e00183efa90.png)  
+```
+"dependencies": {
+    "mysql": "^2.18.1",
+    "sanitize-html": "^1.18.2"
+  }
+```
+이와 같이 mysql이 디펜던시로 추가된 것을 볼 수 있다.  
+  
+> 여기서 밑에 뜨는 3 vulnerabilities ( ... )과 npm audit fix 명령들은 보안 취약점 관련 메세지이다.
+> "현재 너의 패키지중에 \~\~\~ 같은 보안 취약점이 있다" 라고 알려주는 것이다.
+> npm audit을 하면 상세하게 어떤 패키지에 보안 취약점이 있는지 알려주고
+> npm audit fix하면 이를 해결하기 위한 작업이 진행된다.(최신 버전으로 업데이트)
+> 일단 현재 강의 진행에는 크게 상관없으니, 해당 메세지는 무시하기로 했다. 
+  
+# 예제 코드
+설치가 완료된 후 예제 코드를 살펴 본다.   
+```JavaScript
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'me',
+  password : 'secret',
+  database : 'my_db'
+});
+ 
+connection.connect();
+ 
+connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+  if (error) throw error;
+  console.log('The solution is: ', results[0].solution);
+});
+ 
+connection.end();
+```
+
+(1) mysql 모듈을 사용하며, mysql이라는 변수를 통해 사용할 수 있다.
+(2) mysql.createConnextion(...) 모듈안의 createConnextion매소드를 사용하고, 인자로 {...} 안의 객체를 주도록 약속했나보다. 
+(3) 인자로 넘기는 객체를 보자. host는 서버가 어떤 컴퓨터에 있는가를 뜻한다. nodejs와 mysql 서버가 같은 컴퓨터에 있다면, 같은 컴퓨터에 있다는 localhost로 하면 된다. 
+이후 설정들은 본인이 mysql에서 사용자 명과 비밀번호를 어떻게 했고, 데이터베이스 이름은 뭐로 해서 만들었는지 따라 다르다.
+```
+  user     : 'root',
+  password : '111111',
+  database : 'opentutorials'
+```
+강의에서는 위와 같이 수정 했다.  
