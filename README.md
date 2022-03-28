@@ -12,3 +12,5 @@
 ✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26) <br>
 <br>
 ✔ HTTP (2022-03-27) <br>
+<br>
+✔ WEB2 - Node.js - MySQL (2022-03-28 ~ ) <br>
