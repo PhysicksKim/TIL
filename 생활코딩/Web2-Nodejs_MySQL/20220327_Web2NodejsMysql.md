@@ -157,13 +157,13 @@ Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protoc
 
 
 ## 해결 방법
-크게 3가지 방법이 있는 것 같다.
-(1) const mysql = require("mysql2"); 으로 변경.
-(2) mysql에 들어간 후 
+크게 3가지 방법이 있는 것 같다.  <br>
+(1) const mysql = require("mysql2"); 으로 변경. <br>
+(2) mysql에 들어간 후 <br>
 ```
 ALTER USER '\[MYSQL 아이디]'@'\[MYSQL 주소]' IDENTIFIED WITH mysql_native_password BY '\[MYSQL 비밀번호]'; 
 ```
-를 입력  
+를 입력 <br>  
 (3) mysql installer > server 옆에 reconfigure > Auth 설정가서 legacy 선택
 ![image](https://user-images.githubusercontent.com/101965836/160325365-e63afbec-3eaa-41fe-845d-184895e5c372.png)  
 ![image](https://user-images.githubusercontent.com/101965836/160325422-c6b176c0-8ed3-4b91-bcc8-4490565c09da.png)  
