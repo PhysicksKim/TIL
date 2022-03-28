@@ -202,7 +202,7 @@ var db = mysql.createConnection({
   
 ---
 
-4.MySQL로 홈페이지 구현
+4.MySQL로 메인페이지 구현 (Read)
 ===
 
 더이상 웹 페이지가 data 폴더에서 데이터를 가져오지 않고 mysql에서 데이터를 가져오도록 해보자.  
@@ -290,8 +290,10 @@ list:function(topics){
 이렇게 목록 이름도 제대로 나오고, id값으로 주소가 잘 들어가는 것을 볼 수 있다.  
   
   
-# 상세보기 페이지 수정
-
+---
+  
+5.MySQL로 상세보기 페이지 구현 (Read)
+===
 ```JavaScript
 else {
    fs.readdir('./data', function(error, filelist){
@@ -325,8 +327,10 @@ else {
 <br> 
 이제 뭘 짜야할까? \ht\tp://localhost:3000/?id=1 이처럼 끝에 id=1이 붙으니, id 값에 따라서 테이블에서 행을 가져오면 된다.  
 <br> 
-## id 값에 따라서 테이블 가져오기
-```
+  
+## id 값에 따라서 테이블 가져오기  
+  
+```  
 mysql> SELECT * FROM topic WHERE id = 3;
 +----+------------+-------------------+---------------------+-----------+
 | id | title      | description       | created             | author_id |
@@ -334,11 +338,13 @@ mysql> SELECT * FROM topic WHERE id = 3;
 |  3 | SQL Server | SQL Server is ... | 2018-01-20 11:01:10 |         2 |
 +----+------------+-------------------+---------------------+-----------+
 1 row in set (0.00 sec)
-```
+```  
 <br>
-<br>
-#### 먼저 throw err을 추가했다.
-```Javascript
+<br>  
+  
+#### 먼저 throw err을 추가했다.  
+  
+```Javascript  
 db.query(`SELECT * FROM topic`, function(err, results){
   if(err){
     throw err;
@@ -351,7 +357,8 @@ db.query(`SELECT * FROM topic`, function(err, results){
       ...(이후 본문 띄우는 코드)...
     });
   });
-```
+```  
+  
 throw error; 를 사용하면, 에러 발생 시 에러 메세지를 console창에 띄우고 app을 즉시 중단한다.  
   
   
@@ -562,7 +569,7 @@ update 버튼이랑 delete 버튼을 그대로 살려두기 위해 코드를 추
 
 ---
 
-6.Mysql로 글생성 기능 구현
+6.Mysql로 글생성 기능 구현 (Create)
 ===
 Create 기능 구현  
 
@@ -793,7 +800,7 @@ response.writeHead(302, {Location: `/?id=${result.insertId}`});
 
 
 <details>
-  <summary>전체 코드</summary> 
+  <summary> Update 코드</summary> 
     
     } else if(pathname === '/update'){
       db.query(`SELECT * FROM topic`, function(err, results){
@@ -841,4 +848,208 @@ response.writeHead(302, {Location: `/?id=${result.insertId}`});
             response.end();
           })
       });
+</details>
+
+8.삭제 (Delete)
+===
+삭제도 앞선 create_process나 update_process에서 사용한 내용들과 같다. DELETE SQL문만 다시 보자  
+```
+db.query('DELETE FROM topic WHERE id = ?',[post.id], ... )
+```
+UPDATE와 마찬가지로 WHERE 을 안해주면 값이 전부 바뀐다. 주의할 수 있도록 하자.  
+
+<details>
+  <summary> Delete 코드</summary> 
+      
+      else if(pathname === '/delete_process'){
+        var body = '';
+        request.on('data', function(data){
+            body = body + data;
+        });
+        request.on('end', function(){
+            var post = qs.parse(body);
+            db.query('DELETE FROM topic WHERE id = ?',[post.id], function(error, result){
+              if(error){
+                throw error;
+              }
+              response.writeHead(302, {Location: `/`});
+              response.end();
+            });
+        });
+      }
+</details>
+  
+  
+이렇게 해서 4,5 Read \/ 6 Create \/ 7 Update \/ 8 Delete 까지 CRUD 모두 구현해보았다.   
+  
+<details>
+  <summary>8강까지 전체 코드</summary> 
+      
+    var http = require('http');
+    var fs = require('fs');
+    var url = require('url');
+    var qs = require('querystring');
+    var template = require('./lib/template.js');
+    var path = require('path');
+    var sanitizeHtml = require('sanitize-html');
+    var mysql = require('mysql2');
+
+    mypassword = fs.readFileSync('mypassword','utf8');
+    var db = mysql.createConnection({
+      host:'localhost',
+      user:'root',
+      password: mypassword,
+      database:'physicks'
+    });
+    db.connect();
+
+    var app = http.createServer(function(request,response){
+        var _url = request.url;
+        var queryData = url.parse(_url, true).query;
+        var pathname = url.parse(_url, true).pathname;
+        if(pathname === '/'){
+          if(queryData.id === undefined){
+            db.query(`SELECT * FROM topic`, function(err, results, fields){
+              var title = 'Welcome';
+              var description = 'Hello, Node.js';
+              var list = template.list(results);
+              var html = template.HTML(title, list, 
+                `<h2>${title}</h2>${description}`,
+                `<a href="/create">create</a>`
+              );
+              response.writeHead(200);
+              response.end(html);
+            });
+          } else {
+            db.query(`SELECT * FROM topic`, function(err, results){
+              if(err){
+                throw err;
+              }
+              db.query(`SELECT * FROM topic WHERE id =?`,[queryData.id], function(err2, result){
+                if(err2){
+                  throw err2;
+                }
+                var title = result[0].title;
+                var description = result[0].description;
+                var list = template.list(results);
+                var html = template.HTML(title, list, 
+                  `<h2>${title}</h2>${description}`,
+                  ` <a href="/create">create</a>
+                    <a href="/update?id=${queryData.id}">update</a>
+                    <form action="/delete_process" method="post">
+                      <input type="hidden" name="id" value="${queryData.id}">
+                      <input type="submit" value="delete">
+                    </form>`
+                );
+                response.writeHead(200);
+                response.end(html);
+              });
+            });
+          }
+        } else if(pathname === '/create'){
+          db.query(`SELECT * FROM topic`, function(err, results, fields){
+            var title = 'Create';
+            var list = template.list(results);
+            var html = template.HTML(title, list, `
+              <form action="/create_process" method="post">
+                <p><input type="text" name="title" placeholder="title"></p>
+                <p>
+                  <textarea name="description" placeholder="description"></textarea>
+                </p>
+                <p>
+                  <input type="submit">
+                </p>
+              </form>
+            `, `<a href="/create">create</a>`)
+            response.writeHead(200);
+            response.end(html);
+          });
+        } else if(pathname === '/create_process'){
+          var body = '';
+          request.on('data', function(data){
+              body = body + data;
+          });
+          request.on('end', function(){
+            var post = qs.parse(body);
+            db.query(`
+              INSERT INTO topic (title, description, created, author_id) 
+                VALUES(?, ?, NOW(), ?)`,
+                [post.title, post.description, 1],
+                function(error,result){
+                  if(error){
+                    throw error;
+                  }
+                  response.writeHead(302, {Location: `/?id=${result.insertId}`});
+                  response.end();
+                }
+              )
+          });
+        } else if(pathname === '/update'){
+          db.query(`SELECT * FROM topic`, function(err, results){
+            if(err){
+              throw err;
+            }
+            db.query(`SELECT * FROM topic WHERE id =?`,[queryData.id], function(err2, result){
+              if(err2){
+                throw err2;
+              }
+              var title = result[0].title;
+              var list = template.list(results);
+              var html = template.HTML(title, list,
+                `
+                <form action="/update_process" method="post">
+                  <input type="hidden" name="id" value="${result[0].id}">
+                  <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+                  <p>
+                    <textarea name="description" placeholder="description">${result[0].description}</textarea>
+                  </p>
+                  <p>
+                    <input type="submit">
+                  </p>
+                </form>
+                `,
+                `<a href="/create">create</a> <a href="/update?id=${result[0].id}">update</a>`
+              );
+              response.writeHead(200);
+              response.end(html);
+            });
+          });
+        } else if(pathname === '/update_process'){
+          var body = '';
+          request.on('data', function(data){
+              body = body + data;
+          });
+          request.on('end', function(){
+              var post = qs.parse(body);
+              db.query(`UPDATE topic SET title = ?, description = ?, author_id = 1 WHERE id = ?`
+              , [post.title,post.description,post.id] , function(err,result){
+                if (err){
+                  throw err;
+                }
+                response.writeHead(302, {Location: `/?id=${post.id}`});
+                response.end();
+              })
+          });
+        } else if(pathname === '/delete_process'){
+          var body = '';
+          request.on('data', function(data){
+              body = body + data;
+          });
+          request.on('end', function(){
+              var post = qs.parse(body);
+              db.query('DELETE FROM topic WHERE id = ?',[post.id], function(error, result){
+                if(error){
+                  throw error;
+                }
+                response.writeHead(302, {Location: `/`});
+                response.end();
+              });
+          });
+        } else {
+          response.writeHead(404);
+          response.end('Not found');
+        }
+    });
+    app.listen(3000);
+
 </details>
