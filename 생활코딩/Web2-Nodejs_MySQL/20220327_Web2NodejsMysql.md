@@ -599,10 +599,10 @@ request.on('end', function(){
     )
 });
 ```
-## (1)  db.query(`SQL코드`,\[...],function(...)\{...});
+## (1)  db.query(\`SQL코드\`,\[...],function(...)\{...});
 .query 매소드를 통해서 SQL코드를 전송하고 콜백 함수에 따라서 동작하도록 할 수 있다.
 
-## (2) `SQL코드`,\[...]
+## (2) \`SQL코드\`,\[...]
 ```
 `INSERT INTO topic (title, description, created, author_id) VALUES(?, ?, NOW(), ?)`
 ```
@@ -782,3 +782,63 @@ response.writeHead(302, {Location: `/?id=${result.insertId}`});
     app.listen(3000);
 </details>
 
+7.글수정기능구현(Update)
+===
+앞선 Create와 거의 동일하다. 데이터를 수정하는 UPDATE 부분만 다시 보자. 
+```
+ db.query(`UPDATE topic SET title = ?, description = ?, author_id = 1 WHERE id = ?`
+          , [post.title,post.description,post.id] , function (...){...}
+```
+여기서 WHERE을 제대로 안적으면 **모든 데이터가 일괄적으로 바뀐다**. 실수 안하도록 주의하자.
+
+
+<details>
+  <summary>전체 코드</summary> 
+    
+    } else if(pathname === '/update'){
+      db.query(`SELECT * FROM topic`, function(err, results){
+        if(err){
+          throw err;
+        }
+        db.query(`SELECT * FROM topic WHERE id =?`,[queryData.id], function(err2, result){
+          if(err2){
+            throw err2;
+          }
+          var title = result[0].title;
+          var list = template.list(results);
+          var html = template.HTML(title, list,
+            `
+            <form action="/update_process" method="post">
+              <input type="hidden" name="id" value="${result[0].id}">
+              <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+              <p>
+                <textarea name="description" placeholder="description">${result[0].description}</textarea>
+              </p>
+              <p>
+                <input type="submit">
+              </p>
+            </form>
+            `,
+            `<a href="/create">create</a> <a href="/update?id=${result[0].id}">update</a>`
+          );
+          response.writeHead(200);
+          response.end(html);
+        });
+      });
+    } else if(pathname === '/update_process'){
+      var body = '';
+      request.on('data', function(data){
+          body = body + data;
+      });
+      request.on('end', function(){
+          var post = qs.parse(body);
+          db.query(`UPDATE topic SET title = ?, description = ?, author_id = 1 WHERE id = ?`
+          , [post.title,post.description,post.id] , function(err,result){
+            if (err){
+              throw err;
+            }
+            response.writeHead(302, {Location: `/?id=${post.id}`});
+            response.end();
+          })
+      });
+</details>
