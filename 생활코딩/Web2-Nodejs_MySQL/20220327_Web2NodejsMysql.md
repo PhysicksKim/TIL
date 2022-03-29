@@ -1587,7 +1587,7 @@ app.listen(3000);
 
 ---
 
-15.저자 관리 기능 구현
+15,16,17,18,19 저자 관리 기능 추가
 ===
 이제 저자 정보의 CRUD를 추가하자.  
   
@@ -1595,3 +1595,452 @@ app.listen(3000);
 ![image](https://user-images.githubusercontent.com/101965836/160545648-ab271028-74b6-4511-a655-1d3d4c1b3071.png)  
   
   이렇게 생긴걸 만들거다.  
+  
+# 15강 \~ 19강 의 내용은 생략
+생략 이유 : 이전 강의와 거의 동일하다. SQL문만 조금 다르고, html로 테이블 만들기 정도만 다르다. 이전에 했던 기능을 답습하는 정도이므로 주요 파일 코드만 남겨둔다.  
+  
+HTML로 테이블 작성하는 코드는 template.js의 authorTable()에 구현해두었다.
+  
+<details>
+  <summary>main.js</summary>
+    
+    var http = require('http');
+    var url = require('url');
+    var topic = require('./lib/topic.js');
+    var author = require('./lib/author.js');
+
+    var app = http.createServer(function(request,response){
+        var _url = request.url;
+        var queryData = url.parse(_url, true).query;
+        var pathname = url.parse(_url, true).pathname;
+        if(pathname === '/'){
+          if(queryData.id === undefined){
+            topic.home(request, response);
+          } else {
+            topic.page(request, response);
+          }
+        } else if(pathname === '/create'){
+          topic.create(request, response);
+        } else if(pathname === '/create_process'){
+          topic.create_process(request, response);
+        } else if(pathname === '/update'){
+          topic.update(request, response);
+        } else if(pathname === '/update_process'){
+          topic.update_process(request, response);
+        } else if(pathname === '/delete_process'){
+          topic.delete_process(request, response);
+        } else if(pathname === '/author'){
+          author.home(request,response);
+        } else if(pathname === '/author/create_process'){
+          author.create_process(request, response);
+        } else if(pathname === '/author/update'){
+          author.update(request,response);
+        } else if(pathname === '/author/update_process'){
+          author.update_process(request,response);
+        } else if(pathname === '/author/delete_process'){
+          author.delete_process(request,response);
+        } else {
+          response.writeHead(404);
+          response.end('Not found');
+        }
+    });
+    app.listen(3000);
+
+</details>
+  
+  
+  
+  
+  
+  
+  ---
+  
+  
+  
+  
+  
+  
+<details>
+  <summary>author.js</summary>
+    
+    var url = require('url');
+    var qs = require('querystring');
+    var template = require('./template.js');
+    var db = require('./db.js');
+
+
+    var _url = null;
+    var queryData = null;
+    var pathname = null;
+
+    function commonValueGet(request){
+        _url = request.url;
+        queryData = url.parse(_url, true).query;
+        pathname = url.parse(_url, true).pathname;
+    }
+
+
+    exports.home = function(request, response){
+        db.query(`SELECT * FROM topic`, function(err, results){
+            db.query(`SELECT * FROM author`, function(err2, authors){
+            var tag = template.authorTable(authors);
+            var title = 'author';
+            var list = template.list(results);
+            var html = template.HTML(title, list, 
+                `
+                ${tag}
+                <style>
+                    table{
+                        border-collapse:collapse;
+                        margin: 10px;
+                    }
+                    td{
+                        border:1px solid black;
+                        padding: 10px;
+                    }
+                </style>
+                <form action="/author/create_process" method="post">
+                    <p>
+                        <input type="text" name="name" placeholder="name">
+                    </p>
+                    <p>
+                        <textarea name="profile" placeholder="profilr"></textarea>
+                    </p>
+                    <p>
+                        <input type="submit" value="create">
+                    </p>
+                    </form>
+                `,
+                ``
+            );
+            response.writeHead(200);
+            response.end(html);
+            });
+          });
+    }
+
+
+    exports.create_process = function(request, response){
+        var body = '';
+        request.on('data', function(data){
+            body = body + data;
+        });
+        request.on('end', function(){
+        var post = qs.parse(body);
+        db.query(`
+            INSERT INTO author (name, profile) 
+            VALUES(?, ?)`,
+            [post.name, post.profile],
+            function(error,result){
+                if(error){
+                throw error;
+                }
+                response.writeHead(302, {Location: `/author`});
+                response.end();
+            }
+            )
+        });
+    }
+
+    exports.update = function(request, response){
+        db.query(`SELECT * FROM topic`, function(err, results){
+            commonValueGet(request);
+            db.query(`SELECT * FROM author`, function(err2, authors){
+                db.query(`SELECT * FROM author WHERE id = ?`,[queryData.id],
+                function(err3,author){
+                    var title = 'author';
+                    var list = template.list(results);
+                    var html = template.HTML(title, list, 
+                        `
+                        ${template.authorTable(authors)}
+                        <form action="/author/update_process" method="post">
+                            <p>
+                                <input type="hidden" name="id" value="${queryData.id}">
+                            </p>
+                            <p>
+                                <input type="text" name="name" value="${author[0].name}" placeholder="name">
+                            </p>
+                            <p>
+                                <textarea name="profile" placeholder="profile">${author[0].profile}</textarea>
+                            </p>
+                            <p>
+                                <input type="submit" value="update">
+                            </p>
+                            </form>
+                        `,
+                        ``
+                    );
+                    response.writeHead(200);
+                    response.end(html);
+                });
+            });
+        });
+    }
+
+    exports.update_process = function(request, response){
+        var body = '';
+        request.on('data', function(data){
+            body = body + data;
+        });
+        request.on('end', function(){
+            var post = qs.parse(body);
+            db.query(`
+                UPDATE author SET name = ?, profile = ? WHERE id = ?`,
+                [post.name, post.profile, post.id],
+                function(error,result){
+                    if(error){
+                    throw error;
+                    }
+                    response.writeHead(302, {Location: `/author`});
+                    response.end();
+                }
+            )
+        });
+    }
+
+    exports.delete_process = function(request, response){
+        var body = '';
+        request.on('data', function(data){
+            body = body + data;
+        });
+        request.on('end', function(){
+            var post = qs.parse(body);
+            db.query(
+            `DELETE FROM topic WHERE author_id=?`, [post.id],
+                function(error1,result1){
+                    if(error1){
+                        throw error1;
+                    }
+                    db.query(`
+                        DELETE FROM author WHERE id=?`,
+                        [post.id],
+                        function(error2,result2){
+                            if(error2){
+                                throw error2;
+                            }
+                            response.writeHead(302, {Location: `/author`});
+                            response.end();
+                        }
+                    );
+                }
+            );
+        });
+    }
+    
+</details>  
+  
+  
+  
+  
+  
+  ---
+  
+  
+  
+  
+  
+  
+<details>
+  <summary>template.js</summary>
+    
+    module.exports = {
+      HTML:function(title, list, body, control){
+        return `
+        <!doctype html>
+        <html>
+        <head>
+          <title>WEB1 - ${title}</title>
+          <meta charset="utf-8">
+        </head>
+        <body>
+          <h1><a href="/">WEB</a></h1>
+          <p>
+            <a href="/author">author</a>
+          </p>
+          ${list}
+          ${control}
+          ${body}
+        </body>
+        </html>
+        `;
+      },list:function(topics){
+        var list = '<ul>';
+        var i = 0;
+        while(i < topics.length){
+          list = list + `<li><a href="/?id=${topics[i].id}">${topics[i].title}</a></li>`;
+          i = i + 1;
+        }
+        list = list+'</ul>';
+        return list;
+      },authorSelect:function(authors, author_id){
+          var tag = '';
+          var i = 0;
+          while(i < authors.length){
+            var selected = '';
+            if(authors[i].id === author_id){
+              selected = ' selected';
+            }
+            tag += `<option value="${authors[i].id}"${selected}>${authors[i].name}</option>`;
+            i++
+          }
+          return `<select name="author">
+                    ${tag}
+                  </select>`
+      },authorTable:function(authors){
+        var tag = '<table>';
+          var i = 0;
+          tag += `
+              <tr>
+                  <td>Title</td>
+                  <td>Profile</td>
+                  <td>Update</td>
+                  <td>Delete</td>
+              </tr>
+          `;
+
+          while(i < authors.length){
+              tag += `
+                  <tr>
+                      <td>${authors[i].name}</td>
+                      <td>${authors[i].profile}</td>
+                      <td>
+                          <a href="/author/update?id=${authors[i].id}">update</a>
+                      </td>
+                      <td>
+                          <form action="/author/delete_process" method="post">
+                              <input type="hidden" name="id" value="${authors[i].id}">
+                              <input type="submit" value="delete">
+                          </form>
+                      </td>
+                  </tr>
+                  `;
+              i++;
+          }
+          tag += '</table>';
+          tag += `<style>
+                    table{
+                        border-collapse:collapse;
+                        margin: 10px;
+                    }
+                    td{
+                        border:1px solid black;
+                        padding: 10px;
+                    }
+                  </style>`;
+
+          return tag;
+      }
+    }  
+      
+</details>
+  
+  
+  
+  
+---
+  
+  
+20. SQL injection
+===
+
+외부로 부터 유입된 정보는 **오염된 정보** 라고 생각해야한다.  
+  
+# 예시
+  
+![image](https://user-images.githubusercontent.com/101965836/160562732-ec31658c-7bec-4883-8c4d-dac1576de99f.png)  
+이같은 author 페이지가 있고, 여기에 주소를 보면 끝에 쿼리문이 있다.  
+그리고 이 페이지를 띄울때 쿼리문은 다음과 같은 부분에서 쓰인다.  
+```JavaScript
+db.query(`SELECT * FROM author WHERE id = ?`,[queryData.id], ...)
+```
+
+만약 여기 끝에 쿼리문이 삽입되는것을 알고, 만약 공격자가 Injection 공격 의도를 가지고 쿼리문 뒤에 SQL문을 추가하면 어떻게 될까?
+
+예를 들어 ht\tp://localhost:3000/author/update?id=1;DROP TABLE topic; 같은 식으로 SQL Injection 공격이 들어왔다고 치자.  
+그런데 코드상으로 Injection 방어가 되어있지 않다면? 
+```
+SELECT * FROM author WHERE id =1;DROP TABLE topic;
+```
+이렇게 SQL문이 실행되고, topic 테이블은 그대로 통째로 삭제되어버린다.  
+
+# SQL Injection 대비책  
+하지만 이미 MySQL 모듈이 이를 잘 필터링 해주기에 현재 코드로는 문제없다.
+
+## (1) multipleStatements:[boolean]
+![image](https://user-images.githubusercontent.com/101965836/160564463-ebb9a376-d16a-4de7-a79b-5ed367b21b5b.png)  
+위처럼 multipleStatements라는 옵션이 있는데, 한 번의 .query()메소드에 여러 개의 SQL문을 실행할지에 관한 옵션이다. 기본적으로 False로 설정되어 있기 때문에 따로 저 옵션을 True로 설정하지 않는 이상 Injection 공격에 당할 일은 아마도 없을 것이다. False 상태에서 Injection으로 뒤에 또 SQL문을 추가하면, error가 뜨면서 sql의 syntax error가 뜨게 된다.
+
+## (2) ?의 사용
+```
+db.query(`SELECT * FROM author WHERE id = ?`,[queryData.id], ... )
+```
+이와 같이 ?를 사용하여 뒤에서 인자로 받아오면, 자동으로 ''사이에 들어가서 필터링 되게 된다.  
+  
+  
+예를 들면
+SELECT * FROM author WHERE id = **'** 1;DROP TABLE topic **'** ;
+이렇게 ' ' 사이에 들어가서 필터링 되게 된다.
+  
+따라서 뒤에 Injection된 부분은 SQL문이 아니라 문자열로 취급된다.  
+  
+  
+---
+  
+  
+  
+21.Escaping
+===
+
+저장된 정보가 밖으로 나갈 때, 공격의 의도가 포함된 정보를 쳐내는 것을 Escaping이라고 한다.  
+  
+(이전 Web2-nodejs 수업의 47.App제작-출력정보에 대한 보안 에서 배운 내용과 동일하다)  
+
+사용자로부터 데이터를 입력받는 Form 같은 곳에다가 <\script> ... </\script> 같은 식으로 javascript를 넣어버릴 수 있다. 따라서 사용자로부터 데이터를 입력받는 모든 부분에는 이를 필터링할 처리를 해야한다.   
+HTML 필터링은 sanitizeHtml 모듈을 사용한다. [npm sanitize-html 문서](https://www.npmjs.com/package/sanitize-html)  
+  
+  
+---
+
+22.수업을마치며
+===
+관심을 가져볼만한 주제들.   
+
+# 도전해볼만한 것들 
+  
+## 1.검색기능  
+검색을 구현하는데 필요한 거의 모든 기능을 배웠다
+form으로 입력받고 get방식으로 검색어가 전송되도록 한다. 그리고 검색어를 받는 쪽에서   
+```
+SELECT * FROM topic WHERE title="keyword"
+```
+방식으로 데이터를 얻을 수 있다.  
+  
+  
+그리고 데이터가 많아지면 이게 느려질 수 있는데, 이 때 index 기능을 사용하면 된다.  
+데이터를 꺼내기 좋은 방식으로 미리 정리정돈을 해두는 기능이다. 다만 더 많은 저장공간을 사용하고 데이터를 추가할 때 느려진다. 하지만 꺼낼 때 엄청 빠르게 꺼낼 수 있으므로 좋다.  
+  
+  
+## 2.정렬기능
+예를 들어 저자의 이름순으로 정렬하는 기능을 추가할 수 있다.  
+```
+SELECT * FROM topic ORDER BY id DESC
+```
+SQL문의 ORDER 기능을 이용하면 이를 구현할 수 있다.
+
+
+## 3.페이지 기능
+만약 게시판에 1만개의 글이 있는데, 한번에 1만 개의 글을 모두 표시하려면 데이터베이스에게 무리가 간다.  
+따라서 한 페이지에 20개 정도씩만 출력하도록 하는 페이지 기능을 추가해볼 수 있다.  
+```
+SELECT * FROM topic LIMIT 0 OFFSET 20
+```
+위처럼 LIMIT 기능을 이용하면 20개만 갖고올 수 있다.  
+  
+  
+  
+# NoSQL
+한편 위와 같은 도전해볼만한 기능들을 보면, SQL문에 기능이 한정됨을 볼 수 있다. 즉 SQL에서 지원하지 않는 기능을 구현하려면 속도가 느려지는 등 문제가 생길 수 있다.   
+따라서 이에 대응해 등장한게 NoSQL이다. SQL의 한계를 느끼고 SQL을 사용하지 않는 다른 데이터베이스들이 있다. 여유가 된다면 NoSQL도 볼 수 있으면 좋다.  
+
+
+
