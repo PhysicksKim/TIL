@@ -1223,3 +1223,108 @@ db.query(`
     
   잘 동작한다! 
   
+
+---
+
+11.글 수정에 author 기능 구현
+===
+
+글 수정시에는 author 기능에 하나 추가해야 하는 부분이 있다. 바로 기존에 해당 글의 author가 미리 선택되어져 있어야 한다. 예를 들어 egoing, duru, taeho 순으로 option 박스가 있다고 하자. 그러면 egoing의 id가 1번이므로 기본적으로 egoing이 선택되게 된다. 하지만 수정의 경우 기존에 해당 글의 author로 되어있던 id로 선택되어져 있어야 한다. 따라서 option 태그의 selected를 이용하면 이를 구현할 수 있다.  
+[참고](http://www.tcpschool.com/html-tag-attrs/option-selected)  
+
+이전 강의랑 크게 다른 부분 없으므로, 수정한 update 부분과 template 부분 코드만 추가했다.  
+
+<details>
+  <summary> update 코드 </summary>
+  
+      } else if(pathname === '/update'){
+          db.query(`SELECT * FROM topic`, function(err, results){
+            if(err){
+              throw err;
+            }
+            db.query(`SELECT * FROM topic WHERE id =?`,[queryData.id], function(err2, result){
+              if(err2){
+                throw err2;
+              }
+              db.query(`SELECT * FROM author`, function(err2,authors){
+                var title = result[0].title;
+                var list = template.list(results);
+                var html = template.HTML(title, list,
+                  `
+                  <form action="/update_process" method="post">
+                    <input type="hidden" name="id" value="${result[0].id}">
+                    <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+                    <p>
+                      <textarea name="description" placeholder="description">${result[0].description}</textarea>
+                    </p>
+                    <p>
+                      ${template.authorSelect(authors, result[0].author_id)}
+                    </p>
+                    <p>
+                      <input type="submit">
+                    </p>
+                  </form>
+                  `,
+                  `<a href="/create">create</a> <a href="/update?id=${result[0].id}">update</a>`
+                );
+                response.writeHead(200);
+                response.end(html);
+              });
+            });
+          });
+        } else if(pathname === '/update_process'){
+      var body = '';
+      request.on('data', function(data){
+          body = body + data;
+      });
+      request.on('end', function(){
+          var post = qs.parse(body);
+          db.query(`UPDATE topic SET title = ?, description = ?, author_id = ? WHERE id = ?`
+          , [post.title,post.description,post.author,post.id] , function(err,result){
+            if (err){
+              throw err;
+            }
+            response.writeHead(302, {Location: `/?id=${post.id}`});
+            response.end();
+          })
+      });
+    }
+</details>  
+  
+  
+<details>
+  <summary> template 코드 </summary>
+      
+       },authorSelect:function(authors, author_id){
+        var tag = '';
+        var i = 0;
+        while(i < authors.length){
+          var selected = '';
+          if(authors[i].id === author_id){
+            selected = ' selected';
+          }
+          tag += `<option value="${authors[i].id}"${selected}>${authors[i].name}</option>`;
+          i++
+        }
+        return `<select name="author">
+                  ${tag}
+                </select>`
+      }
+</details>
+
+---
+
+12.수업의 정상
+===
+ 
+지금까지 기본적인 nodejs에서 MySQL 모듈 사용법으로 간단한 페이지를 만들어 봤다. 지금부터 권장하는 방법은 수업 없이 직접 도전해보는 것이다.  
+  
+  
+지금까지는 topic이라는 글과 관련된 작업만 했다. 이제 저자를 추가하고 삭제하는 기능을 추가해볼 것이다. 또 우리의 main.js가 너무 복잡해져 있으니 이를 다시 간단하게 정리하는 작업을 해야한다. 
+
+![image](https://user-images.githubusercontent.com/101965836/160528463-1b8553b6-d3dc-4fa1-8d60-98ff5474aba5.png)  
+
+이렇게 깔끔하게 정리하는 작업을 스스로 해보고 수업을 다시 들어보자.  
+  
+  
+
