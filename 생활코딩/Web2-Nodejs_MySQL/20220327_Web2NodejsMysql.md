@@ -80,7 +80,8 @@ npm install --save mysql
 > 일단 현재 강의 진행에는 크게 상관없으니, 해당 메세지는 무시하기로 했다. 
   
 # 예제 코드
-설치가 완료된 후 예제 코드를 살펴 본다.   
+설치가 완료된 후 예제 코드를 살펴 본다.    
+  
 ```JavaScript
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
@@ -89,7 +90,7 @@ var connection = mysql.createConnection({
   password : 'secret',
   database : 'my_db'
 });
- 
+   
 connection.connect();
  
 connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
@@ -98,11 +99,11 @@ connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 });
  
 connection.end();
-```
-
-(1) mysql 모듈을 사용하며, mysql이라는 변수를 통해 사용할 수 있다.
-(2) mysql.createConnextion(...) 모듈안의 createConnextion매소드를 사용하고, 인자로 {...} 안의 객체를 주도록 약속했나보다. 
-(3) 인자로 넘기는 객체를 보자. host는 서버가 어떤 컴퓨터에 있는가를 뜻한다. nodejs와 mysql 서버가 같은 컴퓨터에 있다면, 같은 컴퓨터에 있다는 localhost로 하면 된다. 
+```  
+  
+(1) mysql 모듈을 사용하며, mysql이라는 변수를 통해 사용할 수 있다.  
+(2) mysql.createConnextion(...) 모듈안의 createConnextion매소드를 사용하고, 인자로 {...} 안의 객체를 주도록 약속했나보다.   
+(3) 인자로 넘기는 객체를 보자. host는 서버가 어떤 컴퓨터에 있는가를 뜻한다. nodejs와 mysql 서버가 같은 컴퓨터에 있다면, 같은 컴퓨터에 있다는 localhost로 하면 된다.    
 이후 설정들은 본인이 mysql에서 사용자 명과 비밀번호를 어떻게 했고, 데이터베이스 이름은 뭐로 해서 만들었는지 따라 다르다.
 ```
   user     : 'root',
@@ -112,10 +113,9 @@ connection.end();
 강의에서는 위와 같이 수정 했다.  
   
   
-(4) connection이라는 변수에 그 결과가 담긴다
-(5) connection.connect();  
-connection 객체에 .connect()라는 매소드를 호출하면 접속이 될 것이다 라는 것을 알려준다.  
-
+(4) connection이라는 변수에 그 결과가 담긴다  
+(5) connection.connect();   
+connection 객체에 .connect()라는 매소드를 호출하면 접속이 될 것이다 라는 것을 알려준다.      
 (6) connection.query('SQL문', 콜백함수(...){...}); <br>
 - 6-1. SQL문은 말 그대로 SQL 코드를 입력해서 값을 요청하는 부분이다. 그리고 입력된 SQL문에 따라서 콜백 함수의 인자로 값을 반환한다.  
 - 6-2. 콜백함수는 function (error, results, fields) {...}로 구성된다. 에러가 나면 error에 메세지가 담겨서 반환될테고, 값은 results에 넣어져서 반환될것이다. 
@@ -1361,7 +1361,7 @@ db.connect();
 module.exports = db;
 ```
 
-# (2) main.js 정리와 topic.js 생성
+# (2) main.js 정리, topic.js에 매소드로 저장
 ```JavaScript
 var http = require('http');
 var url = require('url');
@@ -1581,9 +1581,17 @@ app.listen(3000);
             response.end();
             });
         });
-    }  
+    } 
         
 </details>  
+
+---
+
+15.저자 관리 기능 구현
+===
+이제 저자 정보의 CRUD를 추가하자.  
   
+# 뭘 구현 할까
+![image](https://user-images.githubusercontent.com/101965836/160545648-ab271028-74b6-4511-a655-1d3d4c1b3071.png)  
   
-  
+  이렇게 생긴걸 만들거다.  
