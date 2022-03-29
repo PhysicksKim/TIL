@@ -1327,4 +1327,263 @@ db.query(`
 이렇게 깔끔하게 정리하는 작업을 스스로 해보고 수업을 다시 들어보자.  
   
   
+13,14.코드정리
 
+# (1) mysql에 접속하는 계정 정보 다른 파일에 두기
+  
+앞서 mypassword 파일을 만들고 password만 저장해두었다. 이번에 코드 정리하는참에 host, user, password, database 전부 mypassword.js 파일에 따로 저장해두고 데이터베이스에 접속 할 때마다 로그인 데이터를 파일에서 불러와서 입력해넣도록 했다. 이렇게 하고 로그인 데이터 파일만 git ignore에 등록해두면 된다.   
+  
+또한 데이터베이스에 접속하는 코드도 따로 파일로 분리해서 /lib/db.js 파일로 만들었다. db에 접속해야 할 때가 생기면  
+ 
+```JavaScript
+var db = require('./db.js'); 
+```
+이렇게 해서 사용하기만 하면 된다.  
+  
+   
+### mypassword.js 파일
+```JavaScript
+exports.loginData = {host:'localhost',user:'root',password: '(비밀번호)',database:'physicks'};
+```
+### db.js 에서 사용
+```JavaScript
+var mysql = require('mysql2');
+var mydb = require('../mypassword.js').loginData;
+
+var db = mysql.createConnection({
+    host : mydb.host,
+    user : mydb.user,
+    password : mydb.password,
+    database : mydb.database    
+});
+db.connect();
+
+module.exports = db;
+```
+
+# (2) main.js 정리와 topic.js 생성
+```JavaScript
+var http = require('http');
+var url = require('url');
+var topic = require('./lib/topic.js')
+
+var app = http.createServer(function(request,response){
+    var _url = request.url;
+    var queryData = url.parse(_url, true).query;
+    var pathname = url.parse(_url, true).pathname;
+    if(pathname === '/'){
+      if(queryData.id === undefined){
+        topic.home(request, response);
+      } else {
+        topic.page(request, response);
+      }
+    } else if(pathname === '/create'){
+      topic.create(request, response);
+    } else if(pathname === '/create_process'){
+      topic.create_process(request, response);
+    } else if(pathname === '/update'){
+      topic.update(request, response);
+    } else if(pathname === '/update_process'){
+      topic.update_process(request, response);
+    } else if(pathname === '/delete_process'){
+      topic.delete_process(request, response);
+    } else {
+      response.writeHead(404);
+      response.end('Not found');
+    }
+});
+app.listen(3000);
+```
+  
+  
+지저분하던 main.js를 쫙 정리하고, 전부 lib/topic.js에 넣었다. 
+
+<details>
+  <summary>topic.js 전체 코드</summary>
+    
+    var url = require('url');
+    var qs = require('querystring');
+    var template = require('./template.js');
+    var db = require('./db.js');
+
+
+    var _url = null;
+    var queryData = null;
+    var pathname = null;
+
+    function commonValueGet(request){
+        _url = request.url;
+        queryData = url.parse(_url, true).query;
+        pathname = url.parse(_url, true).pathname;
+    }
+
+
+    exports.home = function(request, response){
+        db.query(`SELECT * FROM topic`, function(err, results, fields){
+            var title = 'Welcome';
+            var description = 'Hello, Node.js';
+            var list = template.list(results);
+            var html = template.HTML(title, list, 
+              `<h2>${title}</h2>${description}`,
+              `<a href="/create">create</a>`
+            );
+            response.writeHead(200);
+            response.end(html);
+          });
+    }
+
+    exports.page = function(request,response){
+        commonValueGet(request);
+        db.query(`SELECT * FROM topic`, function(err, results){
+            if(err){
+              throw err;
+            }
+            db.query(`SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id WHERE topic.id = ?`,[queryData.id], function(err2, result){
+              if(err2){
+                throw err2;
+              }
+              var title = result[0].title;
+              var description = result[0].description;
+              var list = template.list(results);
+              var html = template.HTML(title, list, 
+                `<h2>${title}</h2>
+                ${description}
+                <p>by ${result[0].name}</p>
+                `,
+                ` <a href="/create">create</a>
+                  <a href="/update?id=${queryData.id}">update</a>
+                  <form action="/delete_process" method="post">
+                    <input type="hidden" name="id" value="${queryData.id}">
+                    <input type="submit" value="delete">
+                  </form>`
+              );
+              response.writeHead(200);
+              response.end(html);
+            });
+          });
+    }
+
+    exports.create = function(request, response){
+        db.query(`SELECT * FROM topic`, function(err, results, fields){
+            db.query(`SELECT * FROM author`, function(err2,authors){
+              var title = 'Create';
+              var list = template.list(results);
+              var html = template.HTML(title, list, `
+                <form action="/create_process" method="post">
+                  <p><input type="text" name="title" placeholder="title"></p>
+                  <p>
+                    <textarea name="description" placeholder="description"></textarea>
+                  </p>
+                  <p>
+                    ${template.authorSelect(authors)}
+                  </p>
+                  <p>
+                    <input type="submit">
+                  </p>
+                </form>
+              `, `<a href="/create">create</a>`)
+              response.writeHead(200);
+              response.end(html);
+            })
+          });
+    }
+
+    exports.create_process = function(request, response){
+        var body = '';
+          request.on('data', function(data){
+              body = body + data;
+          });
+          request.on('end', function(){
+            var post = qs.parse(body);
+            db.query(`
+              INSERT INTO topic (title, description, created, author_id) 
+                VALUES(?, ?, NOW(), ?)`,
+                [post.title, post.description, post.author],
+                function(error,result){
+                  if(error){
+                    throw error;
+                  }
+                  response.writeHead(302, {Location: `/?id=${result.insertId}`});
+                  response.end();
+                }
+              )
+          });
+    }
+
+    exports.update = function(request, response){
+        commonValueGet(request);
+        db.query(`SELECT * FROM topic`, function(err, results){
+            if(err){
+              throw err;
+            }
+            db.query(`SELECT * FROM topic WHERE id =?`,[queryData.id], function(err2, result){
+              if(err2){
+                throw err2;
+              }
+              db.query(`SELECT * FROM author`, function(err2,authors){
+                var title = result[0].title;
+                var list = template.list(results);
+                var html = template.HTML(title, list,
+                  `
+                  <form action="/update_process" method="post">
+                    <input type="hidden" name="id" value="${result[0].id}">
+                    <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+                    <p>
+                      <textarea name="description" placeholder="description">${result[0].description}</textarea>
+                    </p>
+                    <p>
+                      ${template.authorSelect(authors, result[0].author_id)}
+                    </p>
+                    <p>
+                      <input type="submit">
+                    </p>
+                  </form>
+                  `,
+                  `<a href="/create">create</a> <a href="/update?id=${result[0].id}">update</a>`
+                );
+                response.writeHead(200);
+                response.end(html);
+              });
+            });
+          });
+    }
+
+    exports.update_process = function(request,response){
+        var body = '';
+        request.on('data', function(data){
+            body = body + data;
+        });
+        request.on('end', function(){
+            var post = qs.parse(body);
+            db.query(`UPDATE topic SET title = ?, description = ?, author_id = ? WHERE id = ?`
+            , [post.title,post.description,post.author,post.id] , function(err,result){
+            if (err){
+                throw err;
+            }
+            response.writeHead(302, {Location: `/?id=${post.id}`});
+            response.end();
+            })
+        });
+    }
+
+    exports.delete_process = function(request,response){
+        var body = '';
+        request.on('data', function(data){
+            body = body + data;
+        });
+        request.on('end', function(){
+            var post = qs.parse(body);
+            db.query('DELETE FROM topic WHERE id = ?',[post.id], function(error, result){
+            if(error){
+                throw error;
+            }
+            response.writeHead(302, {Location: `/`});
+            response.end();
+            });
+        });
+    }  
+        
+</details>  
+  
+  
+  
