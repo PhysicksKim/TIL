@@ -143,19 +143,23 @@ connection.query('SELECT * FROM topci', function (error, results, fields) {
 connection.end();
 ```
 
-# Trouble Shooting
-위의 수정 후 코드로 실행 했는데 에러가 났다.
-![image](https://user-images.githubusercontent.com/101965836/160362649-66446260-0e22-43b7-8dee-357d450f8ac2.png)  
+# Trouble Shooting 
 
+위의 수정 후 코드로 실행 했는데 에러가 났다.  
+  
+![image](https://user-images.githubusercontent.com/101965836/160362649-66446260-0e22-43b7-8dee-357d450f8ac2.png)  
+  
 ```
 KHC@DESKTOP-TNMP2Q4 MINGW64 /g/MyHistory/Learning/node.js-mysql-1/node.js-mysql-1
 $ node nodejs/mysql.js 
 Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; 
   ...
   ... 
-```
+```  
+
 <br>
-<br> 
+<br>  
+  
 # 에러 ER NOT SUPPORTED AUTH MODE
 [참고한 글](https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server)  
 
@@ -163,11 +167,13 @@ Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protoc
 MySQL 8.0버전으로 업그레이드 되면서, 디폴트인 인증 방식(PAM; pluggable authentication methods)이 **mysql_native_password** 에서 **Caching SHA-2 Pluggable Authentication** 방식으로 바뀌었다고 한다. 그런데 nodejs의 mysql패키지는 이를 아직 지원하지 않아서 에러가 발생한 것이다.
 
 
-## 해결 방법
+## 해결 방법  
+  
 <br> 
 크게 2가지 방법이 있다. <br>
-<br> 
-#### 추천 하는 방법 
+<br>   
+  
+#### 추천 하는 방법   
 (1) npm으로 mysql2 를 설치 
 앞서 설명했듯 node의 mysql패키지가 바뀐 인증 방식을 지원하지 않는다. 따라서 최신 업데이트가 이뤄진 mysql2를 사용하면 된다. [mysql2](https://www.npmjs.com/package/mysql2)  
   
@@ -1053,3 +1059,64 @@ UPDATE와 마찬가지로 WHERE 을 안해주면 값이 전부 바뀐다. 주의
     app.listen(3000);
 
 </details>
+
+
+---
+
+9.글에 '저자' 출력 (JOIN)
+===
+topic 테이블과 author 테이블은 author_id와 id로 연결되어 있다. 이 관계성에 따라서, 두 개의 분리된 테이블을 하나로 연결시켜주는 것이 JOIN이다.   
+  
+![image](https://user-images.githubusercontent.com/101965836/160517972-adcd2bfd-0c43-43ac-b0ac-d73c1678f5fa.png)  
+  
+  
+![image](https://user-images.githubusercontent.com/101965836/160517919-a81565e8-bc0c-40ae-83c2-e699d552db37.png)  
+  
+```
+SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id;
+```
+
+근데 저걸 그대로 넣고 WHERE id = 로 id 값을 가져오면, id column이 두 개 이므로 ambiguous 하다는 에러 메세지를 출력하게 된다.   
+  
+![image](https://user-images.githubusercontent.com/101965836/160520613-59aac97f-b2ce-411d-8bce-ef2db976106e.png)  
+  
+  
+```JavaScript
+db.query(`SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id WHERE topic.id = ?`,[queryData.id]
+```
+따라서 위와 같이 쿼리문을 작성하면  
+![image](https://user-images.githubusercontent.com/101965836/160520995-1dcc4531-1815-40e8-8cd5-be79a7fb94c2.png)  
+이와 같이 result를 얻을 수 있다.  
+  
+  
+그리고 아래에 HTML 문서를 생성하는 부분에서
+```JavaScript
+var html = template.HTML(title, list, 
+  `<h2>${title}</h2>
+  ${description}
+  <p>by ${result[0].name}</p>
+  `,
+  ` <a href="/create">create</a>
+    <a href="/update?id=${queryData.id}">update</a>
+    <form action="/delete_process" method="post">
+      <input type="hidden" name="id" value="${queryData.id}">
+      <input type="submit" value="delete">
+    </form>`
+);
+```
+  
+이렇게 <p>by ${result[0].name}</p> 부분을 추가해주면  
+![image](https://user-images.githubusercontent.com/101965836/160521169-acb60321-c68e-4ec4-9ed4-6ccc4108116b.png)  
+  
+이렇게 author.name 까지 페이지에 뜨게된다.  
+  
+  
+---
+  
+10.글 생성시 저자 입력 (JOIN)
+===
+
+
+
+
+
