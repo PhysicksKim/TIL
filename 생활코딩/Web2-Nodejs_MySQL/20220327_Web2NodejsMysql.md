@@ -1116,7 +1116,110 @@ var html = template.HTML(title, list,
 10.글 생성시 저자 입력 (JOIN)
 ===
 
+Create 페이지에서 저자를 선택 할 ComboBox를 만들 것이다.  
+
+# ComboBox란?
+  
+![image](https://user-images.githubusercontent.com/101965836/160522166-8083ae93-8ad7-485f-898a-7b1ce1330c16.png)
+  
+  
+```HTML
+<p>
+  <select name="author">
+    <option value="1">egoing</option>
+    <option value="2">duru</option>
+  </select>
+</p>
+```
+  
+위와 같이 쭈욱 author를 선택할 수 있는 리스트가 나오는 것을 만들 것이다.  
+  
+  
+# db.query로 author 데이터 확인  
+
+![image](https://user-images.githubusercontent.com/101965836/160522538-22fc43b9-4b19-4cf3-9d30-067a5808b4dd.png)  
+  
+author 테이블은 위와 같이 id, name, profile로 구성된다.  
+그러면 이제 author를 선택하는 combobox를 만들려면, 위 테이블을 db.query로 가져온 후 name을 순서대로 출력하면 되겠구나 라고 생각할 수 있다.   
 
 
+# create 부분에 코드 추가  
+
+(1) author 테이블 가져오기
+
+```JavaScript
+} else if(pathname === '/create'){
+      db.query(`SELECT * FROM topic`, function(err, results, fields){
+        db.query(`SELECT * FROM author`, function(err2,authors){
+```
+create 부분 코드에 다음과 같이 db query로 author를 가져왔다. 
 
 
+(2) comboBox 태그 생성하는 부분 만들기
+
+먼저 author 테이블에서 id별로 하나씩 author를 꺼내서 comboBox에 들어갈 <option> 태그를 만들고, 변수 tag 에다가 차곡차곡 쌓았다.
+```JavaScript
+var tag = '';
+  var i = 0;
+  while(i < authors.length){
+    tag += `<option value="${authors[i].id}">${authors[i].name}</option>`;
+    i++
+  }
+```  
+  
+  
+그리고 HTML 태그 생성하는 부분에, author comboBox에 해당하는 태그가 삽입되도록 했다.   
+  
+```HTML
+<p>
+  <select name="author">
+    ${tag}
+  </select>
+</p>
+```
+
+# template.js에 매소드로 추가
+  
+```JavaScript
+,authorSelect:function(authors){
+    var tag = '';
+    var i = 0;
+    while(i < authors.length){
+      tag += `<option value="${authors[i].id}">${authors[i].name}</option>`;
+      i++
+    }
+    return `<select name="author">
+              ${tag}
+            </select>`
+}
+```  
+  
+```
+<p>
+  ${template.authorSelect(authors)}
+</p>
+```
+
+# create_process 부분 수정
+
+![image](https://user-images.githubusercontent.com/101965836/160524089-054d5120-3a66-4e3a-9752-8b2545915ac4.png)   
+  
+지금까지 author_id를 그냥 1로 했는데, 이제 post방식으로 \<select name="author">로 author id가 전달된다. 따라서 1이라고 그냥 적어뒀던것을 post.author로 바꿔주면 된다.  
+     
+```JavaScript
+  
+db.query(`
+    INSERT INTO topic (title, description, created, author_id) 
+    VALUES(?, ?, NOW(), ?)`,
+    [post.title, post.description, post.author], ... )
+  
+```  
+   
+# 동작
+   
+![image](https://user-images.githubusercontent.com/101965836/160524642-18ce1ddc-a50a-4785-b1cd-7d1682f34581.png)      
+     
+![image](https://user-images.githubusercontent.com/101965836/160524692-a8cdba47-ea00-4196-8799-6c125b098369.png)  
+    
+  잘 동작한다! 
+  
