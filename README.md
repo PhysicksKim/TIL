@@ -13,4 +13,4 @@
 <br>
 ✔ HTTP (2022-03-27) <br>
 <br>
-✔ WEB2 - Node.js - MySQL (2022-03-28 ~ ) <br>
+✔ WEB2 - Node.js - MySQL (2022-03-28 ~ 2022-03-29) <br>
