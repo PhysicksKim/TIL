@@ -195,3 +195,65 @@ fuction handleTitleClick(){
 \2. 반복적으로 나오는 부분은 변수로 지정해서 관리하는 게 좋다. 예를 들어 CSS에서 .active { ... } 라고 class 단위로 묶어서 style을 지정했다고 하자. 그러고 js에서는 if 뭐뭐뭐.className === "active" { ... } 이런식으로 해서 "active"라고 적힌 부분이 아주 많이 반복된다고 하자.   
   
 이럴 경우 당연히 active라는 이름을 바꿔야 한다면, "active"라고 적어둔 부분을 일일이 바꿔줘야하고, "active" 라고 입력하다가 에러가 날 수 있다. 이렇게 === "active" 같은 방식으로 입력해넣은 것을 개발자가 써넣었다는 의미의 raw data 라고 하며, raw data가 반복적으로 나와서 유지보수와 실수가 발생할 수 있는 상황을 줄이는 게 좋다. 나중에 코드가 복잡해지고 에러가 나면 왜 에러가 발생했지 하고 한참을 헤매는데, 이때 고작 오타 하나 때문에 발생할 수 있다. 그러니 오타로 인한 문제가 발생할 수 있는 상황을 최소화 하는 게 좋다.  
+
+---
+
+# JS로 입력 조건 제한하기 vs HTML로 입력 조건 제한하기
+최대 글자 수 같은 경우 JS 뿐만 아니라 HTML 속성으로도 제한할 수 있다.
+## JS로 15자 제한
+```js
+function onLoginBtnClick(){
+    const username = loginInput.value;
+    if (username === ""){
+        alert("Please write your name");
+    } else if(username.length > 15){
+        alert("your name is too long");
+    } else {
+        console.log(username);
+    }
+}
+```
+## HTML로 15자 제한
+```html
+<form id="login-form">
+    <input 
+        required
+        maxlength="15"
+        type="text" 
+        placeholder="What is your name?">
+    <button>Log In</button>
+</form>
+```
+HTML로 하는 편이 간결하다. 코드 가독성도 더 좋고, 불필요한 if절이 늘어지는 것을 막을 수 있다.
+
+
+---
+
+# form Submit 페이지 이동 막기 
+## 기본 동작을 막는 event.preventDefault()
+```JS
+const loginForm = document.querySelector("#login-form");
+const loginInput = document.querySelector("#login-form input");
+
+function onLoginSubmit(event){
+    event.preventDefault();
+    console.log(loginInput.value);
+}
+
+loginForm.addEventListener("submit",onLoginSubmit);
+```
+  
+event.preventDefault();  
+이 매소드를 집중해서 보자. 일단 EventListener에 함수를 던져주면, callback 호출 될 때 함수의 인자로 event에 대해서 자동으로 받아온다. 그 다음, .preventDefault()를 하면 이벤트 별로 자동으로 수행되는 행동들을 막아준다.  
+예를 들어 form에서 submit 버튼을 누르면, 자동으로 페이지가 이동하게 된다. 하지만 .preventDefault()를 하면, **"submit 할 때 페이지가 이동한다"**\라는 기본 행동을 막게 된다. 따라서 페이지 자동 새로고침을 막을 수 있다.  
+  
+## 이렇게 하면 링크도 막을 수 있다
+```html
+<a href="~~~">Link</a>
+```  
+\<a>는 기본적으로 다른 페이지로 하이퍼링크 걸 목적으로 만들어진 태그다. 그런데 이런 태그들도 이벤트 리스너를 추가하고 event.preventDefault() 해주면 기본 동작인 링크로 페이지가 이동하는 것 까지 막을 수 있다.  
+
+
+
+---
+  
