@@ -245,7 +245,7 @@ loginForm.addEventListener("submit",onLoginSubmit);
   
 event.preventDefault();  
 이 매소드를 집중해서 보자. 일단 EventListener에 함수를 던져주면, callback 호출 될 때 함수의 인자로 event에 대해서 자동으로 받아온다. 그 다음, .preventDefault()를 하면 이벤트 별로 자동으로 수행되는 행동들을 막아준다.  
-예를 들어 form에서 submit 버튼을 누르면, 자동으로 페이지가 이동하게 된다. 하지만 .preventDefault()를 하면, **"submit 할 때 페이지가 이동한다"**\라는 기본 행동을 막게 된다. 따라서 페이지 자동 새로고침을 막을 수 있다.  
+예를 들어 form에서 submit 버튼을 누르면, 자동으로 페이지가 이동하게 된다. 하지만 .preventDefault()를 하면, **"submit 할 때 페이지가 이동한다"** 라는 기본 행동을 막게 된다. 따라서 페이지 자동 새로고침을 막을 수 있다.  
   
 ## 이렇게 하면 링크도 막을 수 있다
 ```html
@@ -257,3 +257,76 @@ event.preventDefault();
 
 ---
   
+  
+# localStorage 기능
+```JS
+localStorage.setItem("name","Kim");
+localStorage.getItem("name");
+localStorage.removeItem("name","kim");
+```
+![image](https://user-images.githubusercontent.com/101965836/160975965-5cacbbd5-b178-486f-9ada-cc55089cfb79.png)  
+새로고침후에도 어떤 상태를 저장해둘려면 localStorage 기능을 이용하면된다. key와 value로 간단한 값을들 저장할 수 있다.   
+
+---
+
+# Intervals
+```JS
+setInterval( callback함수, 반복 시간);
+```
+
+반복적으로 일어나야하는 경우에 사용한다. 얘를 들어 5초마다 주식 시장을 갱신한다거나, 1초마다 어떤 api를 사용해야하는 등의 작업에 사용한다.  
+
+---
+
+# Timeouts
+
+
+---
+
+# this의 동작 원리는 대체 뭐지?
+
+### 주의 : 결론은 "잘 모르겠다" 입니다
+
+코딩을 하다가 객체의 매소드를 정의할 때 화살표 함수를 썼다. 근데 알고보니 화살표 함수의 this는 Window를 지칭했다...  
+이 때문에 뇌정지가 와서 잠깐 this에 대해서 좀 알아보는 시간을 가졌다.  
+  
+일단 화살표 함수는  
+1. 무조건 익명함수로만 사용할 수 있음
+2. 메소드나 생성자 함수로 사용할 수 없음  
+이라고 한다  
+  
+그럼 뭐때문에 화살표 함수와 this의 궁합이 이모양이 됐을까. 
+  
+## function 선언의 this
+```JS
+let someone = {
+    name : 'kim',
+    whoAmI : function(){
+        console.log(this);
+    }
+}
+someone.whoAmI();
+```
+
+## 화살표 함수의 this
+```JS
+let someone2 = {
+    name : 'kim',
+    whoAmI : ()=>{
+        console.log(this);
+    }
+}
+someone2.whoAmI();
+```
+
+화살표 함수를 썼다는 차이가 있을 뿐 동작은 같은 코드이다. 하지만 결과는?  
+  
+![image](https://user-images.githubusercontent.com/101965836/160980525-448ab203-e22d-45e4-9a31-113d3f6ff90f.png)  
+이처럼 화살표 함수가 지칭하는 this는 전역(Window) 객체가 된다.  
+  
+JavaScript에서 this는 다른 언어와 좀 다르게 동작한다. **대부분의 경우** (예외도 있다는 말이다) this가 가리키는 대상은, 호출을 **누가** 했냐에 따라 달라진다 라고 한다.  [공식문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/this)  
+   
+사실 이 내용은 30분 이상 강의를 들어야 하는 복잡한 내용인 것 같다. 지금 3시간 동안 this만 찾은 나도... 아직 this가 뭘 가리키는지 딱 말해봐라 하면 100% 정답은 힘들 것 같다.  
+그래도 [이 강의](https://www.youtube.com/watch?v=GteV4zfqPIk) 가 조금 도움됐고, 좀 더 알아보고 시행착오를 겪은 뒤에 정리가 되면 글로 남겨야 겠다.   
+
+
