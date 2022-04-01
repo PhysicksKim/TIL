@@ -330,3 +330,182 @@ JavaScript에서 this는 다른 언어와 좀 다르게 동작한다. **대부�
 그래도 [이 강의](https://www.youtube.com/watch?v=GteV4zfqPIk) 가 조금 도움됐고, 좀 더 알아보고 시행착오를 겪은 뒤에 정리가 되면 글로 남겨야 겠다.   
 
 
+---
+
+# 추가 삭제 
+
+## 추가
+```js
+const toDoList = document.getElementById("todo-list");
+
+function addToDo(newToDo){
+  const liToDo = document.createElement("li");
+
+  const spanToDo = document.createElement("span"); 
+  spanToDo.innerText = newToDo;
+
+  liToDo.appendChild(spanToDo);
+
+  toDoList.appendChild(liToDo);
+}
+
+
+newToDo = 'Study';
+addToDo(newToDo);
+```
+(1) 추가할 곳의 element를 얻어온다. 이렇게 상위 element를 parent라고 하며, 추가 될 대상은 child가 될 것이다. 첫 줄에서 볼 수 있듯document.getElementById()로 얻어왔다.
+  
+(2) createElement로 li와 span을 만들었다. 
+```HTML
+...
+<ul id="todo-list">
+  <li>
+    <span>(추가 할 텍스트)</span>
+  </li>
+</ul>
+...
+```
+이렇게 추가 할 것이므로, li와 span을 불러온것임.  
+  
+(3) span 안에다가 (추가 할 텍스트) 를 넣는다. 
+  spanToDo.innerText = newToDo;  
+  
+(4) spna은 \<li>의 child가 되어야 하므로, span을 넣기 위해 .appendChild();를 사용한다
+
+(5) li는 \<ul>의 child가 되어야 하므로, li를 넣기 위해 또 다시 .appendChild();를 사용한다.
+
+(6) toDoList는 첫줄에서 보듯 원래 HTML의 id="todo-list"인 애를 가져온 element이다.   
+여기서 참 신기한점은, **"HTML을 갱신해"** 라는 어떤 매소드가 없이, 그냥 appendChild() 만 해주면 자동으로 HTML 갱신까지 해준다.  
+이미 짜여진 HTML에서 element를 가져오고, 그 element의 메소드를 이용해 무언가를 추가하면, HTML이 자동으로 갱신되나보다.  
+
+
+## 삭제
+
+#### 추측
+
+앞서 놀라웠던 부분을 다시 생각해보자. HTML에 특정 element가 존재하고 있다. 그걸 id로 가져왔다. 그다음 그 element의 method를 이용하니 HTML이 자동으로 갱신되고, 갱신된 페이지를 사용자에게 보여준다.  
+  
+그러면 같은 매커니즘으로 삭제도 될까? element를 가져오고, 매소드로 어떤 element를 삭제해라고 하면, 그 element가 html에서 삭제되고 HTML이 자동으로 갱신될까?  
+  
+### 어떻게 생긴 HTML을 만들어 내야 할까
+```HTML
+...
+<ul id="todo-list">
+  <li>
+    <span>(추가 할 텍스트)</span>
+    <button>❌</button>
+  </li>
+</ul>
+...
+```
+
+### 삭제 코드
+  
+```JS
+const toDoList = document.getElementById("todo-list");
+
+
+function deleteToDo(event){
+    const li = event.target.parentElement; 
+    li.remove();  
+}
+
+function addToDo(newToDo){
+    const liToDo = document.createElement("li");
+
+    const spanToDo = document.createElement("span"); //<span></span>
+    spanToDo.innerText = newToDo; //<span>newToDo</span>
+
+    const deleteBtnToDo = document.createElement("button"); //<button></button>
+    deleteBtnToDo.innerText = "❌"; //<button>❌</button>
+
+    deleteBtnToDo.addEventListener("click", deleteToDo);
+
+    liToDo.appendChild(spanToDo);
+    liToDo.appendChild(deleteBtnToDo);
+    
+    toDoList.appendChild(liToDo);
+}
+```
+
+함수 addToDo가 실행 될 때, 자동으로 삭제 버튼도 추가되도록 했다.  
+앞서 span 추가한 방식과 똑같다. button을 추가하고 그 button에 eventListener를 추가해둔다. 그 다음 appendchild 하면 eventListener가 들어간 button이 추가가된다.  
+그리고 deleteToDo 함수를 보자. 코드에 주석을 추가한 버전을 아래에 적어뒀다.
+```JS
+function deleteToDo(event){
+    const li = event.target.parentElement; 
+    /*
+      <ul id="todo-list">
+        <li>
+          <span>(추가 할 텍스트)</span>
+          <button>❌</button>
+        </li>
+      </ul>
+      
+      이렇게 있으면
+      event의 target은 <button>이고
+      <button>의 parentElement는 <li> ... </li>로 묶인 부분이다
+      즉, <li> ... </li>부분을 const li 로 저장한다.
+    */
+    
+    li.remove();  
+    /* 
+      li에 내장된 .remove(); 메소드를 이용해 삭제한다.
+      appendChild()을 썼을 때 HTML이 자동으로 갱신 된 것과 마찬가지로, 
+      remove()을 썼을 때도 HTML이 자동으로 갱신됨.
+     */
+}
+```
+[.remove() 공식문서](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove)  
+  
+  
+  
+---
+# localstorage에 array로 넣기
+
+```JS
+// toDos = [a,b,c]
+localStorage.setItem("todos_normal",toDos);
+localStorage.setItem("todos_stringify",JSON.stringify(toDos));
+```
+![image](https://user-images.githubusercontent.com/101965836/161188000-ec28f9ad-e1cb-4287-9975-325ae4fe85c1.png)  
+  
+## stringify 장점
+  
+![image](https://user-images.githubusercontent.com/101965836/161188560-5ee7192b-a5ad-43a2-8774-b79c376bb15b.png)  
+(1) localstorage에는 string으로만 저장해야 하는데, JSON.stringify()를 사용하면 array 처럼 바꿔서 저장하고 꺼내올 수 있다. 꺼내올때는 JSON.parse(...)를 사용하면 된다.  
+  
+(2) 그냥 array를 넣어버리면 같은 내용을 중복해서 넣을 수 없는 문제가 생긴다. stringify는 중복된 데이터도 넣을 수 있다.  
+    
+
+---
+# array에 쓰는 .filter() 메소드
+  
+  ![image](https://user-images.githubusercontent.com/101965836/161192806-f0850260-b838-4675-b648-4d916abccb12.png)  
+
+이거 정말 좋아
+
+\["a","b","c"]  
+이런 array가 있다고 해보자. 여기서 b를 찾아서 지울려면?  
+
+```JS
+for (var i = 0; i < array.length; i++)
+ if (array[i] == "b"){
+  ...
+ }
+```
+for문 돌리고, 값 같은 인덱스 찾아서, 어쩌고 저쩌고 빼고 삭제하고 새 array에 넣고 등등  
+정말 뻔하지만 귀찮고 자질구래한 작업이 된다.  
+  
+## 하지만 .filter()가 출동하면?
+  
+.filter()를 쓰면 간단히 해결된다.  
+![image](https://user-images.githubusercontent.com/101965836/161193352-4d6f7ee0-316c-4a53-b482-79cc842450eb.png)
+   
+## 원리는?  
+   
+filter()는 아래와 같이 실행된다  
+  
+![image](https://user-images.githubusercontent.com/101965836/161193808-89f90854-7904-4b01-83aa-026c818d0a4f.png)  
+   
+true인지 false인지 판단하는 함수를 주면, filter가 각 요소마다 true false를 판단한다. 그 다음 true인 놈들로만 이뤄진 array를 반환한다.  
