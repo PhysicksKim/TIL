@@ -1,4 +1,5 @@
-# 배운 것들
+# 배운 것들 
+시간순 나열
 
 ## 생활코딩
 
@@ -25,4 +26,7 @@
 ✔ 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01) 
 
 ## Youtube-CodingLab
-✔ Multiple Typing Text Animation in HTML CSS & JavaScript (2022-04-03 ~ ) [Link](https://www.youtube.com/watch?v=nxoHR9lltK0&list=PLImJ3umGjxdAuARwziklrT2QEELizOMtr&index=31) 
+✔ Multiple Typing Text Animation in HTML CSS & JavaScript (2022-04-03) [강의로 이동](https://www.youtube.com/watch?v=nxoHR9lltK0&list=PLImJ3umGjxdAuARwziklrT2QEELizOMtr&index=31) 
+
+## Inflearn - react
+⌛ 웹 게임을 만들며 배우는 React (2022-04-03 ~ ) [강의로 이동](https://www.inflearn.com/course/web-game-react)  
