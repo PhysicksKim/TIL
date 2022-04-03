@@ -23,3 +23,6 @@
 ## 노마드코더
 
 ✔ 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01) 
+
+## Youtube-CodingLab
+✔ Multiple Typing Text Animation in HTML CSS & JavaScript (2022-04-03 ~ ) [Link](https://www.youtube.com/watch?v=nxoHR9lltK0&list=PLImJ3umGjxdAuARwziklrT2QEELizOMtr&index=31) 
