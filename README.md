@@ -32,6 +32,7 @@
 ⌛ 웹 게임을 만들며 배우는 React (2022-04-03 ~ ) [강의로 이동](https://www.inflearn.com/course/web-game-react)  
 
 ## 생활코딩  
-✔ GIT1 (2022-04-04)
-✔ POSIX CLI1 (2022-04-04)
-✔ GIT2 - CLI 버전관리 (2022-04-04)
+✔ GIT1 (2022-04-04)  
+✔ POSIX CLI1 (2022-04-04)  
+✔ GIT2 - CLI 버전관리 (2022-04-04)  
+✔ GIT3 - 백업
