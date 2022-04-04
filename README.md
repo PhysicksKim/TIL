@@ -30,3 +30,6 @@
 
 ## Inflearn - react
 ⌛ 웹 게임을 만들며 배우는 React (2022-04-03 ~ ) [강의로 이동](https://www.inflearn.com/course/web-game-react)  
+
+## 생활코딩  
+✔ GIT1 (2022-04-04)
