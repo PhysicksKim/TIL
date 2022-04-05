@@ -31,7 +31,8 @@
 
 ## Youtube-CodingLab
 ✔ Multiple Typing Text Animation in HTML CSS & JavaScript (2022-04-03) [강의로 이동](https://www.youtube.com/watch?v=nxoHR9lltK0&list=PLImJ3umGjxdAuARwziklrT2QEELizOMtr&index=31)  
-✔ Responsive Side Navigation Bar in HTML CSS And JavaScript | Dashboard Sidebar Menu (2022-04-04) [강의로 이동](https://www.youtube.com/watch?v=wEfaoAa99XY)
+✔ Responsive Side Navigation Bar in HTML CSS And JavaScript | Dashboard Sidebar Menu (2022-04-04) [강의로 이동](https://www.youtube.com/watch?v=wEfaoAa99XY)  
+✔ How to make Card Slider in HTML CSS & JavaScript | Owl Carousel (2022-04-05) [강의로 이동](https://www.youtube.com/watch?v=BKKcGb80MOs)  
 
 ## Inflearn - react
 ⌛ 웹 게임을 만들며 배우는 React (2022-04-03 ~ ) [강의로 이동](https://www.inflearn.com/course/web-game-react)  
