@@ -348,7 +348,7 @@ setNum(0+1);
 
 ---
 
-# 2-2. 끝말잇기 시작
+# 2-2. 끝말잇기 시작 - 세팅
 
 ## 웹팩 설치하기
 코드가 길어지면, 컴포넌트도 엄청 많아지고, js 파일끼리 스크립트간 중복도 발생한다.  
@@ -358,33 +358,33 @@ setNum(0+1);
 ### 설치과정
 #### 가장 간단한 방법
 creat-react-app을 쓴다.
-하지만 이렇게만 배워버리면 어떤 과정으로 세팅이 되는지 이해하지 못한다. 따라서 직접 세팅하는 과정을 따라가보도록 하자.
-
-#### 직접 세팅 해보기
-\1. 설치할 폴더로 들어간다
-\2. CLI에서 아래 명령어를 친다
-2-1. npm init  
-package name은 적당히 이름 적어넣고 전부 엔터엔터엔터, author나 license는 적당히 자기 이름적고 MIT 라이센스로 둔다.  
-그러고 나면 init을 한 폴더에 package.json 파일이 만들어 진다.  
-2-2. npm i react react-dom  
-react랑 react-dom을 설치한다.  
-2-3. npm i -D webpack webpack-cli
--D는 개발에서만 쓴다 라고 하는 옵션이다. webpack이랑 webpack-cli를 설치해 준다.  
-\3. webpack.config.js 라고 파일을 만들어 주고 아래 코드를 적어넣어준다.
-```
+하지만 이렇게만 배워버리면 어떤 과정으로 세팅이 되는지 이해하지 못한다. 따라서 자동으로 하는 create-react-app에만 의존하지 말고, 직접 세팅하는 과정을 따라가보도록 하자.  
+  
+#### 직접 세팅 해보기  
+\1. 설치할 폴더로 들어간다  
+\2. CLI에서 아래 명령어를 친다  
+2-1. npm init    
+package name은 적당히 이름 적어넣고 전부 엔터엔터엔터, author나 license는 적당히 자기 이름적고 MIT 라이센스로 둔다.    
+그러고 나면 init을 한 폴더에 package.json 파일이 만들어 진다.    
+2-2. npm i react react-dom    
+react랑 react-dom을 설치한다.   
+2-3. npm i -D webpack webpack-cli  
+-D는 개발에서만 쓴다 라고 하는 옵션이다. webpack이랑 webpack-cli를 설치해 준다.    
+\3. webpack.config.js 라고 파일을 만들어 주고 아래 코드를 적어넣어준다.  
+```JS
 module.exports = {
     
 };
-```
-\4. client.jsx 라고 파일을 만들어 주고 아래 코드를 적어넣어준다.  
-```
+```  
+\4. client.jsx 라고 파일을 만들어 주고 아래 코드를 적어넣어준다.   
+```JS
 const React = require('react');
 const ReactDom = require('react-dom');
-```
-이전에는 HTML에서 일일이 react 불러오고 babel 불러오고 했지만, 이제는 require를 이용해서 그냥 불러올 수 있다.  
-그리고 여기서 jsx라는 확장자라고 한 이유는, 앞서 babel 처음 도입할 때 말했듯 jsx 문법을 쓰기 위함이다.  
-\5. index.html 만들어서 아래와 같이 입력해준다.  
-```
+```  
+이전에는 HTML에서 일일이 react 불러오고 babel 불러오고 했지만, 이제는 require를 이용해서 그냥 불러올 수 있다.    
+그리고 여기서 jsx라는 확장자라고 한 이유는, 앞서 babel 처음 도입할 때 말했듯 jsx 문법을 쓰기 위함이다.   
+\5. index.html 만들어서 아래와 같이 입력해준다.    
+```HTML
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -396,7 +396,97 @@ const ReactDom = require('react-dom');
 </body>
 </html>
 ```
-여기서 유의할 점은 root와 아래 script코드의 src="./dist/app.js"는 꼭 있어야 한다. (이유는 아직)  
-  
-  
+여기서 유의할 점은 root와 아래 script코드의 src="./app.js"는 꼭 있어야 한다.  
+app.js라는게 나중에 웹팩으로 합칠 js 파일이고, 위에 코드에서는 그걸 dist 경로 안에다 만들거기 때문이다.  
+(합치는 이유 : 각자 다른 파일에 있던 컴포넌트들을 따로따로 script 구문으로 불러오면 HTML이 인식을 못한다. 그래서 app.js라는 하나의 파일로 합쳐줘야지만 HTML이 인식을 하고 동작한다)  
+   
 ## 모듈 시스템과 웹팩 설정
+
+### JS파일 분리해서 코드 작성하고, 불러오는법
+```JS 
+const React = require('react');
+
+...
+
+module.exports = WordRelay;
+```
+위의 require은 해당 파일에서 필요로 하는 패키지나 라이브러리를 가져오는 부분.  
+아래는 쪼갠 파일의 컴포넌트를 바깥에서도 쓸 수 있게 하는 부분.  
+
+다른 파일에서 불러올때는
+```JS
+const WordRelay = require('./WordRelay');
+```
+이렇게 코드 처음에다가 추가해주면 된다.  
+  
+### webpack 설정하기
+```JS
+const path = require('path');
+
+module.exports = {
+    name: 'wordrelay-setting',
+    mode: 'development',
+    devtool: 'eval',
+    resolve: {
+        extensions: ['.js','.jsx'], // resolve에서 extensions로 하고 확장자들을 적어주면, 아래의 entry에서 일일이 파일마다 확장자 명을 적어주지 않아도 자동으로 인식하고 합쳐준다. 
+    },
+    entry: {
+        app: ['./client'], //client.jsx에서 이미 const WordRelay = require('./WordRelay');로 WordRelay.jsx를 불러왔기 때문에 꼭 넣을 필요없이 webpack이 알아서 포함해준다. 
+
+    },  // 입력
+    output: {
+        path: path.join(__dirname, 'dist'), // 이렇게 하면 (__dirname) = 현재폴더, 'dist' = 하위 폴더 로 지정할 수 있게 된다.
+        filename: 'app.js',
+    },  // 출력
+};
+```
+위의 주석 참고  
+  
+## 웹팩으로 빌드하기
+
+그냥 webpack 하면 빌드가 안된다. 왜냐? 그게 무슨 명령인지 등록을 안했기 때문이다.  
+여기서 명령을 등록하지는 않고, npx라는걸 사용한다.
+```
+npx webpack
+```
+>npx는 node_modules아래에 있는 .bin 디렉터리의 실행파일을 직접 접근하지 않고도 쉽게 사용할 수 있게해줍니다.
+[출처](https://velog.io/@duplicareus/%EC%9B%B9%ED%8C%A9%EC%9D%B4-%EB%AD%94%EB%8D%B0)  
+  
+#### 에러
+```
+KHC@DESKTOP-TNMP2Q4 MINGW64 /g/MyHistory/Learning/inflearn/web-game-react/lecture (main)
+$ npx webpack
+asset app.js 1.53 KiB [compared for emit] (name: app)
+./client.jsx 184 bytes [built] [code generated] [1 error]
+
+ERROR in ./client.jsx 6:16
+Module parse failed: Unexpected token (6:16)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+| const WordRelay = require('./WordRelay');
+|
+> ReactDom.render(<WordRelay />, document.querySelector('#root'));
+
+wordrelay-setting (webpack 5.71.0) compiled with 1 error in 95 ms
+```
+여기서 에러가 난 이유는 <WordRelay /> 이 부분이 jsx 문법인데, 이를 인식하지 못했기 때문이다. 그러면 어떻게 해줘야 하느냐? webpack이 빌드 할 때 바벨을 인식하지 못한것이므로, webpack 세팅하는 webpack.config.js 파일에다가 어떤 모듈을 적용해야하는지 적어주면 된다.   
+  
+<br>  
+  
+```js
+entry: { ... },
+
+module: {
+    rules: [{
+        test: /\.jsx?./, //정규 표현식인데 정확히 알려면 따로 공부해야 할 정도로 복잡한 내용이다. 이건 js파일과 jsx파일에 이 룰을 적용한다는 의미다. 
+        loader: 'babel-loader',
+        options:{
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+        },
+    }],
+}, // entry에 파일을 읽은 후, module을 적용해서, output으로 파일을 만들어 낸다
+ 
+output: { ... },
+
+```
+위와 같이 entry와 output 사이에 module:{} 을 추가해준다. babel을 사용하겠다는 내용이다.  
+
