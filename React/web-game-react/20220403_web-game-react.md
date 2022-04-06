@@ -119,7 +119,10 @@ this.ref를 React에 있는 .createRef()로 생성한다.
 render()는 너무 자주 일어나지 않도록 주의하는게 좋다. 나중에 프로젝트가 커지면 랜더를 너무 자주 반복해서 문제가 생길 수 있다. 좀 더 설명하자면, setState를 한 번 할때마다 render()가 다시 실행되어서 문서를 갱신한다. 그런데 만약에 render안에 오래 걸리는 작업이 있다면, 이는 지나치게 버벅거리는 문제가 생길 수 있다. 그러므로 render()가 자주 일어나지 않도록 하는 게 좋다. 
   
   
-# 2. 리액트 Hooks
+  ---
+  
+# 2. 리액트 Hooks 
+# 2-1 구구단 hooks로 바꿔서 코딩
 
 ## hooks란? 탄생 배경은?
 
@@ -279,3 +282,121 @@ const onSubmitForm = (e) => {
 ```
 훨씬 간결하게 바뀌었다.   
 또 줄마다 set\*** 이라고 해서 어떤 값을 set중이라는 것을 말하고 있다. 사람마다 다르겠지만 나는 이것도 가독성 향상에 도움된다고 생각한다. 
+
+## 추가 : setState 할 때 옛날 값을 쓰는 경우
+```JS
+setResult('정답!');
+
+setResult( (prevResult) => { return '정답: ' + value } )
+```
+근데 왜 옛날값을 쓰는가? 이건 솔직히 잘 모르겠다. 그리고 prevResult를 인자로 받아왔는데, 왜 prevResult를 쓰지 않고 그냥 value를 쓰는거지? 강사가 착각했나? 잘 모르겠다.  
+
+
+## 정리
+1. hooks 쓰면 코드가 짧고 간결해진다.  
+2. hooks는 state를 바꾸면 함수 자체가 통째로 다시 실행되기 때문에, 느릴 수 있다. 반면 class방식에서는 render()함수만 다시 실행된다.  
+
+
+## 추가 : 알아둬야 할 정보
+**Hooks에서 setState는 비동기이다.**  
+예를 들어
+```
+setResult(`${first} x ${second} ≠ ${value} 땡!`);
+setValue('');
+setFirst(Math.ceil(Math.random() * 9));
+setSecond(Math.ceil(Math.random() * 9));
+```
+위에 이런 코드가 있다.
+그러면 set뭐뭐뭐 할 때마다 render() 작업이 일어날까? 아니다  
+set작업은 react가 알아서 보고 판단해서 비동기적으로 처리해준다.  
+즉, hooks의 함수가 한 번 실행될 때마다, render도 한 번 실행된다.  
+
+  
+#### 물론 그래서 발생하는 문제도 있다.  
+
+예를 들어
+```JS
+// num = 0;
+const increseNum = (e) =>{
+  setNum(num + 1);
+  setNum(num + 1);
+  setNum(num + 1);
+  setNum(num + 1);
+}
+```
+이렇게 있으면 hooks 함수가 한 번 돌고나면 num은 얼마나 증가할까?  
+num은 1이 된다.   
+  
+  
+(이 밑으로 뇌피셜)    
+첫 setNum에서 num도 0이다
+두 번째 setNum에서 num도 0이다.
+... 전부 setNum에서 num은 0이다. 
+  
+이렇게 setNum에 num값들이 전부 0으로 담겨서 전달되고,
+결국 
+```JS
+setNum(0+1); 
+setNum(0+1); 
+setNum(0+1); 
+setNum(0+1); 
+```
+이렇게 보낸거랑 같은 꼴이다.  
+이를 해결하기 위해서는 prev를 인자로 받아서 사용해야 한다.  
+자세한 내용은 [여기](https://www.delftstack.com/howto/react/react-setstate-prevstate/) 를 참고.  
+
+
+---
+
+# 2-2. 끝말잇기 시작
+
+## 웹팩 설치하기
+코드가 길어지면, 컴포넌트도 엄청 많아지고, js 파일끼리 스크립트간 중복도 발생한다.  
+그러다가 천재가 Webpack을 만든다. 
+실무에서 최소 수백, 수천개의 자바 파일로 나뉘는데 나중에 가면 당연히 말도 안되게 중복이 발생한다. 이 때 여러개의 js파일을 하나의 js로 합쳐주는게 바로 웹팩이다.   
+
+### 설치과정
+#### 가장 간단한 방법
+creat-react-app을 쓴다.
+하지만 이렇게만 배워버리면 어떤 과정으로 세팅이 되는지 이해하지 못한다. 따라서 직접 세팅하는 과정을 따라가보도록 하자.
+
+#### 직접 세팅 해보기
+\1. 설치할 폴더로 들어간다
+\2. CLI에서 아래 명령어를 친다
+2-1. npm init  
+package name은 적당히 이름 적어넣고 전부 엔터엔터엔터, author나 license는 적당히 자기 이름적고 MIT 라이센스로 둔다.  
+그러고 나면 init을 한 폴더에 package.json 파일이 만들어 진다.  
+2-2. npm i react react-dom  
+react랑 react-dom을 설치한다.  
+2-3. npm i -D webpack webpack-cli
+-D는 개발에서만 쓴다 라고 하는 옵션이다. webpack이랑 webpack-cli를 설치해 준다.  
+\3. webpack.config.js 라고 파일을 만들어 주고 아래 코드를 적어넣어준다.
+```
+module.exports = {
+    
+};
+```
+\4. client.jsx 라고 파일을 만들어 주고 아래 코드를 적어넣어준다.  
+```
+const React = require('react');
+const ReactDom = require('react-dom');
+```
+이전에는 HTML에서 일일이 react 불러오고 babel 불러오고 했지만, 이제는 require를 이용해서 그냥 불러올 수 있다.  
+그리고 여기서 jsx라는 확장자라고 한 이유는, 앞서 babel 처음 도입할 때 말했듯 jsx 문법을 쓰기 위함이다.  
+\5. index.html 만들어서 아래와 같이 입력해준다.  
+```
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>끝말잇기</title>
+</head>
+<body>
+    <div class="root"></div>
+    <script src="./dist/app.js"></script>
+</body>
+</html>
+```
+여기서 유의할 점은 root와 아래 script코드의 src="./dist/app.js"는 꼭 있어야 한다. (이유는 아직)  
+  
+  
+## 모듈 시스템과 웹팩 설정
