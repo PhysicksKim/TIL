@@ -490,3 +490,70 @@ output: { ... },
 ```
 위와 같이 entry와 output 사이에 module:{} 을 추가해준다. babel을 사용하겠다는 내용이다.  
 
+
+# 2-3 끝말잇기 만들기
+
+## 코드 변경 발생할 때마다 자동으로 빌드 (핫 리로딩)
+(1) 필요한 것들 설치
+```
+npm i react-refresh @pmmmwh/react-refresh-webpack-plugin -D
+npm i -D webpack-dev-server
+```
+(2) 설정 파일 내용 수정 및 추가
+```JSON
+// package.json
+  "scripts": {
+    "dev": "webpack serve --env development"
+  },
+```
+```js
+//webpack.config.js
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+...
+
+module.exports = {
+  module: {
+    rules: [{
+      
+      ... ,
+      
+      options:{
+            
+            ... ,
+            
+            plugins: [
+                'react-refresh/babel',
+            ]
+      },
+    }],
+  },
+  
+  ...
+  
+  plugins:[
+          new RefreshWebpackPlugin()
+  ],
+  
+  ...
+  
+  devServer: {
+        devMiddleware: {
+            publicPath: '/dist', // webpack의 output 파일이 있는 경로
+        },
+        static: {
+            directory: path.resolve(__dirname), // index.html이 존재하는 경로
+        },
+        hot: true,
+    },
+  
+  ...
+
+};
+```
+  
+## 리로딩과 핫 리로딩 차이
+리로딩 : 코드 수정하면 자동 리로딩 되지만 처음부터 다시 시작   
+핫 리로딩 : 코드 수정하면, 진행중이던 단계에서 부터 다시 시작    
+  
+  
