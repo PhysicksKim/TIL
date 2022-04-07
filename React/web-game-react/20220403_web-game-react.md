@@ -590,3 +590,122 @@ const root = createRoot(container); //  createRoot() 메소드에 root dom 넘�
 root.render(<WordRelay />); //  root.render() 메소드로 react 컴포넌트 넘기면 됨
 ```
 
+[출처 공식문서](https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html)  
+  
+  
+  ---
+  
+# 3. 숫자야구  
+
+## 시작 전, Hot Module Replacement is not enabled! 에러  
+  
+```
+KHC@DESKTOP-TNMP2Q4 MINGW64 /g/MyHistory/Learning/inflearn/web-game-react/ch3/NumberBaseball (main)
+$ npx webpack
+<w> [ReactRefreshPlugin] Hot Module Replacement (HMR) is not enabled! React Refresh requires HMR to function properly.
+asset app.js 1.52 MiB [emitted] (name: app)
+runtime modules 3.19 KiB 7 modules
+modules by path ./node_modules/core-js-pure/ 119 KiB 110 modules
+modules by path ./node_modules/@pmmmwh/react-refresh-webpack-plugin/ 52.4 KiB 23 modules
+modules by path ./node_modules/html-entities/lib/*.js 81.3 KiB 4 modules
+modules by path ./node_modules/react-dom/ 992 KiB 3 modules
+modules by path ./*.jsx 7.03 KiB 2 modules
+modules by path ./node_modules/react-refresh/ 20.2 KiB 2 modules
+modules by path ./node_modules/react/ 85.7 KiB 2 modules
+modules by path ./node_modules/scheduler/ 17.3 KiB 2 modules
++ 3 modules
+numberbaseball (webpack 5.71.0) compiled successfully in 1511 ms  
+```
+
+## HMR 세팅
+#### 설치  
+```
+npm install --save-dev html-webpack-plugin
+```
+[참고](https://webpack.js.org/guides/hot-module-replacement/)  
+
+#### webpack.config.js에 추가
+```
+...
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+
+  ...
+
+  
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Hot Module Replacement',
+    }),
+  ],
+
+  ...
+  
+};
+```
+  
+  
+# 3-1. import와 require 비교
+import 문법은 ES2015에서 새로 추가된 문법이다.   
+
+(1) import와 require를 같이 쓸 수 없다.  
+서로 형식 자체가 다르기 때문에, require 쓸꺼면 require 방식 문법만, import 쓸거면 import 방식 문법만 써야한다. 
+
+(2) import 쓸때와 require 쓸 때 export 하는 부분 문법이 다르다.  
+
+#### require 쓸 때
+```JS
+const React = require('react');
+
+...
+
+module.exports = NumberBaseball;
+```
+#### import 쓸 때
+```JS
+import { React } from 'react';
+
+...
+
+export default NumberBaseball;
+```
+
+(3) 그래도 어쨌거나 둘 다 하는 일은 거기서 거기다.  
+그럼 왜 알아야 하느냐? import로 된 코드도 알아봐야하기 때문이지.
+
+## babel이 근데 호환을 해냅니다...
+webpack 설정할 때 babel을 추가했었다. babel이 무엇이냐? 
+> Babel is a toolchain that is mainly used to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript in current and older browsers or environments.
+[출처 What is Babel?](https://babeljs.io/docs/en/)  
+  
+즉 ES2015 이후인 import와 이전인 require를 호환시켜주기 때문에, 똑똑하게도 우리가 require import를 섞어서 써도 babel이 알아서 이를 호환시켜 주는 것이다. 아주 굳.   
+  
+  
+달리 말하면, babel이 적용되지 않는, webpack.config.js에서는 import 방식으로 쓰면 안된다. webpack.config.js는 설정 파일이므로 node가 해석하기 때문이다.   
+  
+  
+# 3-2 숫자야구 구현 - 리액트 반복문(map)
+  
+예를 들어 보자  
+```HTML
+<>
+    <h1>{this.state.result}</h1>
+    <form onSubmit={this.onSubmitForm}>
+        <input maxLength={4} value={this.state.value} onChange={onChangeInput} />
+    </form>
+    <div>시도: {this.state.tries.length}</div>
+    <ul>
+        <li>Like</li>
+        <li>Like</li>
+        <li>Like</li>
+        <li>Like</li>
+        <li>Like</li>
+        <li>Like</li>
+        <li>Like</li>
+        <li>Like</li>
+    </ul>
+</>
+```
+숫자 야구에서 시도 횟수가 늘어나면, 위처럼 말도 안되는 하드코딩이 될거다.  
+react에서는 이때 반복문으로 map을 사용한다.  
