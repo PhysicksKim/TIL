@@ -391,7 +391,7 @@ const ReactDom = require('react-dom');
     <title>끝말잇기</title>
 </head>
 <body>
-    <div class="root"></div>
+    <div id="root"></div>
     <script src="./dist/app.js"></script>
 </body>
 </html>
@@ -472,6 +472,12 @@ wordrelay-setting (webpack 5.71.0) compiled with 1 error in 95 ms
   
 <br>  
   
+#### 우선 바벨 설치
+```
+npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader
+```
+
+#### 그 다음, webpack.config.js 설정
 ```js
 entry: { ... },
 
@@ -489,6 +495,7 @@ output: { ... },
 
 ```
 위와 같이 entry와 output 사이에 module:{} 을 추가해준다. babel을 사용하겠다는 내용이다.  
+
 
 
 # 2-3 끝말잇기 만들기
@@ -519,9 +526,7 @@ module.exports = {
       ... ,
       
       options:{
-            
             ... ,
-            
             plugins: [
                 'react-refresh/babel',
             ]
@@ -557,3 +562,31 @@ module.exports = {
 핫 리로딩 : 코드 수정하면, 진행중이던 단계에서 부터 다시 시작    
   
   
+
+
+## 추가: ReactDOM.render is no longer supported in React 18
+
+react 18부터는 createRoot() 해서 root.render()를 쓰라고 한다. 사용법을 알아보자.
+
+```JS
+// 이전 버전 코드  
+const React = require('react');
+const ReactDom = require('react-dom');
+
+const WordRelay = require('./WordRelay');
+
+ReactDom.render(<WordRelay />, document.querySelector('#root'));
+```
+```JS
+// root 방식
+const React = require('react');
+import { createRoot } from 'react-dom/client'; //  createRoot을 import 하고
+
+const WordRelay = require('./WordRelay');
+
+const container = document.querySelector('#root'); //  root의 dom 가져 온 다음
+const root = createRoot(container); //  createRoot() 메소드에 root dom 넘겨줘서
+
+root.render(<WordRelay />); //  root.render() 메소드로 react 컴포넌트 넘기면 됨
+```
+
