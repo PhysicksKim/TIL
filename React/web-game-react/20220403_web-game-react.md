@@ -35,7 +35,7 @@ function 쓴거랑 화살표 함수 쓴거랑 this가 달라져 버린다.
 
 #### 궁금한 점 - ref의 생성법 2
 오토포커스 (1-10. ref 강의) 추가 할 때, ref 라는 것을 사용했다. 그런데 검색해서 나온 ref 사용법이랑 좀 달라서, 뭔 차이인지 궁금해졌다.  
-
+(검색 키워드 : createRef사용법 )  
 ##### (1)강의에서 쓴 방법
 ```JS
 class GuGuDan extends React.Component {
@@ -1068,151 +1068,356 @@ state.value는 "1234" 같은 string으로 들어온다. 그런데 answer.join(''
 const arr1 = [1,2,3,4]
 const arr2 = [...arr1, 5] // [1,2,3,4,5]
 // arr1 랑 arr2는 다른 값이 되게 된다 
+```  
+
+## 수정사항 추가
+홈런 부분에서 tries:\[...this.state.tries , ] 를 썼는데, 이렇게 하면 안된다. (3-8강 2분20초 쯤 설명 추가)   
+this.state.tries인데 옛날 값으로 현재 값을 설정할때는 setState를 함수형으로 바꾸고 (prevState) 받아와서 prevState.tries로 써야한다.    
+```
+if (this.state.value === this.state.answer.join('')){
+this.setState((prevState) => {
+    return {
+        result: '홈런!',
+        tries: [...prevState.tries, { try: this.state.value, result:'홈런!'}], // push 쓰면 안됨. 안되는 이유는 TIL 참고
+    }
+})
+```
+**옛날 state로 현재 state를 만들 때는, 함수형으로 하고 prevState 사용!**  
+
+
+## 추가. 지금까지 코드 전문  
+  
+NumberBaseball.jsx  
+```js
+import React, { useState } from 'react';
+import Try from './Try';
+
+function getNumbers() { // 숫자 네 개를 겹치지 않고 랜덤하게 뽑는 함수 
+    const candidate = [1,2,3,4,5,6,7,8,9];
+    const array = [];
+    for (let i = 0; i<4; i+= 1){
+        const chosen = candidate.splice(Math.floor(Math.random()*(9-i)),1)[0];
+        // splice에 대해 설명. myArray.splice(a,b); 라고 하면 myArray에서 a번째 인덱스에서 b개 만큼 먼저 선택이 된다. 
+        // myArray에서는 선택 된 요소들이 삭제가 되고, 메소드의 return은 삭제된 요소들이 된다.
+        // 예를 들어 myArray = [1,2,3,4]; 라고 할 때 const chosen = myArray.splice(1,1); 이라고 하면, 1번째 인덱스인 2가 선택된다. 
+        // 그 다음, 2는 myArray에서 삭제되어서 myArray = [1,3,4]가 된다. 그리고 return 이 삭제된 [2]이므로, chosen = [2] 가 된다.
+        // 여기서 배열로 return이 되므로, 0번째 인덱스 요소의 값만 얻을려면 const chosen = myArray.splice(1,1)[0]; 라고 하면 된다. 
+        array.push(chosen);
+    }
+    return array;
+}
+
+
+const NumberBaseball = () => {
+    const [result, setResult] = useState('');
+    const [value, setValue] = useState('');
+    const [answer, setAnswer] = useState(getNumbers());
+    const [tries, setTries] = useState([]);
+
+    const onSubmitForm = (e) => {
+        e.preventDefault();
+        if (value === answer.join('')){
+            setResult('홈런!');
+            setTries( (prevTries) => {
+                return ( [...prevTries, { try: value, result:'홈런!'} ] )
+                }
+            );
+            alert(`홈런! 정답은 ${answer.join("")}입니다!!`);
+            alert('게임을 다시 시작합니다!');
+            setValue('');
+            setAnswer(getNumbers());
+            setTries([]);
+            
+        } else { // 답 틀렸으면
+            const answerArray = value.split('').map((v) => parseInt(v)); // string을 한 글자씩 쪼갠다음, int형으로 변환해서 array로 저장
+            let strike = 0;
+            let ball = 0;
+            if (tries.length >= 9){
+                setResult(
+                    `10번 넘게 틀려서 실패! 답은 ${answer.join(',')}였습니다!`
+                );
+                alert('게임을 다시 시작합니다!');
+                setValue('');
+                setAnswer(getNumbers());
+                setTries([]);
+            } else {
+                for ( let i = 0; i < 4; i += 1){
+                    if (answerArray[i] === answer[i]){
+                        strike += 1;
+                    } else if (answer.includes(answerArray[i])){
+                        ball += 1;
+                    }
+                };
+                setTries( (prevTries) => {
+                    return (
+                        [...prevTries, { try: value, result: `${strike} 스트라이크, ${ball} 볼입니다`}]
+                    );
+                });
+                setValue('');
+            }
+        }
+    };
+
+    const onChangeInput = (e) => {
+        setValue(e.target.value);
+    };
+
+    return (
+        <>
+            <h1>{result}</h1>
+            <form onSubmit={onSubmitForm}>
+                <input maxLength={4} value={value} onChange={onChangeInput} />
+            </form>
+            <div>시도: {tries.length}</div>
+            <div>${answer}</div>
+            <ul>
+                {tries.map( (v, i) => {
+                    return (
+                        <Try key={`${i+1}차 시도`} tryInfo={v} index={i} />
+                    );
+                })}
+            </ul>
+        </>
+    );
+}
+
+
+export default NumberBaseball;
+```   
+
+Try.jsx
+```js
+import React, { Component } from 'react';
+
+class Try extends Component {
+    render() {
+        return (
+            <li>
+                <div>{this.props.tryInfo.try}</div>
+                <div>{this.props.tryInfo.result}</div>
+            </li>
+        )
+    }
+}
+
+export default Try;  
+```
+  
+#### 3-7 Q&A
+Q : getNumbers() class 밖에 빼는 이유는 뭔가요?
+A : this를 안 쓰는 경우에는 그냥 밖으로 빼도 된다. 그냥 다른 곳에서 재사용이 가능하기 때문이다.  
+   
+   
+# 3-8 hooks로 바꾸기
+   
+   
+## Try.jsx 바꾸기
+구조분해 사용하는 방법이랑, props 쓰는 방법 2가지가 있다.  
+#### (1) 구조분해
+```js
+import React, { Component } from 'react';
+
+const Try = ({ tryInfo }) => {
+    return (
+        <li>
+            <div>{tryInfo.try}</div>
+            <div>{tryInfo.result}</div>
+        </li>
+    );
+}
+
+export default Try;
+```
+#### (2) props
+```js
+import React, { Component } from 'react';
+
+const Try = (props) => {
+    return (
+        <li>
+            <div>{props.tryInfo.try}</div>
+            <div>{props.tryInfo.result}</div>
+        </li>
+    );
+}
+
+export default Try;
+```
+  
+보통은 구조분해를 많이들 쓴다고 한다. props는 부모요소에서 뭐 상속되고 이런 부분이 좀 골치아플 수 있다고 한다.  
+  
+  
+## Uncaught ReferenceError: $RefreshReg$ is not defined 에러 해결 
+![image](https://user-images.githubusercontent.com/101965836/162380263-616b16ba-c466-4c48-b43d-30f278b81ae8.png)  
+
+```
+Uncaught ReferenceError: $RefreshReg$ is not defined
+    at eval (Try.jsx:19:1)
+    at Module../Try.jsx (app.js:41:1)
+    at __webpack_require__ (app.js:384:33)
+    at fn (app.js:596:21)
+    at eval (NumberBaseball.jsx:7:62)
+    at Module../NumberBaseball.jsx (app.js:30:1)
+    at __webpack_require__ (app.js:384:33)
+    at fn (app.js:596:21)
+    at eval (client.jsx:5:73)
+    at Module../client.jsx (app.js:52:1)
+```
+class로 구현 할 때 까지는 잘 됐는데 갑자기 hook로 바꾸니 이런 에러가 떴다. 일단 에러 자체가 webpack.config.js 에서 설정할 때 생기는 문제인 것 같다. RefreshReg가 앞서 핫 리로딩 설정할 때 건드렸던 애랑 관련있는 것 같아서 그 부분에서 이것저것 건드려 봤다.
+  
+문제는 webpack.config.js에서 plugins:랑 관련 있었다.  
+plugins가 들어가는 부분은 아래와 같다.  
+```JS
+module: {
+    rules: [{
+        test: /\.jsx?./,
+        loader: 'babel-loader',
+        options:{
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [
+                'react-refresh/babel',
+            ]
+        },
+    }],
+},
+
+plugins:[
+    new RefreshWebpackPlugin(),
+
+],
+plugins:[
+    new HtmlWebpackPlugin({
+    title: 'Hot Module Replacement',
+  }),
+],
+```
+여기서 대부분 검색 결과는 bebel-loader에 있는 plugins에 대해서 이야기 하는데, 나는 그게 문제가 아니라 바깥에 있는 plugins들이 문제였다. 이것저것 덕지덕지 검색해서 갖다 붙이다 보니 plugins가 2개 따로 들어가 있었다. 이걸 합쳐서
+```js
+plugins:[
+    new RefreshWebpackPlugin(),
+    new HtmlWebpackPlugin({
+        title: 'Hot Module Replacement',
+      }),
+],
+```
+이렇게 만들어 주니 잘 작동했다. 굳.  
+  
+  
+  
+# 3-9 React Devtools
+렌더링이 자주 일어나서 성능이 안좋아지는 문제를 찾는 방법.   
+chrome extension에서 React Developer tools를 다운받음. 그 다음 검사 창에서 profiler에서 보면 record 해서 render에 걸린 시간을 볼 수 있다.   
+
+## React Developer tools 빨간 아이콘은 무엇?
+![image](https://user-images.githubusercontent.com/101965836/162384163-57ad1620-2bf5-43aa-a72c-899dd2b5089c.png)  
+개발 모드라는 뜻. 
+
+# 3-10 shouldComponentUpdate
+
+shouldComponentUpdate는 class로 컴포넌트 만들 때 쓰는애다. hooks일때는 react.memo 참고.  
+  
+![image](https://user-images.githubusercontent.com/101965836/162385034-01331bad-0b41-4868-902b-ab32bd6680c4.png)   
+이 옵션 체크하고 보면  
+![image](https://user-images.githubusercontent.com/101965836/162385097-3c3903fe-828e-48e8-84db-c2075f2ceab6.png)  
+그냥 사용자는 input에 숫자만 입력할 뿐인데, 아래에 쓸데없이 tries도 render 되는 문제가 생긴다.   
+즉, 안바뀌어서 render 될 필요 없는데, 불필요하게 자원을 쓰고 있는 것이다.  
+
+## 왜?
+react는 setState만 호출되어도 render가 일어나게 된다. 
+
+## 어떻게 최적화?
+shouldComponentUpdate()를 사용하면 어떤 경우에 render할지 세세하게 설정할 수 있다.  
+
+# 3-11 PureComponent와 React.memo
+
+## (1) PureComponent
+purecomponent는 class로 컴포넌트 만들 때 쓰는애다.
+PureComponent란 shouldComponentUpdate를 알아서 구현한 컴포넌트이다.  
+다만 PureComponent도 자료구조가 복잡해지면 못알아 차릴 수 있다. 예를 들어
+``` 
+state = {
+  counter: 0,
+  string: 'hello',
+  number: 1,
+  boolean: true,
+  object: { a: 'b', c: 'd' },
+  array: [5, 3, 6],
+}
+```
+이렇게 간단하게 만들어야 purecomponent가 잘 알아차리지
+``` 
+state = {
+  dontdothis : [{dont:[3]}]
+}
+```
+이렇게 해버리면 못 알아차릴 수 있어서 안좋다.  
+
+### 왜 못알아차리는가?
+```
+const array = this.state.array;
+array.push(1);
+this.setState(array:array);
+```
+이렇게 하면 array 주소 자체는 그대로니까, pure가 '이건 그대로구나' 하고 업데이트 하지 않게 된다.  
+근데 push를 했으니 1이 추가되었지 않는가? 이래서 push를 쓰면 안된다.  
+마찬가지로 state가 복잡해지면, 저런식으로 주소가 같아지면서 뭐 꼬일 수 있나보다.  
+
+### "state에 객체 구조 안쓰는게 좋다" 왜?
+{a:1} 에서 setState({a:1})을 하면 새로 렌더링 하게 된다. 따라서 state에서는 객체 구조를 안쓰는게 좋다.  
+
+
+### 추가 : 무조건 pure로?  
+상황에 맞춰서 쓰면 된다. 복잡해지면 purecomponent가 원하는대로 동작하지 않을 수 있는 등 다양한 시나리오가 있다. 그러므로 경우에 따라서 component를 쓰는 것도 좋은 선택이 될 수 있다.   
+1. 최우선적으로 state들이 복잡해지지 않도록 component들을 잘게 쪼개려 노력한다  
+2. 불가피하게 복잡해지면 component로 쓰고 shouldComponentUpdate로 쓴다  
+3. 세부적으로 render를 조절할 상황이 오면 component를 쓰자  
+  
+## (2) React.memo
+hook는 shouldComponentUpdate도 없고 PureComponent도 없다. 그럼 뭘 써야할까? hook에서는 memo를 쓴다.  
+Try.jsx 예시를 보자  
+```js
+import React, { Component } from 'react';
+
+const Try = ({ tryInfo }) => {
+    return (
+        <li>
+            <div>{tryInfo.try}</div>
+            <div>{tryInfo.result}</div>
+        </li>
+    );
+}
+
+export default Try;
+```
+이 코드를
+```js
+import React, { Component, memo } from 'react';
+
+const Try = memo(
+    ({ tryInfo }) => {
+    return (
+        <li>
+            <div>{tryInfo.try}</div>
+            <div>{tryInfo.result}</div>
+        </li>
+    );
+});
+
+export default Try;
 ```
 
-<details>
+이렇게 바꿔주면 된다.   
   
-<summary>    
-  코드보기 NumberBaseball.jsx  
-</summary>
   
-<div>   
-      
-      import React, { Component } from 'react';
-      import Try from './Try';
-
-      function getNumbers() { // 숫자 네 개를 겹치지 않고 랜덤하게 뽑는 함수 
-          const candidate = [1,2,3,4,5,6,7,8,9];
-          const array = [];
-          for (let i = 0; i<4; i+= 1){
-              const chosen = candidate.splice(Math.floor(Math.random()*(9-i)),1)[0];
-              // splice에 대해 설명. myArray.splice(a,b); 라고 하면 myArray에서 a번째 인덱스에서 b개 만큼 먼저 선택이 된다. 
-              // myArray에서는 선택 된 요소들이 삭제가 되고, 메소드의 return은 삭제된 요소들이 된다.
-              // 예를 들어 myArray = [1,2,3,4]; 라고 할 때 const chosen = myArray.splice(1,1); 이라고 하면, 1번째 인덱스인 2가 선택된다. 
-              // 그 다음, 2는 myArray에서 삭제되어서 myArray = [1,3,4]가 된다. 그리고 return 이 삭제된 [2]이므로, chosen = [2] 가 된다.
-              // 여기서 배열로 return이 되므로, 0번째 인덱스 요소의 값만 얻을려면 const chosen = myArray.splice(1,1)[0]; 라고 하면 된다. 
-              array.push(chosen);
-          }
-          return array;
-      }
-
-
-      class NumberBaseball extends Component {
-          state = {
-              result: '',
-              value: '',
-              answer: getNumbers(),
-              tries: [], // push 쓰면 안됨
-          };
-
-          onSubmitForm = (e) => {
-              e.preventDefault();
-              if (this.state.value === this.state.answer.join('')){
-                  this.setState({
-                      result: '홈런!',
-                      tries: [...this.state.tries, { try: this.state.value, result:'홈런!'}], // push 쓰면 안됨. 안되는 이유는 TIL 참고
-                  })
-                  alert('게임을 다시 시작합니다!');
-                  this.setState({
-                      value: '',
-                      answer: getNumbers(),
-                      tries: [],
-                  })
-              } else { // 답 틀렸으면
-                  const answerArray = this.state.value.split('').map((v) => parseInt(v));
-                  let strike = 0;
-                  let ball = 0;
-                  if (this.state.tries.length >= 9){
-                      this.setState({
-                          result: `10번 넘게 틀려서 실패! 답은 ${this.state.answer.join(',')}였습니다!`
-                      });
-                      alert('게임을 다시 시작합니다!');
-                      this.setState({
-                          value: '',
-                          answer: getNumbers(),
-                          tries: [],
-                      })
-                  } else {
-                      for ( let i = 0; i < 4; i += 1){
-                          if (answerArray[i] === this.state.answer[i]){
-                              strike += 1;
-                          } else if (this.state.answer.includes(answerArray[i])){
-                              ball += 1;
-                          }
-                      }
-                      this.setState({
-                          tries:[...this.state.tries, { try: this.state.value, result: `${strike} 스트라이크, ${ball} 볼입니다`}],
-                          value: '',
-                      });
-                  }
-              }
-          };
-
-          onChangeInput = (e) => {
-              this.setState({
-                  value:e.target.value,
-              })
-          };
-
-
-          render() {
-              return (
-                  <>
-                      <h1>{this.state.result}</h1>
-                      <form onSubmit={this.onSubmitForm}>
-                          <input maxLength={4} value={this.state.value} onChange={this.onChangeInput} />
-                      </form>
-                      <div>시도: {this.state.tries.length}</div>
-                      <ul>
-                          {this.state.tries.map( (v, i) => {
-                              return (
-                                  <Try key={`${i+1}차 시도`} tryInfo={v} index={i} />
-                              );
-                          })}
-                      </ul>
-                  </>
-              );
-          }
-      }
-
-      export default NumberBaseball;  
-    
-</div>  
-   
-</details>  
-   
+# 3-12 React.createRef
+앞서 검색해서 적용해본적 있던 내용이다. 이 md문서에서 ( createRef사용법 ) 이라고 찾으면 된다.  
   
-<details>  
-   
-<summary>    
-  코드보기 Try.jsx  
-</summary>  
-   
-<div>  
-   
-    import React, { Component } from 'react';
-
-    class Try extends Component {
-        render() {
-            return (
-                <li>
-                    <div>{this.props.tryInfo.try}</div>
-                    <div>{this.props.tryInfo.result}</div>
-                </li>
-            )
-        }
-    }
-
-    export default Try;  
-    
-</div>  
-   
-</details>  
-    
-
----
-
-   
-
-
   
+# 3-13 props와 state 연결하기
+props를 자식 컴포넌트에서 바꾸는건 좋지 못하다. 다만 바꿔야 한다면 state로 자식에다가 따로 만들어 놓고(복사해두는 느낌), state로 바꿔주는게 좋다.  
+
+## props를 바꾸면 안되는 이유
+부모가 자식한테 props를 물려주는거니까, 자식이 props를 바꿔버리면 부모의 props도 바뀌어야 한다. 그런데 이렇게 되면 의도하지 않는 방식으로 바뀔 수 있다. 따라서 state로 복사해서 값을 갖고 setState로 바꾸는게 좋다.  
+  
+  
+
