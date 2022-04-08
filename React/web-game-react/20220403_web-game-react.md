@@ -1029,3 +1029,190 @@ class NumberBaseball extends Component {
   
   
 # 3-6. 숫자야구 만들기
+
+## function getNumbers() 구현
+```JS
+function getNumbers() { // 숫자 네 개를 겹치지 않고 랜덤하게 뽑는 함수 
+    const candidate = [1,2,3,4,5,6,7,8,9];
+    const array = [];
+    for (let i = 0; i<4; i+= 1){
+        const chosen = candidate.splice(Math.floor(Math.random()*(9-i)),1)[0];
+        // splice에 대해 설명. myArray.splice(a,b); 라고 하면 myArray에서 a번째 인덱스에서 b개 만큼 먼저 선택이 된다. 
+        // myArray에서는 선택 된 요소들이 삭제가 되고, 메소드의 return은 삭제된 요소들이 된다.
+        // 예를 들어 myArray = [1,2,3,4]; 라고 할 때 const chosen = myArray.splice(1,1); 이라고 하면, 1번째 인덱스인 2가 선택된다. 
+        // 그 다음, 2는 myArray에서 삭제되어서 myArray = [1,3,4]가 된다. 그리고 return 이 삭제된 [2]이므로, chosen = [2] 가 된다.
+        // 여기서 배열로 return이 되므로, 0번째 인덱스 요소의 값만 얻을려면 const chosen = myArray.splice(1,1)[0]; 라고 하면 된다. 
+        array.push(chosen);
+    }
+    return array;
+}
+```
+
+## .join() 매서드
+```js
+onSubmitForm = (e) => {
+    e.preventDefault();
+    if (this.state.value === this.state.answer.join('')){
+    
+    } else {
+
+    }
+};
+```
+state.value는 "1234" 같은 string으로 들어온다. 그런데 answer.join('')은 getNumbers()로 얻은거라서 \[1,2,3,4] 같은 배열로 되어 있다. 따라서 \[1,2,3,4]를 "1234"로 바꿔주기 위해서 .join()을 쓴다. (그런데 그냥 getnumbers 함수에서 join하고 넘기면 되지않나?)  
+  
+  
+## react에서 push로 배열을 바꾸면 render가 실행되지 않음
+결론 : arr1 !== arr2 이여야지만 render 함수가 새로 실행된다. 근데 arr1 에다가 arr1.push(...)로 새 요소를 추가하면, arr1 === arr1로 배열 주소는 같기 때문에 render 함수가 새로 실행되지 않는다. 따라서 아래의 방법을 써야한다.
+```js
+const arr1 = [1,2,3,4]
+const arr2 = [...arr1, 5] // [1,2,3,4,5]
+// arr1 랑 arr2는 다른 값이 되게 된다 
+```
+
+<details>
+  
+<summary>    
+  코드보기 NumberBaseball.jsx  
+</summary>
+  
+<div>   
+      
+      import React, { Component } from 'react';
+      import Try from './Try';
+
+      function getNumbers() { // 숫자 네 개를 겹치지 않고 랜덤하게 뽑는 함수 
+          const candidate = [1,2,3,4,5,6,7,8,9];
+          const array = [];
+          for (let i = 0; i<4; i+= 1){
+              const chosen = candidate.splice(Math.floor(Math.random()*(9-i)),1)[0];
+              // splice에 대해 설명. myArray.splice(a,b); 라고 하면 myArray에서 a번째 인덱스에서 b개 만큼 먼저 선택이 된다. 
+              // myArray에서는 선택 된 요소들이 삭제가 되고, 메소드의 return은 삭제된 요소들이 된다.
+              // 예를 들어 myArray = [1,2,3,4]; 라고 할 때 const chosen = myArray.splice(1,1); 이라고 하면, 1번째 인덱스인 2가 선택된다. 
+              // 그 다음, 2는 myArray에서 삭제되어서 myArray = [1,3,4]가 된다. 그리고 return 이 삭제된 [2]이므로, chosen = [2] 가 된다.
+              // 여기서 배열로 return이 되므로, 0번째 인덱스 요소의 값만 얻을려면 const chosen = myArray.splice(1,1)[0]; 라고 하면 된다. 
+              array.push(chosen);
+          }
+          return array;
+      }
+
+
+      class NumberBaseball extends Component {
+          state = {
+              result: '',
+              value: '',
+              answer: getNumbers(),
+              tries: [], // push 쓰면 안됨
+          };
+
+          onSubmitForm = (e) => {
+              e.preventDefault();
+              if (this.state.value === this.state.answer.join('')){
+                  this.setState({
+                      result: '홈런!',
+                      tries: [...this.state.tries, { try: this.state.value, result:'홈런!'}], // push 쓰면 안됨. 안되는 이유는 TIL 참고
+                  })
+                  alert('게임을 다시 시작합니다!');
+                  this.setState({
+                      value: '',
+                      answer: getNumbers(),
+                      tries: [],
+                  })
+              } else { // 답 틀렸으면
+                  const answerArray = this.state.value.split('').map((v) => parseInt(v));
+                  let strike = 0;
+                  let ball = 0;
+                  if (this.state.tries.length >= 9){
+                      this.setState({
+                          result: `10번 넘게 틀려서 실패! 답은 ${this.state.answer.join(',')}였습니다!`
+                      });
+                      alert('게임을 다시 시작합니다!');
+                      this.setState({
+                          value: '',
+                          answer: getNumbers(),
+                          tries: [],
+                      })
+                  } else {
+                      for ( let i = 0; i < 4; i += 1){
+                          if (answerArray[i] === this.state.answer[i]){
+                              strike += 1;
+                          } else if (this.state.answer.includes(answerArray[i])){
+                              ball += 1;
+                          }
+                      }
+                      this.setState({
+                          tries:[...this.state.tries, { try: this.state.value, result: `${strike} 스트라이크, ${ball} 볼입니다`}],
+                          value: '',
+                      });
+                  }
+              }
+          };
+
+          onChangeInput = (e) => {
+              this.setState({
+                  value:e.target.value,
+              })
+          };
+
+
+          render() {
+              return (
+                  <>
+                      <h1>{this.state.result}</h1>
+                      <form onSubmit={this.onSubmitForm}>
+                          <input maxLength={4} value={this.state.value} onChange={this.onChangeInput} />
+                      </form>
+                      <div>시도: {this.state.tries.length}</div>
+                      <ul>
+                          {this.state.tries.map( (v, i) => {
+                              return (
+                                  <Try key={`${i+1}차 시도`} tryInfo={v} index={i} />
+                              );
+                          })}
+                      </ul>
+                  </>
+              );
+          }
+      }
+
+      export default NumberBaseball;  
+    
+</div>  
+   
+</details>  
+   
+  
+<details>  
+   
+<summary>    
+  코드보기 Try.jsx  
+</summary>  
+   
+<div>  
+   
+    import React, { Component } from 'react';
+
+    class Try extends Component {
+        render() {
+            return (
+                <li>
+                    <div>{this.props.tryInfo.try}</div>
+                    <div>{this.props.tryInfo.result}</div>
+                </li>
+            )
+        }
+    }
+
+    export default Try;  
+    
+</div>  
+   
+</details>  
+    
+
+---
+
+   
+
+
+  
