@@ -967,3 +967,65 @@ export default Try;
 ```
 
 이렇게하면 잘 동작하는 모습을 볼 수 있다.  
+  
+# 3-5. 주석과 메서드 바인딩
+## 주석
+JS에서 블록 주석은 /* \*/로 썼었다.  
+react에서 주석은 {/* \*/}로 써야한다  
+
+
+## 메서드 바인딩
+앞서 
+``` JS
+class NumberBaseball extends Component {
+    state = {
+        result: '',
+        value: '',
+        answer: getNumbers(),
+        tries: "",
+    };
+
+    onSubmitForm = () => {
+        return(
+            '1'
+        );
+    };
+
+    onChangeInput = () => {
+        return(
+            '1'
+        );
+    };
+}
+```
+
+이런 식으로 class 에서 메서드는 전부 화살표 함수만 써줘야 했었다. 
+```
+  onSubmitForm(e) {
+    e.preventDefault();
+    console.log(this.state.value);
+  };
+```
+이런 식으로 하면 this가 class를 가리키는게 아니라 전역객체(window)를 가리키게 되어 에러가 난다.  
+따라서 이렇게 쓸려면 메서드 바인딩을 해줘야 한다.  
+```
+class NumberBaseball extends Component {
+  constructor(props){
+    super(props);
+    this.state = { ... };
+    this.onSubmitForm = this.onSubmitForm.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
+  }
+  
+  ...
+```
+이렇게 해줘야지만 this를 쓸 수 있다.    
+근데 이게 참 문법이 이상해보여서 잘 안쓰게 된다.  
+대신 화살표 함수를 쓰며, 화살표 함수가 bind(this)를 자동으로 해준다고 보면 된다.  
+또 bind 안써도 되게 되면서 state도 밖으로 꺼낼 수 있게 되고,  
+그와 동시에 constructor(props){ super(props) }도 사라지게 됐다.  
+다만 옛날 코드도 봐야 할 일이 있을 수 있으니 알아둬야 한다.  
+  
+  
+  
+# 3-6. 숫자야구 만들기
