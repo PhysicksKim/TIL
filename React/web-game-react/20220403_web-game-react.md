@@ -713,13 +713,257 @@ react에서는 이때 반복문으로 map을 사용한다.
 예를 들어 아래와 같이 적으면  
 ```HTML
 <ul>
-  {['사과', '바나나', '포도', '귤', ... ].map( (v) => {
+  {['사과', '바나나', '포도', '귤', '수박', '메론' ].map( (v) => {
     return (
       <li>{v}</li>
     );
    })}
 </ul>
 ```
+```HTML
+<ul>
+  <li>사과</li>
+  <li>바나나</li>
+  <li>포도</li>
+  <li>귤</li>
+  <li>수박</li>
+  <li>메론</li>
+</ul>
+```
 v 안에 배열 [] 안의 각 요소들이 순서대로 들어가서 반복되게 된다.  
 처음에 v에 '사과'가 들어가서 시행되고, 그 다음에는 v에 '바나나'가 들어가서 돌고 ... 배열의 요소 끝까지 반복되게 된다.  
   
+# 3-3 숫자야구 구현 - 리액트 반복문
+
+그러면 반복되는 요소가 2개 이상이면 어떻게 해야 할까?  
+배열을 2차원으로 만들거나 객체로 만들어서 활용하면 된다.  
+## 2차원 배열 방법
+```html
+<ul>
+  {[
+  ['사과', '달다'], 
+  ['바나나','맛있다'], 
+  ['포도','시다'], 
+  ['귤','시다'], 
+  ['수박','맛없다'], 
+  ['메론','너무달다'] 
+  ].map( (v) => {
+    return (
+      <li><b>{v[0]}</b>는 {v[1]}</li>
+    );
+   })}
+</ul>
+```
+```html
+<ul>
+  <li>사과는 달다</li>
+  <li>바나나는 맛있다</li>
+  <li>포도는 시다</li>
+  <li>귤는 시다</li>
+  <li>수박는 맛없다</li>
+  <li>메론는 너무달다</li>
+</ul>
+```
+## 객체 만들기
+```html
+<ul>
+  {[
+  { fruit: '사과',   taste : '달다'}, 
+  { fruit: '바나나', taste : '맛있다' }, 
+  { fruit: '포도',   taste : '시다'}, 
+  { fruit: '귤',     taste : '시다'}, 
+  { fruit: '수박',   taste : '맛없다'}, 
+  { fruit: '메론',   taste : '너무달다'}, 
+  ].map( (v) => {
+    return (
+      <li><b>{v.fruit}</b>는 {v.taste}</li>
+    );
+   })}
+</ul>
+```
+```html
+<ul>
+  <li>사과는 달다</li>
+  <li>바나나는 맛있다</li>
+  <li>포도는 시다</li>
+  <li>귤는 시다</li>
+  <li>수박는 맛없다</li>
+  <li>메론는 너무달다</li>
+</ul>
+```
+
+## Key 에러
+![image](https://user-images.githubusercontent.com/101965836/162343588-31cbf255-5da2-471a-8e71-7e475828b108.png)  
+위 처럼 코드를 작성했으면 콘솔 창에 이렇게 떴을거다.    
+이거는 **Key** 라고 컴포넌트마다 고유한 값을 갖도록 해서 react가 나중에 성능 최적화를 할 수 있도록 하는 것이다.  
+그러면 key를 어떻게 설정해줘야 할까?
+
+### key 문법
+문법은 단순하다
+```JS
+return (
+      <li key={뭐뭐뭐}><b>{v.fruit}</b>는 {v.taste}</li>
+    );
+```
+라고 해주면 된다. 근데 여기서 **key는 고유한 값을 갖도록** 하는 게 까다롭다.  
+예를 들어 아래와 같이 **화살표 함수의 인자를 통해 index를** 얻을 수 있기도 하다. 
+```JS
+[ ... ].map( (v, i) => {
+return (
+      <li key={i}><b>{v.fruit}</b>는 {v.taste}</li>
+    );
+}
+```
+이렇게 하면 key=i가 key=0,key=1,key=2 ... 하는 식으로 계속 들어갈 수 있기는 하다.  
+하지만 배열의 요소들에 삭제, 추가, 수정이 일어나면 i로만 적어둔 값에 문제가 생긴다.  
+앞서 말했듯 **key는 고유한 값을 갖도록** 해야한다. 그런데 key={i]로 두면 아래와 같은 문제가 생길 수 있다.
+```JS
+// '바나나' 삭제 전
+v = [{ fruit: '사과',   taste : '달다'}, 
+     { fruit: '바나나', taste : '맛있다' }, 
+     { fruit: '포도',   taste : '시다'}
+    ]
+
+// '바나나' 삭제 후
+v = [{ fruit: '사과',   taste : '달다'}, 
+     { fruit: '포도',   taste : '시다'}
+    ]
+```
+자, 위를 보면 index가 1인 '바나나'를 삭제했다. 
+그러면 기존에 '포도'는 key가 2 였는데, '바나나'를 삭제하고 나니까 '포도'의 key가 1이 되어 버렸다.  
+이렇게 되면 **key는 고유한 값을 갖도록** 해야 한다는 성질에 문제가 생길 수 있다.  
+'포도'가 아니라 '바나나'라고 오해할 수 있기 때문이다.  
+  
+## 왜 이렇게 지독하게 "key는 고유한 값을 갖도록" 해야하나?
+key는 react가 각각 고유한 태그인지 구별할 수 있도록 하기위해 추가하는 것이다. react가 성능 최적화를 자체적으로 할 때 이 key 값을 보고 판단을 하는데, 저렇게 index로 key를 줘버리면 뭐가 바뀌고 뭐가 어떤지 알아차릴 수 없게 되기 때문이다.  
+> react에서 key를 기준으로 엘리먼트를 추가하거나 수정 삭제 판단하기 때문에 배열의 순서가 바뀌면 문제가 생긴다.  
+  
+## 그래서 key 어떻게 해야하냐?
+정답은 없다. 그냥 상황에 맞게 창의적으로, 적절히 고유한 값을 갖도록 설정해주면 된다.  
+```
+return (
+  <li key={v.fruit+v.taste}><b>{v.fruit}</b>는 {v.taste}</li>
+);
+```
+강의에서는 위와 같이 key를 설정했다.  
+  
+# 3-4. 컴포넌트 분리와 props
+현재 render() 부분 전체를 보자
+```js
+render() {
+  return (
+      <>
+          <h1>{this.state.result}</h1>
+          <form onSubmit={this.onSubmitForm}>
+              <input maxLength={4} value={this.state.value} onChange={this.onChangeInput} />
+          </form>
+          <div>시도: {this.state.tries.length}</div>
+          <ul>
+          {[
+              { fruit: '사과',   taste : '달다'}, 
+              { fruit: '바나나', taste : '맛있다' }, 
+              { fruit: '포도',   taste : '시다'}, 
+              { fruit: '귤',     taste : '시다'}, 
+              { fruit: '수박',   taste : '맛없다'}, 
+              { fruit: '메론',   taste : '너무달다'}
+              ].map( (v) => {
+                  return (
+                  <li><b>{v.fruit}</b>는 {v.taste}</li>
+                  );
+              })}
+          </ul>
+      </>
+  );
+}
+```
+보기싫게 코드가 길어진다. 이제 이 코드를 컴포넌트 분리로 다듬어 보자.  
+
+## 컴포넌트 따로 빼는 이유?
+1. 가독성 좋다
+2. 재사용성 좋다
+3. 성능 최적화 할 때 좋다
+
+## 1. 배열 위로 빼주기
+```JS
+fruits = [
+        { fruit: '사과',   taste : '달다'}, 
+        { fruit: '바나나', taste : '맛있다' }, 
+        { fruit: '포도',   taste : '시다'}, 
+        { fruit: '귤',     taste : '시다'}, 
+        { fruit: '수박',   taste : '맛없다'}, 
+        { fruit: '메론',   taste : '너무달다'}
+    ];
+    
+...
+
+{this.fruits.map( (v) => {
+    return (
+    <li key={v.fruit+v.taste}><b>{v.fruit}</b>는 {v.taste}</li>
+    );
+})}
+```
+강의에서는 위와 같이 fruits를 위에 생성해주고, this.fruits로 해줬다.  
+  
+## 2. return 태그 부분 다른 파일로 빼주기
+```JS
+return (
+  <li key={v.fruit+v.taste}>
+      <b>{v.fruit}</b>
+      <div>컨텐츠1</div>
+      <div>컨텐츠2</div>
+      <div>컨텐츠3</div>
+      <div>컨텐츠4</div>
+  </li>
+);
+```
+실무에서는 이런식으로 fruit 하나 아래에도 엄청 길게 코드가 뻗어나갈 수 있다.  
+따라서 컴포넌트를 다른 파일로 해서 빼주도록 하겠다.
+```JS
+import Try from './Try';
+
+...
+
+<ul>
+  {this.fruits.map( (v, i) => {
+    return (
+        <Try />
+    );
+  })}
+</ul>
+```
+근데 이렇게 하면, Try라고 다른 파일을 만들고 거기다가 태그를 빼준다고 치자.  
+그러면 Try 파일에다가는 어떻게 (v, i)를 전달해 줄 것인가? 라는 문제가 생긴다.
+![image](https://user-images.githubusercontent.com/101965836/162348932-119fd42b-478f-44b3-86a8-09fc46900e2e.png)   
+이렇게 " 'v'가 뭔데? " 라고 에러를 뱉어준다.  
+따라서 (v, i)를 전달해줄 방법이 필요하고, 그게 바로 <strong>props</strong>다
+```JS
+<ul>
+    {this.fruits.map( (v, i) => {
+        return (
+            <Try value={v} index={i} />
+        );
+    })}
+</ul>
+```
+그러고 나서 이제 Try.jsx 파일을 만들고 아래와 같이 코드를 적어준다.  
+```js
+import React, { Component } from 'react';
+
+class Try extends Component {
+    render() {
+        return (
+            <li>
+                <b>{this.props.value.fruit}</b> - {this.props.index}
+                <div>컨텐츠1</div>
+                <div>컨텐츠2</div>
+                <div>컨텐츠3</div>
+                <div>컨텐츠4</div>
+            </li>
+        )
+    }
+}
+
+export default Try;
+```
+
+이렇게하면 잘 동작하는 모습을 볼 수 있다.  
