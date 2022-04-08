@@ -1,3 +1,15 @@
+세팅 방법 정리
+```
+npm i react react-dom
+npm i -D webpack webpack-cli
+npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader
+npm i react-refresh @pmmmwh/react-refresh-webpack-plugin -D
+npm i -D webpack-dev-server
+npm install --save-dev html-webpack-plugin
+```
+
+---
+
 # 1. 리액트 기본 튜토리얼 + 구구단  
   
 리액트 쓰는 이유  
