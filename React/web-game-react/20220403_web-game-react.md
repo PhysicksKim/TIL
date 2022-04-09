@@ -1,4 +1,15 @@
-세팅 방법 정리
+# 세팅 방법 정리
+아래의 내용은 본 강좌에서 가위바위보게임 (RPSgame)을 만들 때 정리했음. 상세 코드 예시 부분들 모두 RPSgame에 따라서 제작한 코드임. 적절히 상황에 따라서 수정해서 사용.   
+  
+## 0. create-react-app
+```
+npx create-react-app (앱이름)
+cd my-app
+npm start
+```
+이 때 앱 이름은 소문자만 써야한다.  
+
+## 1. 기본 패키지들 설치
 ```
 npm i react react-dom
 npm i -D webpack webpack-cli
@@ -7,6 +18,121 @@ npm i react-refresh @pmmmwh/react-refresh-webpack-plugin -D
 npm i -D webpack-dev-server
 npm install --save-dev html-webpack-plugin
 ```
+## 2. create-react-app으로 생성된 불필요한 파일 삭제 및 필요한 파일 생성
+#### 2-1. src폴더 삭제
+#### 2-2. 프로젝트 디렉토리에 곧바로 아래 파일 생성
+```
+index.html
+(프로젝트구현).jsx 
+client.jsx
+webpack.config.js
+```
+![image](https://user-images.githubusercontent.com/101965836/162555318-15fd4a2e-f419-4323-bd94-97bd9e42f056.png)   
+(위 파일들 중에서 파일 이름이 강제되는건 webpack.config.js 밖에 없음. 나머지는 바꾸고 싶으면 알아서 설정 건드려서 바꿀 수 있음)  
+(1) index.html이 라우팅 되는 html 문서 파일.  
+(2) (프로젝트구현).jsx는 메인이 되는 프로젝트 컴포넌트가 구현되는 코드 파일. 파일명은 자기 프로젝트 이름에 맞게 알아서 설정. ex. RPSgame.jsx  
+(3) client.jsx는 (프로젝트구현).jsx 에서 만든 컴포넌트를 갖고오고, 또 html에서 root 부분 DOM을 갖고와서, HTML root DOM에다가 구현한 컴포넌트를 집어넣는(render) 역할을 하는 코드 파일.  
+(4) webpack.config.js는 webpack 설정을 위한 파일. 사실은 webpack 빌드 이후 최종적으로는 client.jsx가 html에다가 컴포넌트를 넣는게 아님. 아래에서 할 webpack 설정에 따라서, webpack이 지금까지 작성한 .js .jsx 파일들을 모아서 한방에 정리하고, 정리한 파일을 ./dist/app.js에 넣어서 app.js를 HTML이 실행시킴. 그러면 app.js가 root에서 dom 따와서 우리가 작성한 component를 넣어주는거임. 물론 핵심 코드들도 다 app.js에 한방에 들어가있음.  
+
+## 3. 각 파일 내용 작성
+#### 3-1 index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가위바위보</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="./dist/app.js"></script>
+</body>
+</html>
+```
+앞서 설명했듯, id="root"으로 해줘서 root을 만들어 놔야지 DOM을 얻어서 컴포넌트를 집어넣을 수 있음.  
+script src="./dist/app.js" 부분도 앞에서 말했듯 webpack이 한방에 js 파일들을 취합해서 만들어 주는 파일이 app.js가 되니까 app.js를 실행시키는 것임.   
+  
+#### 3-2 (프로젝트구현).jsx  ex.RPSgame.jsx
+```js
+import React, { Component } from 'react';
+
+class RPSgame extends Component{
+    render(){
+        return <h1>hello RPSgame</h1>
+    }
+}
+
+export default RPSgame;
+```
+
+#### 3-3 client.jsx
+```js
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import RPSgame from './RPSgame';
+
+const container = document.querySelector('#root');
+const root = createRoot(container);
+
+root.render(<RPSgame />);
+```
+
+#### 3-4 webpack.config.js
+```js
+const path = require('path');
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// 실서비스 : process.env.NODE_ENV = 'production'; 추가
+
+module.exports = {
+    name: 'rpsgame',
+    mode: 'development', // 실서비스 : production
+    devtool: 'eval', // 실서비스 : hidden-source-map
+    resolve: {
+        extensions: ['.js','.jsx'], 
+    },
+    entry: {
+        app: ['./client'],
+    }, 
+    module: {
+        rules: [{
+            test: /\.jsx?./, 
+            loader: 'babel-loader',
+            options:{
+                presets: ['@babel/preset-env', '@babel/preset-react'],
+                plugins: [
+                    'react-refresh/babel',
+                ]
+            },
+        }],
+    },
+
+    plugins:[
+        new RefreshWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'Hot Module Replacement',
+        }),
+    ],
+    
+    output: {
+        path: path.join(__dirname, 'dist'), 
+        filename: 'app.js',
+    },
+    devServer: {
+        devMiddleware: {
+            publicPath: '/dist', // webpack의 output 파일이 있는 경로
+        },
+        static: {
+            directory: path.resolve(__dirname), // index.html이 존재하는 경로
+        },
+        hot: true,
+    },
+};
+```
+
+핫 리로딩은 제대로 동작하지 않는 듯 한데 일단 지금은 차치해두자.  
 
 ---
 
@@ -1609,3 +1735,10 @@ return (
 ```
 이렇게 {} 안에다가 ()=>{...}로 함수를 만들고 이걸 다시 ( ()=>{...} )() 괄호로 묶은 다음 바로 () 넣어서 즉시 실행되도록 만들면 된다.  
 근데 이러면 너무 코드가 지저분해지니 그냥 기존 방식대로 따로 빼는게 좋다.  
+  
+---
+  
+  
+# 5 가위바위보 게임
+   
+# 5-1 리액트 라이프사이클 소개
