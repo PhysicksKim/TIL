@@ -1510,3 +1510,102 @@ render(){
 
 (이하 뇌피셜)
 사실 앞의 (1) (2)는 장기적으로 보면 크게 쓸모 없다고 생각한다. 더 복잡한 조건분기에는 따로 빼는게 적합하다고 생각한다. 따라서 장기적으로 보면 따로 빼는게 가독성도 좋고 재생산성부터 유지보수까지 편안해지는 방식으로 보인다.  
+
+
+# 4-2 setTimeout 넣어 반응속도 체크
+setTimeout으로 random초 뒤에 클릭 화면으로 바뀌도록 하면 된다. 화면 바뀌도록 하는것 자체는 어렵지 않다. setState를 setTimeout 안에 넣어주면 되니까. 근데 여기서 만약 화면이 바뀌기 전에 클릭했다면, 이미 큐에 들어간 setTimeout을 없애줘야 하지 않겠는가. 여기서 clearTimeout 이라는 메소드를 사용한다. 
+```js
+timeout;
+
+onClickScreen = () => 
+  if ( 대기 ) {
+    this.timeout = setTimeout( () => { setState({...})});
+  } else if ( 성급하게 누름 ) {
+    clearTimeout(this.timeout);
+  } else if ( ... ) { ... }
+}
+```
+이런식으로 구성이 된다.
+
+# 4-4 Hooks로 전환
+거의 다 같은데, 앞서 본 timeout이랑 startTime endTime 부분이 조금 달라진다.  
+## Class에서는 이렇게 했었다
+```js
+timeout;
+startTime;
+endTime;
+
+onClickScreen = () => 
+  if ( 대기 ) {
+    this.timeout = setTimeout( () => { 
+      setState({...});
+      this.startTime = new Date();
+      }, 2~3초 랜덤 )
+    );
+  } else if ( 성급하게 누름 ) {
+    clearTimeout(this.timeout);
+    ...
+  } else if ( 제대로 누름 ) { 
+    this.endTime = new Date();
+    ... 
+    
+    setState( (prevState) => { return(
+      ...
+      Result : [...prevState, endTime - startTime];
+      ...
+      );
+    });
+  }
+}
+
+...
+```
+
+## Hooks에서는 이렇게 해야 한다
+```js
+// timeout;
+// startTime;
+// endTime;
+
+const timeout = useRef(null);
+const startTime = useRef();
+const endTime = useRef();
+
+const onClickScreen = () => {
+  if ( 대기 ) {
+    timeout.current = setTimeout( () => { 
+      ...
+      startTime.current = new Date();
+      }, 2~3초 랜덤 )
+    );
+  } else if ( 성급하게 누름 ) {
+    clearTimeout(timeout.current);
+    ...
+  } else if ( 제대로 누름 ) { 
+    endTime.current = new Date();
+    ...
+    setResult((prevState) => { return [...prevState, endTime.current - startTime.current]} ); 
+  }
+};
+```
+일단 ref로 안하고 state로 해버리면, state는 값이 바뀌면 랜더링이 다시 되기 때문에 적절하지 못하다.   
+useRef는 이전에 DOM요소를 갖고와서 바꿀 때 사용했었는데, 또 다른 사용법으로 값이 바뀌기는 하지만 render를 시키고 싶지는 않을 때 사용한다.  
+
+# 4-5 return 내부에 for과 if 쓰기
+앞서 이야기 했듯, return 안에 if와 for문을 못 쓴다. 하지만 어거지로 쓸 수 있기는 하다.  
+```
+return ( 
+  {(() => {
+    if (result.length === 0) {
+      return null;
+    } else {
+      return <>
+          <div>평균 시간: {result.reduce((a,c) => a + c) / result.length}ms</div>
+          <button onClick={reset}>리셋</button>
+        </>
+    }
+  })()}
+);
+```
+이렇게 {} 안에다가 ()=>{...}로 함수를 만들고 이걸 다시 ( ()=>{...} )() 괄호로 묶은 다음 바로 () 넣어서 즉시 실행되도록 만들면 된다.  
+근데 이러면 너무 코드가 지저분해지니 그냥 기존 방식대로 따로 빼는게 좋다.  
