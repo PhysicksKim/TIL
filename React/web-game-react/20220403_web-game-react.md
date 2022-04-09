@@ -1834,3 +1834,74 @@ componentDidMount() {  // 컴포넌트가 첫 렌더링 된 후, 여기에 비�
   }, 1000);
 }
 ``` 
+
+# 5-4 고차 함수와 QNA
+
+```
+onClickBtn = (choice) => { 
+  ...
+};
+
+...
+
+<div>
+    <button id="rock" className='btn' onClick={()=>this.onClickBtn('바위')}>바위</button>
+    <button id="scissor" className='btn' onClick={()=>this.onClickBtn('가위')}>가위</button>
+    <button id="paper" className='btn' onClick={()=>this.onClickBtn('보')}>보</button>
+</div>
+```
+여기서 보면  onClick={()=>this.onClickBtn('바위')} 이 부분에서 앞에 ()=> 를 위로 뺄 수 있다.
+
+```js
+onClickBtn = (choice) => ()=> { 
+  ...
+};
+ 
+...
+ 
+<div>
+    <button id="rock" className='btn' onClick={this.onClickBtn('바위')}>바위</button>
+    <button id="scissor" className='btn' onClick={this.onClickBtn('가위')}>가위</button>
+    <button id="paper" className='btn' onClick={this.onClickBtn('보')}>보</button>
+</div>
+```
+이렇게 할 수 있으며 고위함수, 고차함수 라고 한다.  
+
+# 5-5 Hooks와 useEffect
+```
+useEffect( () => { 
+// componentDidMount, componentDidUpdate 역할 (1대1 대응은 아님) 둘을 하나로 합쳐둠
+    interval.current = setInterval(changeHand,100);
+
+    return () => { 
+        // componentWillUnmount 역할 
+        clearInterval(interval.current);
+    }
+}, 
+[imgCoord] // 얘가 그 클로저 문제 생겨서 멈췄을때 그거를 해결하는 역할
+);
+```
+
+useEffect가 useEffect( callback, [] ) 형태로 구성되는데 첫 번째 callback 함수 집어넣는건 위의 주석으로 설명을 했다. 그런데 두 번째 [] 이부분이 좀 어렵다.  
+
+(이하 내가 이해한대로 설명하는 뇌피셜)
+자. useEffect( callback, [] ) 얘는 [] 안에 들어있는 애가 바뀔 때 마다 실행되는거다.   
+(위 코드에서는 imgCoord 값이 바뀔 때 마다 useEffect에 넣은 callback 함수가 실행되는 것이다)   
+[]를 빈칸으로 둘때는 setInterval이랑 clearInterval이 최초 랜더링 될 때 한번만 실행된다.   
+그래서 changeHand가 딱 한번 실행되고 끝난다.  
+그런데 \[imgCoord]로 두면 imgCoord 값을 주시하면서 imgCoord 값이 바뀌면 useEffect를 다시 실행한다.  
+그런식으로 setInterval이 됐다가 clearInterval이 됐다가 이걸 계속 반복하게 된다.    
+  
+  
+조금 이상해 보일 수 있는데.   
+class로 할 때는 componentDidMount에다가 setInterval을 넣어서, 첫 랜더링 된 후 한번만 setInterval한다.  
+그리고 컴포넌트가 제거되기 직전에 componentWillUnmount에다가 clearInterval로 제거한다.   
+근데 hooks에서는 이걸 imgCoord가 제거될 때마다 계속 반복한다. 조금 기이한 모습이긴 하다.  
+  
+
+# 5-6 class와 hooks 라이프사이클 비교  
+ 
+class에서 component~~ 하는 애들은 한번만 쓸 수 있고,  
+hooks의 useEffect는 여러번 쓸 수 있다.  
+class에서는 componentWillUnmount 하나에다가 조건문으로 왕창 때려박고 한곳에서 처리해야한다.  
+그런데 hooks의 useEffect는 여러 개를 쓸 수 있고, 원하는 값에 따라서 update 하도록 넣을 수 있다.  
