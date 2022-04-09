@@ -1742,3 +1742,95 @@ return (
 # 5 가위바위보 게임
    
 # 5-1 리액트 라이프사이클 소개
+컴포넌트가 클라이언트.jsx에 불러와서 랜더링되고 DOM에 갖다 붙는 순간이 있는데, 그 때 특정한 동작을 하도록 할 수 있다.   
+componentDidMount() { }   
+랜더가 처음 실행되고 성공적으로 실행 됐다면 저게 실행된다. 그 다음부터 setState같은거로 rerender가 실행되면 componentDidMount가 실행되지 않는다.   
+마찬가지로 컴포넌트가 제거되는 경우에는 
+componentWillUnmount 가 실행된다.  
+```js
+componentDidMount() {  // 컴포넌트가 첫 렌더링 된 후
+  ...
+}
+componentDidUpdate() {  // 리렌더링 후
+  ...
+}
+componentWillUnmount() {  // 컴포넌트가 제거되기 직전
+  ...
+}
+
+// 라이프사이클 
+// 클래스경우
+// constructor -> render -> ref -> componentDidMount
+// -> (setState/props 바뀔 때 -> shouldComponentUpdate -> render -> componentDidUpdate)
+// 부모가 나를 없앴을 때 -> componentWillUnmount -> 소멸
+```
+
+## 갑자기 이게 왜? 
+다음 강의에서 그 이유가 나온다.
+  
+  
+# 5-2 setInterval과 라이프사이클 연동하기
+```js
+// interval;
+    
+    componentDidMount() {  // 컴포넌트가 첫 렌더링 된 후, 여기에 비동기 요청을 많이 함
+        // ex. this.interval = setInterval( () => {} ) 했으면 나중에 필요 없을 때 이걸 없애줘야함
+    }
+
+    componentDidUpdate() {  // 리렌더링 후
+
+    }
+
+    componentWillUnmount() {  // 컴포넌트가 제거되기 직전, 비동기 요청 정리를 많이 함
+        // clearInterval(this.interval);
+    }
+```
+이렇게 Interval 만들었으면 필요 없어졌을 때 없애줘야함. 계속 남아있으면 메모리 누수 문제가 발생하기 때문임.  
+
+## 클로저 문제
+```js
+interval;
+
+componentDidMount() {  // 컴포넌트가 첫 렌더링 된 후, 여기에 비동기 요청을 많이 함
+  const {imgCoord} = this.state;
+  this.interval = setInterval( () => {
+    if (imgCoord === rspCoords.바위){
+        this.setState({
+            imgCoord: rspCoords.가위,
+        });
+    } else if (imgCoord === rspCoords.가위){
+        this.setState({
+            imgCoord: rspCoords.보,
+        });
+    } else if ( imgCoord === rspCoords.보){
+        this.setState({
+            imgCoord: rspCoords.바위,
+        });
+    }
+  }, 1000);
+}
+```
+이렇게 하면 imgCoord는 -142px로 계속 반복된다. 왜냐하면 비동기의 클로저 문제 때문이다.  
+
+```js
+interval;
+
+componentDidMount() {  // 컴포넌트가 첫 렌더링 된 후, 여기에 비동기 요청을 많이 함
+  this.interval = setInterval( () => {
+    const {imgCoord} = this.state;    // 여기를 바꿔줘야 한다
+    if (imgCoord === rspCoords.바위){
+        this.setState({
+            imgCoord: rspCoords.가위,
+        });
+    } else if (imgCoord === rspCoords.가위){
+        this.setState({
+            imgCoord: rspCoords.보,
+        });
+    } else if ( imgCoord === rspCoords.보){
+        this.setState({
+            imgCoord: rspCoords.바위,
+        });
+    }
+  }, 1000);
+}
+``` 
