@@ -1898,6 +1898,7 @@ class로 할 때는 componentDidMount에다가 setInterval을 넣어서, 첫 랜
 그리고 컴포넌트가 제거되기 직전에 componentWillUnmount에다가 clearInterval로 제거한다.   
 근데 hooks에서는 이걸 imgCoord가 제거될 때마다 계속 반복한다. 조금 기이한 모습이긴 하다.  
   
+  
 
 # 5-6 class와 hooks 라이프사이클 비교  
  
@@ -1905,3 +1906,131 @@ class에서 component~~ 하는 애들은 한번만 쓸 수 있고,
 hooks의 useEffect는 여러번 쓸 수 있다.  
 class에서는 componentWillUnmount 하나에다가 조건문으로 왕창 때려박고 한곳에서 처리해야한다.  
 그런데 hooks의 useEffect는 여러 개를 쓸 수 있고, 원하는 값에 따라서 update 하도록 넣을 수 있다.  
+
+
+
+
+---
+
+# 6. 로또 당첨 만들기
+
+# 6-2. setTimeout 여러 번 사용하기
+```js
+for (let i = 0; i < winNumbers.length - 1; i++) { 
+    // 여기서 let을 쓰면 i에 클로저 문제가 발생하지 않는다.
+    timeouts.current[i] = setTimeout(() => {
+        setWinBalls( (prevWinBalls) => [...prevWinBalls, winNumbers[i]])
+    }, (i+1)*1000);
+}
+```
+let을 쓰면 클로저 문제 발생하지 않음
+
+# 6-5 useMemo와 useCallback
+## useMemo
+성능 최적화를 위해 useMemo를 사용한다. 
+```js
+const Lotto = () => {
+  const [winNumbers, setWinNumbers] = useState(getWinNumbers());
+  ...
+```
+![image](https://user-images.githubusercontent.com/101965836/162599075-e2243a8c-6ed2-4ab9-9e63-b93ee7f87be6.png)  
+이렇게 하면, 랜더링 될 때마다 Lotto가 계속 재실행 되니까, getWinNumbers()도 계속 재실행 된다. 위의 스크린샷에서 볼 수 있듯, getwinnumbers가 불필요하게 여러번 실행(7번)된것을 볼 수 있다)  
+  
+  
+따라서 성능 최적화를 위해 useMemo를 여기에 활용했다.  
+[useMemo에 대한 설명 참고한 글](https://velog.io/@kysung95/%EC%A7%A4%EB%A7%89%EA%B8%80-useMemo)  
+방식은 간단하다. 
+```js
+const 변수 = useMemo( callback, \[값들] );
+```
+useMemo가 함수의 return값을 기억하고 있으며, 뒤에 \[값들]이 바뀌기 전까지는 callback 함수는 재 실행되지 않는다. 또한 callback 함수의 return값은 '변수'에 저장된다.  
+
+만약 빈 \[]로 놔두면 최초 한번만 실행되고 끝.  
+
+## useCallback
+마찬가지로 useMemo와 같이 성능 최적화를 위해 사용한다. 다만 useMemo는 안에 있는 함수의 return 값을 기억했다면, useCallback은 함수를 기억한다.  
+예를 들어 const myfunction = useCallback( 함수 , \[값] ) 이라고 코드를 적었다 치자.  
+그러면 계속 re-rendering 되어서 hooks 안이 계속 재선언 재선언 되면, 안에 있는 함수가 계속 새로 선언되는 문제가 발생한다. 여기서 만약 함수 선언에만 몇 초씩 걸리는 무거운 선언문이라면? 성능 문제가 발생하게 된다.  
+따라서 이를 막기 위해서 useCallback으로 함수가 계속 재선언 되는것을 막을 수 있다. 함수 자체를 useCallback이 기억해두게 된다.  
+
+### 함수마다 useCallback을 쓰면 이득? 
+useCallback으로 감싸더라도 어지간한 함수는 다 정상 작동한다. 따라서 제대로 쓸 수 있으면 최대한 써주는게 좋을 수 있다.   
+  
+  
+그런데 사용시 변하는 값을 적절히 추적할 수 있도록 주의해야한다.  
+useCallback 안에서 state가 쓰이면, 바뀐 state 값을 출력하는게 아니라 처음에 값을 그대로 갖고 있게 된다.  
+예를 들어보자.  
+1초마다 number라는 state는 1씩 증가한다. 그런데 아래와 같이
+```js
+const [number, setNumber] = useState('1');
+
+...
+
+const showNumber = useCallback( () => {
+  console.log(number);
+}, [] );
+```
+이런식으로 짜여있으면 어떻게 될까?    
+흔히 하는 오해대로 생각하면,  
+" 음. number라는 변수(state)에 가서 값을 가져와서 console.log에 출력하니까 number가 증가하면 그에 맞춰서 state에서 값을 가져와서 출력하겠지? "  
+라고 생각할 수 있다.  
+하지만 이 때 number는 처음에 useCallback에 저장된 '1'을 갖고 계속 출력하게 된다.  
+이는 참조형인 배열에서도 같은 문제가 발생한다. (강의 6-5 참고)    
+    
+   
+따라서 이를 해결하기위해, 안에 state같은 변할만한 값이 들어가면 \[]안에다가 넣어줘야한다. 위의 예시의 경우 \[number]라고 넣어줘야 제대로 동작할 것이다.  
+  
+## 자식 component에다가 props에 함수를 넘길때 useCallback을 써야 한다  
+말이 쫌 어렵다 차근히 설명해보자.  
+#### (1) '자식 component에다가'
+```js
+const Lotto = () => {
+  ...
+  return (
+      <>
+          <div>당첨 숫자</div>
+          <div id="결과창">
+              {winBalls.map( (v) => <Ball key={v} number={v} />)}
+          </div>
+          <div>보너스!</div>
+          {bonus && <Ball number={bonus} />}
+          {redo && <button onClick={onClickRedo}>한 번 더!</button>}
+      </>
+  );
+}
+```
+이렇게 되면
+Lotto가 부모 component, Ball이 자식 component가 될것이다.   
+   
+#### (2) props에 함수를 넘길때
+```js
+const onClickRedo = () => { ... };
+
+...
+
+{bonus && <Ball number={bonus} onClick={onClickRedo}/>}
+```
+이런식으로 부모가 선언한 함수를 props로 자식에게 넘길 때를 말한다
+   
+#### (3) useCallback을 써야 한다.  
+```js
+const onClickRedo = useCallback( () => { ... }, []);
+
+...
+
+{bonus && <Ball number={bonus} onClick={onClickRedo}/>}
+```
+만약 useCallback을 안쓴다면, 부모 컴포넌트의 랜더링이 새로 일어날 때마다 함수도 새로 선언 된다. 이렇게 되면 자식 컴포넌트는 "어? 새로운 함수가 선언됐네? 다시 랜더링 해야겠다"라고 생각하고 계속 re-rendering 하게된다. 따라서 불필요하게 자식 컴포넌트가 re-rendering 되지 않도록, props로 넘길 함수에다가 useCallback을 써줘야 한다. 그래야지 "아 props로 넘어온 함수 그대로네. re-rendering 할 필요 없겠다" 라고 자식 컴포넌트가 적절히 처리할 수 있다.    
+
+
+# 6-6 Hooks에 대한 자잘한 조언들
+
+## 1. hooks에서 state 선언하는 useState는 조건문, 함수, 반복문 안에 넣으면 절대로 안된다. 
+실행 될 수도 있고, 안될 수 있고, 실행 순서도 바뀔 수 있는 상황을 만들면 안된다.  
+반복문이나 함수 안에다가 넣어도 되긴한다. hooks 순서가 확실히 정해진 경우에는 반복문이나 함수 안에 넣어도 되기는 하는데, 웬만하면 그냥 최상위에다가 useState 선언해주는게 좋다.  
+
+## 2. useMemo, useCallback 잘 쓰자
+useMemo와 useCallback으로 성능 최적화 잘 해야 고급으로 나아갈 수 있다.  
+  
+## 3. useEffect 잘 배우자
+useEffect는 여러 번 쓸 수 있다. 이를 잘 활용해서 componentDidMount DidUpdate WillUnmount 를 useEffect로 잘 구현하면 된다.  
