@@ -2056,3 +2056,6 @@ state가 많아지면 줄여야 하지 않겠는가? 그게 바로 useReducer다
 # 7-5 테이블 최적화하기
 useEffect랑 useRef로 뭐 때문에 re-rendering 되는지 파악해볼 수 있다. (강의 7-5 3:30)  
 
+
+# Ch7에서 주요한 내용은 useReducer
+redux와 비슷한 기능을 하는 useReducer가 ch7에서 핵심이다. useReducer가 필요한 이유, 어떻게 해결했는지, 어떻게 동작하는지 등에 대해 강의내용이 좀 부실해서 별도로 정리해야겠다.  
