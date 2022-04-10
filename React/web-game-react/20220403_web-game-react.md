@@ -2,13 +2,13 @@
 아래의 내용은 본 강좌에서 가위바위보게임 (RPSgame)을 만들 때 정리했음. 상세 코드 예시 부분들 모두 RPSgame에 따라서 제작한 코드임. 적절히 상황에 따라서 수정해서 사용.   
   
 ## 0. create-react-app
-```
+```  
 npx create-react-app (앱이름)
 cd my-app
 npm start
-```
-이 때 앱 이름은 소문자만 써야한다.  
-
+```  
+이 때 앱 이름은 소문자만 써야한다.   
+  
 ## 1. 기본 패키지들 설치
 ```
 npm i react react-dom
@@ -16,10 +16,11 @@ npm i -D webpack webpack-cli
 npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader
 npm i react-refresh @pmmmwh/react-refresh-webpack-plugin -D
 npm i -D webpack-dev-server
-npm install --save-dev html-webpack-plugin
+npm install --save-dev html-webpack-plugin  
 ```
+  
 ## 2. create-react-app으로 생성된 불필요한 파일 삭제 및 필요한 파일 생성
-#### 2-1. src폴더 삭제
+#### 2-1. src, public폴더 삭제
 #### 2-2. 프로젝트 디렉토리에 곧바로 아래 파일 생성
 ```
 index.html
@@ -132,6 +133,15 @@ module.exports = {
 };
 ```
 
+#### 3-5 package.json 파일 수정
+```json
+"scripts": {
+  "dev":"webpack serve --env development",
+  
+  
+  }
+```  
+  
 핫 리로딩은 제대로 동작하지 않는 듯 한데 일단 지금은 차치해두자.  
 
 ---
@@ -2034,3 +2044,15 @@ useMemo와 useCallback으로 성능 최적화 잘 해야 고급으로 나아갈 
   
 ## 3. useEffect 잘 배우자
 useEffect는 여러 번 쓸 수 있다. 이를 잘 활용해서 componentDidMount DidUpdate WillUnmount 를 useEffect로 잘 구현하면 된다.  
+
+
+---
+
+# 7 틱택토
+# 7-1 틱택토와 useReducer 소개
+state가 많아지면 줄여야 하지 않겠는가? 그게 바로 useReducer다.  
+이게 좀 Redux의 방식과 같다. 그래서 오히려 Redux에 대한 설명을 보면 이해할 수 있다. [Redux 설명 영상](https://www.youtube.com/watch?v=QZcYz2NrDIs)    
+
+# 7-5 테이블 최적화하기
+useEffect랑 useRef로 뭐 때문에 re-rendering 되는지 파악해볼 수 있다. (강의 7-5 3:30)  
+
