@@ -4,10 +4,10 @@
 ## 0. create-react-app
 ```  
 npx create-react-app (앱이름)
-cd my-app
+cd (앱이름)
 npm start
 ```  
-이 때 앱 이름은 소문자만 써야한다.   
+앱 이름은 소문자만 써야한다.   
   
 ## 1. 기본 패키지들 설치
 ```
@@ -16,7 +16,8 @@ npm i -D webpack webpack-cli
 npm i -D @babel/core @babel/preset-env @babel/preset-react babel-loader
 npm i react-refresh @pmmmwh/react-refresh-webpack-plugin -D
 npm i -D webpack-dev-server
-npm install --save-dev html-webpack-plugin  
+npm i -D html-webpack-plugin  
+  
 ```
   
 ## 2. create-react-app으로 생성된 불필요한 파일 삭제 및 필요한 파일 생성
@@ -54,7 +55,8 @@ webpack.config.js
 앞서 설명했듯, id="root"으로 해줘서 root을 만들어 놔야지 DOM을 얻어서 컴포넌트를 집어넣을 수 있음.  
 script src="./dist/app.js" 부분도 앞에서 말했듯 webpack이 한방에 js 파일들을 취합해서 만들어 주는 파일이 app.js가 되니까 app.js를 실행시키는 것임.   
   
-#### 3-2 (프로젝트구현).jsx  ex.RPSgame.jsx
+#### 3-2 (프로젝트구현).jsx  
+> ex. RPSgame.jsx
 ```js
 import React, { Component } from 'react';
 
@@ -143,6 +145,24 @@ module.exports = {
 ```  
   
 핫 리로딩은 제대로 동작하지 않는 듯 한데 일단 지금은 차치해두자.  
+
+
+
+## 4. 실행
+콘솔창 열고, 패키지 메인 디렉토리에서
+```
+npm run dev
+```
+
+#### 예시
+> ```
+> MINGW64 /g/MyHistory/Learning/inflearn/web-game-react/rpsgame (main)
+> $ npm run dev 
+>
+> > rpsgame@0.1.0 dev
+> > webpack serve --env development
+> ```
+
 
 ---
 
@@ -2059,3 +2079,95 @@ useEffect랑 useRef로 뭐 때문에 re-rendering 되는지 파악해볼 수 있
 
 # Ch7에서 주요한 내용은 useReducer
 redux와 비슷한 기능을 하는 useReducer가 ch7에서 핵심이다. useReducer가 필요한 이유, 어떻게 해결했는지, 어떻게 동작하는지 등에 대해 강의내용이 좀 부실해서 별도로 정리해야겠다.  
+
+
+Redux와 useReducer의 차이는 Redux는 동기적으로 state가 바뀌는데 useReducer는 비동기적으로 바뀐다.  
+
+---
+
+# 8 지뢰찾기
+# 8-1 Context API 소개와 지뢰찾기
+이전에 틱택토에서는 계속 dispatch를 물려줘야 했기 때문에 불편했었다. 이 부분을 Context API를 사용해서 해결한다.  
+  
+```
+MineSearch.jsx  
+├ Form.jsx
+└ Table.jsx 
+  └ Tr.jsx 
+    └ Td.jsx
+```
+
+# 8-2 createContext와 Provider
+
+앞서 reducer를 생각해보자. state를 조작하기 위해서는 dispatch에다가 미리 작성된 명령 이름을 보내서 동작시켜야 했다. 예를 들어 state중 number를 1 증가시키기 위해서는, 미리 NUM_INCREASE라는 이름으로 number를 1증가시키는 부분을 만들어 둔다. 그 다음 dispatch에다가 type을 NUM_INCREASE 라고 적어 넣으면, reducer의 어쩌고저쩌고가 동작해서 numb을 1 증가시키는 작업을 했다.   
+그러나 이러한 reducer의 단점은, dispatch라는 명령 배달부를 props로 계속 넘겼어야 한다는 점이다. 이는 부모에서 선언된 reducer를 그냥 바로 아래 자식까지 내리기는 쉽지만, 자식의 자식의 자식의 자식의... 로 좀 많이 내려가면 문제가 발생한다. 이렇게 연달아서 props로 넘기면, props가 지저분해져서 코딩 가독성이 떨어지고, 코드 유지보수까지 어려워 진다.   
+이걸 ContextAPI라는 것을 사용해 해결한다.  
+방법은 아래와 같다. 먼저 useReducer로 dispatch가 선언되는 부모 컴포넌트로 간다. 그 다음 export const myContext =  createContext({ (dispatch랑 그 외에 넘겨줄 데이터들 })로 선언한다. 그러고 return 할 때 자식 컴포넌트들을 \<myContext> 태그로 감싼다. createContext로 넘겨준 것들(dispatch랑 데이터들)을 쓰고싶은 자식 컴포넌트들은 myContext를 import 하고 useContext(myContext)하고 구조분해로 const { dispatch} 같은 식으로 받아서 쓰면 된다.   
+
+
+### 예시
+
+#### reducer 만든 부모 컴포넌트
+```js
+// MineSearch.jsx
+import { createContext } from 'react';
+
+export const TableContext = createContext({
+    tableData: [],
+    dispatch: () => {},
+});
+
+const initialState = {
+    tableData: [],
+    timer: 0,
+    result: '',
+};
+
+const reducer = (state, action) => {
+    switch (action.type){
+        default:
+            return state;
+    }
+};
+
+...
+
+return (
+        <TableContext.Provider value={{ tableData: state.tableData, dispatch }}> 
+          ...
+        </TableContext.Provider>
+    );
+```
+이렇게 TableContext.Provider 태그를 쓰고 value에다가 값을 넣어주면, \<TableContext>안에 포함된 자식 컴포넌트들은 모두 tableData와 dispatch를 쓸 수 있게 된다.   
+  
+ 
+#### Context로 받을 자식 컴포넌트
+```js
+import { TableContext } from './MineSearch';
+
+...
+
+  const { dispatch } = useContext(TableContext);
+  
+```  
+  
+## 성능 최적화 문제
+앞서 return문을 보자. 
+```js
+<TableContext.Provider value={{ tableData: state.tableData, dispatch }}>
+```
+이렇게 쓰면 문제점이, 부모 컴포넌트가 re-rendering될때마다 value의 객체들도 다 다시 새로 생성되게 된다.  
+객체가 새로 생기면, context API를 쓰는 자식들도 다 새로 re-rendering 되어버린다. 이러면 성능 문제가 발생한다.  
+  
+따라서 아래처럼 usememo를 써서 최적화를 해줘야 한다. 그리고 dispatch는 한번 생성되면 바뀔일이 없기 때문에 dispatch는 바뀌는 목록에 추가할 필요가 없다.  
+
+```js
+const value = useMemo(() => ({ tableData: state.tableData, dispatch}), [state.tableData])
+
+return (
+    <TableContext.Provider value={value}> 
+    ...
+)
+```
+
+
