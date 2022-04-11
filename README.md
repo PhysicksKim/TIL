@@ -35,6 +35,6 @@
 ✔ How to make Card Slider in HTML CSS & JavaScript | Owl Carousel (2022-04-05) [강의로 이동](https://www.youtube.com/watch?v=BKKcGb80MOs)   
 ✔ Password Show or Hide Toggle using HTML CSS & JavaScript | CodingLab (2022-04-06) [강의로 이동](https://www.youtube.com/watch?v=aIff0nalld0)    
 
-## Inflearn - react
-⌛ 웹 게임을 만들며 배우는 React (2022-04-03 ~ ) [강의로 이동](https://www.inflearn.com/course/web-game-react)  
-
+## Inflearn 
+✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11) [강의로 이동](https://www.inflearn.com/course/web-game-react)  
+✔ 반드시 알고 넘어가야 할 웹 기술 기초편 (2022-04-09 ~ 2022-04-11) [강의로 이동](https://www.inflearn.com/course/%EC%9B%B9-%EA%B8%B0%EC%88%A0-%EA%B8%B0%EC%B4%88)   
