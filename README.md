@@ -20,6 +20,8 @@
 ✔ GIT2 - CLI 버전관리 (2022-04-04)  
 ✔ GIT3 - 백업 (2022-04-04)  
   
+✔ NPM1 (2022-04-12) [강의로 이동](https://opentutorials.org/module/4044)    
+✔ Webpack (2022-04-12) [강의로 이동](https://opentutorials.org/module/4566)         
   
 ## 책
 
@@ -39,8 +41,6 @@
 ✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11) [강의로 이동](https://www.inflearn.com/course/web-game-react)  
 ✔ 반드시 알고 넘어가야 할 웹 기술 기초편 (2022-04-09 ~ 2022-04-11) [강의로 이동](https://www.inflearn.com/course/%EC%9B%B9-%EA%B8%B0%EC%88%A0-%EA%B8%B0%EC%B4%88)   
   
-  
-## 생활코딩
 
-✔ NPM1 (2022-04-12) [강의로 이동](https://opentutorials.org/module/4044)   <br>   
-✔ Webpack (2022-04-12) [강의로 이동](https://opentutorials.org/module/4566)     <br>   
+## etc
+✔ React Styled Components - Codevolution (2022-04-12) [강의로 이동](https://www.youtube.com/playlist?list=PLC3y8-rFHvwgu-G08-7ovbN9EyhF_cltM)  
