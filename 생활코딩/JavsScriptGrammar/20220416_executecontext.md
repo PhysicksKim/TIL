@@ -1,6 +1,6 @@
 # Execute Context
 자바스크립트 코드가 실행되는 원리인 execute context에 대한 수업.  
-
+[강의로 이동](https://www.youtube.com/watch?v=QtOF0uMBy7k)
 
 # 강의에 사용되는 예제 코드
 [링크](http://bit.ly/js-execute-context)  
