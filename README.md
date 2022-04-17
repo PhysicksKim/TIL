@@ -12,7 +12,13 @@
 <area>✔ WEB2 - Node.js (2022-03-22 ~ 2022-03-24)</area>    
 <area>⌛ WEB2 - Node.js 다시 듣기 (2022-04-14 ~ )</area>    
 <area>✔ WEB2 - Node.js - MySQL (2022-03-28 ~ 2022-03-29)</area>  
-  
+
+<area>✔ JavaScript - callback function (2022-04-16)</area>  
+<area>✔ JavaScript - closure (2022-04-16)</area>  
+<area>✔ JavaScript - Execute context (2022-04-16)</area>  
+<area>✔ JavaScript - var VS let VS const (2022-04-16)</area>  
+<area>✔ JavaScript - Promise 1,2 (2022-04-16)</area>  
+   
 <area>✔ DATABASE1 (2022-03-25)</area>  
 <area>✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)</area>  
   
