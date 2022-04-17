@@ -18,6 +18,7 @@
 <area>✔ JavaScript - Execute context (2022-04-16)</area>  
 <area>✔ JavaScript - var VS let VS const (2022-04-16)</area>  
 <area>✔ JavaScript - Promise 1,2 (2022-04-16)</area>  
+<area>✔ JavaScript Promise All | Race (2022-04-18)</area>  
    
 <area>✔ DATABASE1 (2022-03-25)</area>  
 <area>✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)</area>  
