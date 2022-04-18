@@ -1,5 +1,5 @@
 # 배운 것들 
-[시간순 정렬로 이동](https://github.com/PhysicksKim/TIL/blob/main/README_sequential.md)
+[TIL 캘린더로 보기](https://physickskim.github.io/TIL-Calendar/)  
 
 ## 생활코딩
 
