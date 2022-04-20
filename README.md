@@ -3,8 +3,7 @@
 
 ## 생활코딩
 
-<area>✔ HTTP (2022-03-27)</area>  
-<area>✔ REST API (2022-04-20)</area> [강의로 이동](https://www.youtube.com/watch?v=PmY3dWcCxXI)
+<area>✔ HTTP (2022-03-27)</area>
 
 <area>✔ WEB1 - HTML & Internet (2022-03-19)</area>    
 <area>✔ WEB2 - CSS (2022-03-19 ~ 2022-03-20)</area>   
@@ -54,3 +53,4 @@
 
 ## etc
 <area>✔ React Styled Components - Codevolution (2022-04-12)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLC3y8-rFHvwgu-G08-7ovbN9EyhF_cltM)  
+<area>✔ 그런 REST API로 괜찮은가 (2022-04-20)</area> [강의로 이동](https://www.youtube.com/watch?v=RP_f5dMoHFc)
