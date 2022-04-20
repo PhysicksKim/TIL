@@ -4,6 +4,7 @@
 ## 생활코딩
 
 <area>✔ HTTP (2022-03-27)</area>  
+<area>✔ REST API (2022-04-20)</area> [강의로 이동](https://www.youtube.com/watch?v=PmY3dWcCxXI)
 
 <area>✔ WEB1 - HTML & Internet (2022-03-19)</area>    
 <area>✔ WEB2 - CSS (2022-03-19 ~ 2022-03-20)</area>   
