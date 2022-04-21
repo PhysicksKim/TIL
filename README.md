@@ -32,7 +32,7 @@
 <area>✔ NPM1 (2022-04-12)</area> [강의로 이동](https://opentutorials.org/module/4044)    
 <area>✔ Webpack (2022-04-12)</area> [강의로 이동](https://opentutorials.org/module/4566)         
   
-<area>✔ JAVA1 (2022-04-21 ~)</area> [강의로 이동](https://opentutorials.org/module/4294)
+<area>✔ JAVA1 (2022-04-21)</area> [강의로 이동](https://opentutorials.org/module/4294)
   
 ## 책
 
