@@ -32,6 +32,8 @@
 <area>✔ NPM1 (2022-04-12)</area> [강의로 이동](https://opentutorials.org/module/4044)    
 <area>✔ Webpack (2022-04-12)</area> [강의로 이동](https://opentutorials.org/module/4566)         
   
+<area>✔ JAVA1 (2022-04-21 ~)</area> [강의로 이동](https://opentutorials.org/module/4294)
+  
 ## 책
 
 <area>✔ Do it! 한 권으로 끝내는 웹 기본 교과서 HTML+CSS+자바스크립트 웹 표준의 정석 (2022-03-29 ~ 2022-04-02)</area>  
