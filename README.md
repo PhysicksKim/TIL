@@ -54,8 +54,9 @@
 <area>✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/web-game-react)  
 <area>✔ 반드시 알고 넘어가야 할 웹 기술 기초편 (2022-04-09 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/%EC%9B%B9-%EA%B8%B0%EC%88%A0-%EA%B8%B0%EC%B4%88)   
 
-<area>✔ 스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술 (2022-04-28 ~ 2022-04-29)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8)  
-
+<area>✔ 스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술 (2022-04-28 ~ 2022-04-29)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8)   
+<area>⌛ 모든 개발자를 위한 HTTP 웹 기본 지식 (2022-05-08 ~)</area> [강의로 이동](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC)  
+  
 ## etc
 <area>✔ React Styled Components - Codevolution (2022-04-12)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLC3y8-rFHvwgu-G08-7ovbN9EyhF_cltM)  
 <area>✔ 그런 REST API로 괜찮은가 (2022-04-20)</area> [강의로 이동](https://www.youtube.com/watch?v=RP_f5dMoHFc)
