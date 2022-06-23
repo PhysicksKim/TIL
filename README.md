@@ -61,6 +61,10 @@
 <area>✔ 스프링 MVC 2편 - 백엔드 웹 개발 활용 기술 (2022-06-02 ~ 2022-06-18)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2)  
 <area>⌛ 스프링 DB 1편 - 데이터 접근 핵심 원리 (2022-06-19 ~ )</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1)   
     
+## SQL  
+<area>⌛ SQL 기초 - SQLZOO, W3school, Programmers_SQL (2022-06-21 ~ )</area>
+    
+    
 ## etc
 <area>✔ React Styled Components - Codevolution (2022-04-12)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLC3y8-rFHvwgu-G08-7ovbN9EyhF_cltM)  
 <area>✔ 그런 REST API로 괜찮은가 (2022-04-20)</area> [강의로 이동](https://www.youtube.com/watch?v=RP_f5dMoHFc)
