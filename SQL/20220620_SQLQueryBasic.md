@@ -46,16 +46,74 @@ SELECT name FROM world
 이렇게 했을 때 name이 aaa 인 값도 인정된다는 말임  
   
   
+<br>
   
+---
   
+---
   
-# count(\*)
+<br>
+  
+# 집계 함수와 GROUP BY  
+GROUP BY는 좀 특이하다.  
+GROUP BY를 쓰기 위해서는, 앞에 SELECT 부분에서 집계 함수를 써야한다.  
+또한 GROUP BY를 쓰면 집계함수를 쓰지 않은 쌩짜 column은 들어갈 수 없다.  
+왜 그런지 차근히 알아보자  
+  
+### 집계 함수
+COUNT(), SUM(), MAX(), MIN(), AVG()     
+이름 그대로 특정 요소가 몇 개 있는지 카운트하거나, 합계를 구하거나, 최대 최소 평균 값을 구한다.  
+이때 null은 알아서 잘 걸러서 계산해준다.  
+  
+### GROUP BY 란?
+예를 들어   
+  
+|yr|subject|winner|
+|---|---|---|
+|1901|Chemistry|Jacobus H. van 't Hoff|
+|1908|Peace|Fredrik Bajer|
+  
+이렇게 되어 있다면  
+연도별로 몇 명이 상을 받았는지 집계하고 싶을 수 있다.  
+그러면 아래와 같이  
+```SQL
+SELECT yr, COUNT(winner) FROM nobel GROUP BY yr
+```
+GROUP BY와 COUNT()를 사용하면 된다.  
+  
+GROUP BY는 중복된 항목들을 싹 묶어주는 역할을 한다  
+예를 들어
+nobel 수상자가 1901 1903 1902 1901 1903 ... 이렇게 쭉 있다고 해보자  
+이걸 연도별로 1901에는 ... 가 있고, 1902에는 ... 가 있고 하는 식으로 분류하고 싶을 때가 있다  
+이럴 때 1901을 쓴다.  
+  
+여기서 SELECT DISTINCT yr FROM nobel 과 차이점은  
+DISTINCT는 
+```
+SELECT DISTINCT yr, COUNT(winner) FROM nobel
+```
+이렇게 하면 에러가 난다.  
+  
+왜냐하면
+DISTINCT는 그냥 단순히 중복만 제거하고 yr 값만 남겨두는 거라서  
+1901년에 있던 수상자들과 종목들 정보를 싸악 모아두는 GROUP BY와 다르게  
+집계함수가 제대로 동작하지 않는다.  
+  
+### 따라서 GROUP BY는 집계함수와 짝궁이다  
+GROUP BY의 의의 자체가 애초부터    
+"항목 별로 (최대, 최소, 평균, 합계, 항목수)가 얼마임?"   
+이므로 집계함수와 짝궁이 될 수 밖에 없다.  
+  
+따라서 문법적으로도 집계함수를 써야한다  
+  
+### count(\*)
 count는 이름 그대로 **해당 요소가 몇 개나 있는지** 갯수를 세어주는 명령이다  
 ```SQL
 SELECT count(*) FROM ANIMAL_INS
 ```
 위 예시는 ANIMAL_INS 테이블에 요소들이 모두 몇 개 있는지, 조건 없이 총 갯수를 세는 명령이다  
-
+  
+근데 count 안에다가 DISTINCT와 \*을 넣을 수도 있다  
 ```
 SELECT count(DISTINCT NAME) FROM ANIMAL_INS
 ```
@@ -66,6 +124,13 @@ SELECT DISTINCT count(*) FROM ANIMAL_INS
 ```
 위 예시는 모든 요소가 일치하는 중복 없이 총 몇 개의 요소들이 있는지 세는 명령이다.  
   
+<br>
+  
+---
+  
+---
+  
+<br>
   
 # Correlated Subquery (상호연관 서브쿼리)
 메인 쿼리와 서브 쿼리가 뭔지에 대해 먼저 이야기해보고,  
