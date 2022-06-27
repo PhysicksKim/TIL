@@ -62,7 +62,7 @@
 <area>⌛ 스프링 DB 1편 - 데이터 접근 핵심 원리 (2022-06-19 ~ )</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1)   
     
 ## SQL  
-<area>⌛ SQL 기초 - SQLZOO, W3school, Programmers_SQL (2022-06-21 ~ )</area>
+<area>✔ SQL 기초 - SQLZOO, W3school, Programmers_SQL (2022-06-21 ~ 2022-06-25)</area>
     
     
 ## etc
