@@ -59,7 +59,7 @@
 <area>✔ 스프링 핵심 원리 - 기본편 (2022-05-12 ~ 2022-05-17)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)   
 <area>✔ 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술 (2022-05-17 ~ 2022-05-28)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-1)   
 <area>✔ 스프링 MVC 2편 - 백엔드 웹 개발 활용 기술 (2022-06-02 ~ 2022-06-18)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2)  
-<area>⌛ 스프링 DB 1편 - 데이터 접근 핵심 원리 (2022-06-19 ~ 2022-06-29)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1)   
+<area>✔ 스프링 DB 1편 - 데이터 접근 핵심 원리 (2022-06-19 ~ 2022-06-29)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1)   
 <area>⌛ 스프링 DB 2편 - 데이터 접근 활용 기술 (2022-06-30 ~ )</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-2)  
   
 ## SQL  
