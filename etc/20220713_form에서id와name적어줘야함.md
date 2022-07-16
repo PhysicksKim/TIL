@@ -30,3 +30,10 @@ id까지 필요한 이유는 잘 모르겠다
       class="px-3 py-4" th:action method="post">
   <h2>회원 가입</h2>
 ```
+
+---
+
+# 추가 ; 각 input 태그에다가 name 속성 적어줘야 함
+input 태그에 있는 name 값을 바탕으로  
+스프링에서 ModelAttribute가 동작하기 때문이다.  
+그러므로 바인딩 하고자 하는 객체에 맞춰서 name 값을 input 태그에 각각 적어줘야 한다.  
