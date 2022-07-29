@@ -67,7 +67,7 @@
 <area>✔ SQL 기초 - SQLZOO, W3school, Programmers_SQL (2022-06-21 ~ 2022-06-25)</area>
 
 ## CS  
-<area>⌛ 데이터베이스의 원리와 응용 (2022-07-19 ~ )</area> [강의로 이동](http://www.kocw.net/home/search/kemView.do?kemId=1163794)   
+<area>⌛ 데이터베이스의 원리와 응용 (2022-07-19 ~ 2022-07-29 )</area> [강의로 이동](http://www.kocw.net/home/search/kemView.do?kemId=1163794)   
 <area>⌛ 디지털 논리회로 및 실습 (2022-07-19 ~ )</area> [강의로 이동](http://www.kocw.net/home/cview.do?cid=03b3eec45c24163f)  
       
      
