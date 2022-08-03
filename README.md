@@ -40,6 +40,7 @@
 <area>✔ Do it! 한 권으로 끝내는 웹 기본 교과서 HTML+CSS+자바스크립트 웹 표준의 정석 (2022-03-29 ~ 2022-04-02)</area>  
 <area>✔ Java의 정석 기초편 1권 (2022-04-22 ~ 2022-04-27)</area>  
 <area>✔ Java의 정석 기초편 2권 (2022-04-30 ~ 2022-05-07)</area>  
+<area>✔ 데이터베이스 개론 - 김연희 (2022-07-19 ~ 2022-07-29)</area>
 
 ## 노마드코더
 
@@ -67,9 +68,7 @@
 <area>✔ SQL 기초 - SQLZOO, W3school, Programmers_SQL (2022-06-21 ~ 2022-06-25)</area>
 
 ## CS  
-<area>✔ 데이터베이스의 원리와 응용 (2022-07-19 ~ 2022-07-29 )</area> [강의로 이동](http://www.kocw.net/home/search/kemView.do?kemId=1163794)   
-<area>⌛ 디지털 논리회로 및 실습 (2022-07-19 ~ )</area> [강의로 이동](http://www.kocw.net/home/cview.do?cid=03b3eec45c24163f)  
-      
+<area>✔ 데이터베이스의 원리와 응용 (2022-07-19 ~ 2022-07-29)</area> [강의로 이동](http://www.kocw.net/home/search/kemView.do?kemId=1163794)   
      
 ## etc
 <area>✔ React Styled Components - Codevolution (2022-04-12)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLC3y8-rFHvwgu-G08-7ovbN9EyhF_cltM)  
