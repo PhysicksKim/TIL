@@ -24,6 +24,7 @@
    
 <area>✔ DATABASE1 (2022-03-25)</area>  
 <area>✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)</area>  
+<area>⌛ 관계형 데이터 모델링 (2022-08-11 ~ )</area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMDF6rHsY9qMuJMd295Yk4sa)  
   
 <area>✔ POSIX CLI1 (2022-04-04)</area>  
 <area>✔ GIT1 (2022-04-04)</area>  
