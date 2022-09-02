@@ -124,15 +124,21 @@ right = middle이 되니까
 이렇게 Upper Bound가 left - right 안에 포함되지 않게 된다.  
 즉 upper bound 탐색을 엇나가게 된다  
   
-따라서 아래와 같이 등호를 없애야한다  
+따라서 아래와 같이 등호를 없애서   
+left = middle 이 되도록 해야한다  
 
 ```java
 if (잘랐을 때 랜선 수 < 목표 랜선 수) 
   // 11 <= 11 
 {
   right = middle;
+} else {
+  left = middle+1;
 }
 ```
+| 1 | ... | 10 | 11 | ✅ **11** | 11 | 12 | 12 | ... |  802 |
+|---|---|---|---|---|---|---|---|---|---|   
+|~~left~~| | | | left | | Upper Bound | | |right|  
   
 <br>  
   
