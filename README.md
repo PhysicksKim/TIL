@@ -74,4 +74,5 @@
      
 ## etc
 <area>✔ React Styled Components - Codevolution (2022-04-12)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLC3y8-rFHvwgu-G08-7ovbN9EyhF_cltM)  
-<area>✔ 그런 REST API로 괜찮은가 (2022-04-20)</area> [강의로 이동](https://www.youtube.com/watch?v=RP_f5dMoHFc)
+<area>✔ 그런 REST API로 괜찮은가 (2022-04-20)</area> [강의로 이동](https://www.youtube.com/watch?v=RP_f5dMoHFc)  
+<area>⌛ 자바로 구현하고 배우는 자료구조 (2022-09-03)</area> [강의로 이동](https://www.boostcourse.org/cs204/joinLectures/145114)  
