@@ -42,8 +42,9 @@
 <area>✔ Java의 정석 기초편 1권 (2022-04-22 ~ 2022-04-27)</area>  
 <area>✔ Java의 정석 기초편 2권 (2022-04-30 ~ 2022-05-07)</area>  
 <area>✔ 데이터베이스 개론 - 김연희 (2022-07-19 ~ 2022-07-29)</area>  
-<area>✔ 혼자 공부하는 SQL - 우재남 (2022-08-04 ~ 2022-08-10)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLVsNizTWUw7GCfy5RH27cQL5MeKYnl8Pm)    
-
+<area>✔ 혼자 공부하는 SQL - 우재남 (2022-08-04 ~ 2022-08-10)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLVsNizTWUw7GCfy5RH27cQL5MeKYnl8Pm)   
+<area>⌛ 이것이 취업을 위한 코딩테스트다 (2022-09-06 ~ )</area>  
+  
 ## 노마드코더
 
 <area>✔ 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area> 
