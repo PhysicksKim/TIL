@@ -22,5 +22,6 @@
   
 # 참고
   
-[각종 정렬 상세 설명 (이미지 보단 글 퀄리티가 좋음)](https://gmlwjd9405.github.io/2017/10/01/basic-concepts-of-development-algorithm.html)  
-[정렬 GIF 유용함](http://www-scf.usc.edu/~zhan468/public/Notes/sorting.html)  
+[각종 정렬 상세 설명 (이미지 보단 글 퀄리티가 좋음)](https://gmlwjd9405.github.io/2017/10/01/basic-concepts-of-development-algorithm.html)   
+[정렬 GIF 유용함](http://www-scf.usc.edu/~zhan468/public/Notes/sorting.html)   
+[Quick Sort vs Merge Sort 비교](https://hongjw1938.tistory.com/192)  
