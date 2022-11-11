@@ -95,13 +95,53 @@ public class boardController {
   
 3가지를 해주면 된다  
   
-> ## 사용시 주의사항  
-> 1. @InitBinder("대상객체")  
-> 위 예시코드에서 보듯 @InitBinder("postWrite") 같은 식으로 대상이 되는 객체를 지정해줄 수 있다  
-> 명시적으로 지정해주면 postWrite만 딱 validator가 적용되고, Integer 같은 타입 바인딩은 validator가 작동안한다    
-> 만약 지정안해줬는데 postWrite 바인딩이랑 Integer 바인딩이 동일 컨트롤러 내에서 동시에 일어나면  
-> 에러가 난다  
-
+> # 사용시 주의사항  
+> ## 1. @InitBinder("대상객체")  
+> 예시에서는 @InitBinder("postWrite") 같은 식으로 대상 객체를 지정했다  
+>   
+> 만약, 컨트롤러에 Validator가 동작할법한 대상으로는 postWrite만 있다면     
+> 대상 객체를 지정안해주고 @InitBinder 라고만 붙여줘도 된다  
+>   
+> 하지만 postWrite 말고 다른 객체도 Model에 담겨서 Validator가 동작한다면 에러가 난다  
+>   
+> ### 에러 예시
+> ```java
+> 
+> @InitBinder
+> public void initValidator(WebDataBinder webDataBinder) { 
+>   webDataBinder.addValidators(postWriteValidator);
+> }  
+>   
+> @GetMapping("/board/free")
+> public String boardList(@RequestParam Integer page, Model model) { 
+>   model.addAttribute("pagination", pagination);
+>   ...
+> }
+> 
+> @PostMapping("/board/write")
+> public String writePost(@Validated @ModelAttribute PostWrite postWrite,
+>                 BindingResult bindingResult) { ... }
+> ```
+> 이렇게 @InitBinder 에 대상 객체를 지정 안해줬는데  
+> 위에서 보면 boarList 에서 model 에다가 pagination 이라는 객체를 넣어줬고  
+> 아래의 writePost() 에서도 @ModelAttribute 를 통해 자동으로 model 에다가 postWrite 객체를 넣어줬다  
+>   
+> 이러면 pagination 객체가 model에 담겨 넘어갈 때 validator 가 있는지 찾아서 검사하게 되는데 
+> postWrite용 validator만 있으므로 pagination용 validator가 없어서 에러가 난다    
+>  
+> 따라서 여러 객체들이 model에 담기고 한다면  
+> @InitBinder("postWrite") 같은 식으로 대상이 되는 객체를 지정해준다  
+>  
+> [참고한 글](https://www.inflearn.com/questions/280541)  
+>    
+>    
+> # 2. BindingResult bindingResult 위치  
+> ```java  
+> public String writePost(@Validated @ModelAttribute PostWrite postWrite,
+>                 BindingResult bindingResult) { ... }
+> ```  
+> 이런식으로 @Validated 달린 파라미터 다음 위치에다가 BindingResult를 넣어줘야 한다  
+> 
   
 ### 장점
 1. 코드로 Validation 작성 가능 -> 로직 이해 쉬움, 상세한 로직 설정 가능
