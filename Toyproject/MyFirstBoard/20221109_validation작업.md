@@ -23,6 +23,86 @@ validation 작업은 빈번하게 일어나는데, validator를 쓰거나 annota
 ## a. Validator  
 지금까지 프로젝트에서 썼던 방식이다  
   
+### Validator 구현 방법  
+```java
+@Component // Spring Bean 등록해준다
+public class PostWriteValidator implements Validator {
+
+  @Override
+  public boolean supports(Class<?> clazz) {
+    return PostWriteDTO.class.isAssignableFrom(clazz);
+  }
+  
+  @Override
+  public void validate(Object target, Errors errors) {
+    
+    // validation 로직을 여기에
+    ValidationUtils
+      .rejectIfEmptyOrWhitespace(errors, "writer", "required", "필수 값입니다.");   
+      // (Errors , 필드 , 에러코드, 디폴트 메세지)
+  }
+}
+```
+
+위와 같이 먼저 Validator를 만들어 준다.  
+Validator 인터페이스를 구현해서 두 메서드를 만들어주면 된다  
+  
+1. supports(Class\<?> clazz)    
+매개변수로 넘어온 clazz 를 지원하는 Validator 인가를 판단하는 메서드다  
+  
+2. validate(Object target, Errors errors)  
+target으로 validation 작업할 객체가 넘어오고   
+검사 결과 에러가 있으면 errors 객체에다가 에러를 담아주면 된다.  
+위 예시코드에는 ValidationUtils를 사용했는데   
+직접 errors에 에러메세지를 담을려면 errors.rejectValue() 나 errors.reject() 를 쓰면 된다  
+  
+### Validator 컨트롤러에 적용  
+```java
+@Controller
+public class boardController {
+
+  ...
+  // 1. Validator를 먼저 생성해 준다.
+  private final PostWriteValidator postWriteValidator;
+  
+  // 2. Validator 등록  
+  //  사용할 Validator를 InitBinder를 통해 등록해준다   
+  @InitBinder("postWrite") // "postWrite"를 적어주지 않으면, 해당 컨트롤러 내에 다른 바인딩 작업에서 영향을 미친다  
+  public void initBoardValidator(WebDataBinder webDataBinder) {
+    webDataBinder.addValidators(postWriteValidator);
+  }
+  
+  ...
+  
+  // 3. 컨트롤러 부분 작성법
+  // 바인딩할 객체에 @Validated 애노테이션을 붙여주고, BindingResult 객체를 바로 다음 파라미터로 붙여준다  
+  @PostMapping("/board/write")
+  public String writePost(
+          @Validated @ModelAttribute PostWrite postWrite,
+          BindingResult bindingResult) {
+    ...   
+  }
+  
+}
+```
+  
+컨트롤러에서 위와 같이 사용하면 된다   
+주석을 달아놓은 대로   
+  
+1. Validator 객체 생성   
+2. Validator 등록   
+3. 대상 DTO에 @Validated 애노테이션 붙이기  
+  
+3가지를 해주면 된다  
+  
+> ## 사용시 주의사항  
+> 1. @InitBinder("대상객체")  
+> 위 예시코드에서 보듯 @InitBinder("postWrite") 같은 식으로 대상이 되는 객체를 지정해줄 수 있다  
+> 명시적으로 지정해주면 postWrite만 딱 validator가 적용되고, Integer 같은 타입 바인딩은 validator가 작동안한다    
+> 만약 지정안해줬는데 postWrite 바인딩이랑 Integer 바인딩이 동일 컨트롤러 내에서 동시에 일어나면  
+> 에러가 난다  
+
+  
 ### 장점
 1. 코드로 Validation 작성 가능 -> 로직 이해 쉬움, 상세한 로직 설정 가능
   
@@ -59,6 +139,10 @@ private String lastName;
 > (여기서 Hibernate는 ORM Hibernate와 이름은 같지만 전혀 다른놈이다  
     
 <br><br><br>  
+
+---
+
+
 
 
 
