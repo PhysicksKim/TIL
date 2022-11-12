@@ -167,7 +167,8 @@ private String lastName;
 
 ### 단점  
 1. 조금만 복잡해지면 사용하기 애매해진다.   
-2. (근데, 실제로는 대부분 공백 불가 같은 간단한 조건들이여서 Bean Validation으로 해결 가능하다)  
+
+- 근데, 실상은 대부분 '공백 불가' 같은 간단한 조건들이여서 Bean Validation으로 해결 가능하다  
   
 <br><br>  
    
@@ -182,8 +183,54 @@ private String lastName;
 
 ---
 
+# 2. error 메세지 전달, 메세지 코드  
+  
+![image](https://user-images.githubusercontent.com/101965836/201462366-63a3392c-e111-472b-aa74-21de9c84c0b8.png)  
+  
+validation 과정에서 error가 발생했으면  
+알맞은 error를 model에 담아서 넘겨야 한다  
+  
+그러면 error를 담아서 넘기는 과정은  
+  
+1. error들을 Model에 담기
+2. Model에는 어떤 error message들이 담길것인가  
+  
+이렇게 두 과정을 이해해야한다  
 
+## 1) error 들을 Model에 담기  
 
+### 사실, 자동으로 담긴다.
 
-
-
+간단히 생각하면   
+컨트롤러 파라미터로 Model model 해서 model을 가져오고  
+model.addattribute(...) 하는 식으로 error를 담는다고 생각할 수 있다   
+  
+하지만 validator나 @Annotation을 쓴다면   
+직접 model에 error를 담아줄 필요가 없다.    
+BindingResult에 자동으로 error들이 담겨서 model로 넘어간다.  
+  
+```java
+@PostMapping("/add")
+public String addItemV1(@ModelAttribute Item item, 
+                      BindingResult bindingResult,
+                      ... )
+```
+이렇게 Item 객체 바인딩에 error가 있으면,  
+bindingResult에 자동으로 error가 담겨서 model로 넘어간다  
+  
+> ### ❗ BindingResult는 바인딩 대상 파라미터 바로 다음에 와야한다  
+> 위 처럼 (@ModelAttribute Item item , BindingResult bindingResult , ...) 같이 바인딩 대상이 되는 객체 바로 다음에 와야한다  
+  
+### Validator 는 Errors에 직접 담아줬기에 controller 에서는 신경안써도 된다    
+```java
+@Override
+public void validate(Object target, Errors errors) {
+  ...
+}
+```
+검증 대상 객체인 target 과  
+검증 후 error가 발생하면 reject 메세지를 담을 errors 가 넘어온다.  
+  
+짐작이 가겠지만  
+validate() 메서드의 errors 객체가 자동으로 model에 담기므로,  
+validate() 메서드 안에서 errors에 에러메세지만 잘 담아주기면 하면 된다.   
