@@ -273,7 +273,7 @@ errors.properties 파일에서 매칭되는 에러메세지를 찾는다
 > NotMatchName.ItemOrder.name=상품 이름을 잘못 입력했습니다
 > ```
 >  
-> - Errors 객체에 등록  
+> - BindingResult에 ObjectError 객체 등록  
 >   
 > ```java
 > public String exampleController(
@@ -282,6 +282,10 @@ errors.properties 파일에서 매칭되는 에러메세지를 찾는다
 >   // 컨트롤러 로직
 >   bindingResult.addError(new FieldError("ItemOrder", "name" , ...));
 > }
+> 
+> // bindingReulst.addError(ObjectError objectError) 메서드는 ObjectError 객체를 매개변수로 받는데  
+> // 위에서 FieldError로 넣어줬다  
+> // 이건 별거 아니고, 그냥 FieldError 클래스가 ObjectError의 자식이라서 저렇게 넣어도 된다  
 > ```
 
 [BindingResult Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/BindingResult.html)  
