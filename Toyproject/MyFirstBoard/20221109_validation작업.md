@@ -192,10 +192,12 @@ validation 과정에서 error가 발생했으면
   
 그러면 error를 담아서 넘기는 과정은  
   
-1. error들을 Model에 담기
-2. Model에는 어떤 error message들이 담길것인가  
+1) error들을 Model에 담기
+2) Model에는 어떤 error message들이 담길것인가  
   
 이렇게 두 과정을 이해해야한다  
+
+<br><br>
 
 ## 1) error 들을 Model에 담기  
 
@@ -234,3 +236,62 @@ public void validate(Object target, Errors errors) {
 짐작이 가겠지만  
 validate() 메서드의 errors 객체가 자동으로 model에 담기므로,  
 validate() 메서드 안에서 errors에 에러메세지만 잘 담아주기면 하면 된다.   
+
+<br><br>
+
+## 2) Model에는 어떤 error message들이 담길것인가  
+  
+> ### 요약 
+> 
+> 1. Errors 객체에다가 reject() 같은 메서드로 에러를 등록한다. 
+> (validator가 자동으로 등록하거나 errors.rejectValue() 수동으로 등록할 수 있다)  
+>   
+> 2. errors.properties 파일에 아래와 같은 형식으로 error message들을 적어둔다.  
+> errorcode.objectName.field=메세지형식    
+>   
+> 3. 매칭된 메세지가 Model에 담긴다  
+> 앞서 errors.properties에 설정해둔 errorMessage가 String 형태로 Model에 담긴다.  
+> 템플릿 엔진에 따라서 적절한 형태로 error를 출력해주면 된다.    
+  
+  
+[errors Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/Errors.html)  
+```
+rejectValue(String field, String errorCode)
+```
+rejectValue는 최소 위와 같이 field와 errorCode 를 파라미터로 받는다   
+    
+field와 errorCode, 그리고 바인딩 에러가 난 ObjectName 을 가지고  
+errors.properties 파일에서 매칭되는 에러메세지를 찾는다  
+  
+<br><br>  
+  
+> ### 예시  
+>   
+> - errors.properties  
+>   
+> ```
+> NotMatchName.ItemOrder.name=상품 이름을 잘못 입력했습니다
+> ```
+>  
+> - Errors 객체에 등록  
+>   
+> ```java
+> public String exampleController(
+>       @ModelAttribute ItemOrder itemOrder, 
+>       BindingResult bindingResult, ...)
+>   // 컨트롤러 로직
+>   bindingResult.addError(new FieldError("ItemOrder", "name" , ...));
+> }
+> ```
+
+[BindingResult Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/BindingResult.html)  
+[FieldError Spring Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/FieldError.html)  
+  
+1. bindingResult 에 담긴 에러는 컨트롤러가 끝나면 에러 메세지로 전환되어 자동으로 model에 담긴다   
+2. Spring에서 정의한 FieldError ObjectError 객체 형태로 bindingResult.addError() 에다가 담는다   
+3. FieldError ObjectError 객체는 위에서 보듯 FieldError(ObjectName , FieldName , ... ) 같이 ObjectName 과 FieldName 을 생성자에서 받아서 에러 코드를 적절히 만들어낸다  
+  
+<br><br><br>  
+
+지금까지 어떤 과정을 거쳐서 에러 메세지가 model에 담기는지 알아봤다.  
+  
