@@ -299,3 +299,126 @@ errors.properties 파일에서 매칭되는 에러메세지를 찾는다
 
 지금까지 어떤 과정을 거쳐서 에러 메세지가 model에 담기는지 알아봤다.  
   
+
+---
+
+<br><br><br>  
+
+# 3. thymeleaf 에서 표시하는 방법
+
+간단하다  
+```html
+<input ... th:errors="${postWrite.title}" >
+```
+th:errors 을 사용하면 error가 발생하면 해당 필드에 맞는 에러 메세지를 출력해준다  
+여기서 출력하는 에러 메세지는  
+
+```
+1. model에 errorCode 담김 
+2. errorCode 를 errors.properties 에 적어둔 에러메세지와 맵핑해서 적절한 메시지 채택
+3. 채택된 에러 메세지를 템플릿 엔진이 표시  
+```
+
+이런 과정을 거치게 된다  
+  
+> 여기서 정확히 2. 3. 중 어디부터 template 엔진의 영역인지 모르겠다  
+> errorCode 가 model에 담겨서 view로 넘겨지는지,  
+> 에러메시지가 model에 String으로 담겨서 view로 넘어가는지를 정확히 모르겠다.     
+> 그치만 일단은 중요한 부분이 아니니 넘어가자.  
+  
+<br><br><br>  
+  
+## 좀 더 잘 활용하기  
+
+```html
+<form name="postWriteForm" id="postWriteForm"
+      th:action th:object="${postWrite}" method="post">
+...
+<table th:class="table">
+  ...
+  
+  <tr>
+      <td th:text="'작성자'"></td>
+      <td> <input id="writer" name="writer" type="text"
+                  placeholder="작성자" th:field="*{writer}">
+          <div th:errors="*{writer}" th:errorclass="|error-text|">
+              wrtier 오류
+          </div>
+      </td>
+  </tr>
+  
+  ...
+</table>
+...
+</form>
+```
+
+현재 토이프로젝트에서 글 작성 view의 일부분이다.  
+
+1. form 에서 th:object 로 객체를 지정해준다  
+2. input 부분에서 th:field 로 해당하는 필드를 지정해줬다. 필드를 지정해주면, 이전에 잘못 입력했던 값을 다시 input 안에다가 넣어준다    
+3. 따로 div 빼서 th:errors를 출력하도록 했다. 만약 error가 없으면 해당 태그(div)는 출력되지 않는다  
+4. th:errorclass 를 통해서 에러가 있으면 class를 append 해준다(사실 여기서는 에러용 div 태그를 따로 빼서 append 방식으로 class 추가할 필요는 없다)  
+  
+<br><br>  
+  
+## 앞의 2. 부분을 다시 설명하면  
+  
+>  2. input 부분에서 th:field 로 해당하는 필드를 지정해줬다. 필드를 지정해주면, 이전에 잘못 입력했던 값을 다시 input 안에다가 넣어준다    
+  
+th:field는 객체의 필드 값을 태그에 따라 적절한 형태로 맞춰 값을 넣어주는 타임리프 속성이다  
+여기서 "그냥 th:errors만 쓰면 되는거 아니냐" 할 수 있어서 좀 더 자세히 설명을 적어본다.  
+  
+  <br>  
+  
+### a. 먼저 th:field는 th:object 랑 세트로 쓰인다.  
+예를 들어  
+```
+th:text="${postWrite.title}"
+```
+이렇게 일일이 쓰기 번거로우니까  
+```
+<Form ... th:object="${postWrite}" >
+  
+  <input ... th:field="*{title}" >
+```
+이렇게 객체 지정을 큰 태그에서 한방에 하고, 필드 지정을 각각 자식 태그에서 해주는 거다.    
+  
+<br>  
+
+### b. 에러시 입력했던 값을 다시 보여주기 위해서 th:field를 써줬다  
+흔히들 이런 경험이 있을텐데  
+  
+뭐라뭐라 썼는데, "유효하지 않은 값입니다" 하고 다시 이전페이지로 돌아가서  
+한참동안 쓴 내용이 다 사라지고 전부 다시 써야하는 일을 겪었을거다  
+  
+또 그게 잘못된 값이라 하더라도  
+사용자가 "내가 뭘 잘못 입력한거지" 하고 이전에 입력한 값을 봐야지 딱 피드백이 잘 된다.  
+  
+예를들어 게시판 글 작성자에는 특수문자(?!@)를 입력할 수 없다는 조건이 있다고 해보자.   
+사용자는 "**오렌지를먹은지얼마나오렌지!**" 라고 작성자 칸에다가 꿀잼 드립을 적어놨는데  
+알고보니 특수문자는 사용할 수 없어서 반려된 상황이다.  
+  
+그러면 위 입력 값이 잘못됐더라도 그대로 살려놔야지   
+**"아 내가 마지막에 !를 썼구나, 이거만 지우면 되겠네"** 라는 피드백이 제대로 올 수 있고  
+더불어서 사용자가 글을 쓰는 사이에 작성자를 뭐라고 적었는지 다시 생각해내야하는 고통도 줄일 수 있다.  
+  
+따라서 에러가 발생했더라도 입력했던 값을 보존해두는게 중요하다   
+  
+<br><br>  
+
+이를 위해 컨트롤러에서 입력 값을 받을때 
+```java
+public string postWriteController(
+    @Validated @ModelAttribute PostWrite postWrite, 
+    ...) 
+```
+이렇게 바인딩 시도한 객체를 곧바로 @ModelAttribute로 Model에 담았다.  
+  
+이렇게 Model에 에러난 객체더라도 값을 담아뒀기에 
+th:object 와 th:field로 값을 다시 채워넣을 수 있는 것이다.  
+  
+  
+---  
+
+# 끝
