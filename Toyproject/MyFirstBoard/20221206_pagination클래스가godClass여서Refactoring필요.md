@@ -86,3 +86,26 @@ Pagination 이라는 인터페이스를 만들고
   
 이렇게 인터페이스를 따로 둬서 '위임' 형태를 사용하는 식으로 객체지향적 코딩에 대해 배웠던 것을 활용해 볼 수 있을 것 같다.  
   
+<br>
+
+# 1차 refactoring 구조  
+  
+![image](https://user-images.githubusercontent.com/101965836/206729730-5b82da70-782b-4542-b6f9-7f86dda3b08c.png)  
+  
+위와 같은 구조를 띄고  
+특징은  
+  
+1. 모든 DTO DAO 는 Page 를 상속한다 (Page는 nowPage, pageSize 를 필드로 가짐)    
+2. ViewDTO 가 nowPage, pageSize, prevPageList, nextPageList 를 모두 가지고 있다.    
+  
+PageList를 따로 분리해서 DTO를 또 빼주는게 나을까 싶었는데  
+일단은 하나에 다 둬도 될 것 같아서 같이뒀다  
+  
+### 하나 고민되는 부분은  
+PageList를 구하는 로직을   
+DTO 클래스에 두기 vs Service에 두기  
+인데  
+  
+내가 아는바로는 DTO는 추가 로직을 안둔다고 해서 Service에 로직을 두는게 나은가 싶었는데  
+그러면 또 Service 하나가 메서드를 너무 많이 갖고 있어서 가독성에 좋지 않을까봐   
+그냥 클래스에 뒀다  
