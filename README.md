@@ -45,7 +45,7 @@
 <area>✔ 혼자 공부하는 SQL - 우재남 (2022-08-04 ~ 2022-08-10)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLVsNizTWUw7GCfy5RH27cQL5MeKYnl8Pm)   
 <area>✔ 이것이 취업을 위한 코딩테스트다 (2022-09-06 ~ 2022-10-20)</area>  
 <area>⏳ 면접을 위한 CS 전공지식 노트 (2022-11-27)</area>  
-<area>⏳ 객체지향 프로그래밍 - 김동현 (2022-11-30)</area>  
+<area>✔ 객체지향 프로그래밍 - 김동현 (2022-11-30 ~ 2022-12-10)</area>  
   
 ## 노마드코더
 
