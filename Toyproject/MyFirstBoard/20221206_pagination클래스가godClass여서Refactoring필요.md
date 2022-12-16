@@ -109,3 +109,76 @@ DTO 클래스에 두기 vs Service에 두기
 내가 아는바로는 DTO는 추가 로직을 안둔다고 해서 Service에 로직을 두는게 나은가 싶었는데  
 그러면 또 Service 하나가 메서드를 너무 많이 갖고 있어서 가독성에 좋지 않을까봐   
 그냥 클래스에 뒀다  
+  
+---
+### Page Class Family Diagram
+
+![pageClassDiagram](https://user-images.githubusercontent.com/101965836/208119322-41c072e1-dd85-442c-b1a3-06425773825d.png)
+
+위와 같이 Page 클래스가 부모 역할을 하면서 page, pageSize 를 상속해준다.  
+모든 Page를 구현한 클래스에서 공통적으로 page와 pageSize를 사용하기 때문에 이렇게 해줬다.  
+   
+#### 생성자 공통적인 부분  
+각 자식클래스들은 생성자 매개변수로 int page 와 int pageSize를 받고,    
+처음에 super(page, pageSize) 를 해서 필드에 값을 넣어준다.    
+   
+#### PageDAO  
+쿼리를 날릴려면 게시글 offset을 얼마나 할지 정해야 한다.  
+(매번 말하지만, 오프셋 페이징이 나쁜걸 알고있고, 추후 커서페이징으로 바꿀 예정)   
+현재 page와 pageSize를 바탕으로 얼마나 offset이 필요한지 생성자에서 간단히 계산해서 필드에 대입해준다.  
+  
+### PageViewDTO  
+View에서 아래와 같은 페이지 버튼을 표시해주기 위해 pageList를 만들어서 전달해줘야 한다.
+
+--- 
+1️⃣ 2️⃣ 3️⃣ '4️⃣' 5️⃣ 6️⃣ 7️⃣ 8️⃣
+---
+
+현재 페이지가 4이고, static int pageButtons가 4일 경우  
+prevPageList는 { 1 , 2 , 3 } 이 담겨야 하고  
+nextPageList는 { 5 , 6 , 7 , 8 } 이 담겨야 한다.  
+  
+문제는 이걸 계산하는 로직이 좀 길어져서 따로 메서드로 빼줬는데  
+인터넷에 검색해보면 DTO는 로직이 없이 값만 담고있는 메서드라고 해서  
+"어? 그러면 boardService 에서 prev랑 next pageList를 계산하도록 바꿔야 하나?"  
+라고 생각이 들었다.  
+  
+그런데 이러면 또 역으로  
+boardService와 PageViewDTO의 의존관계가 아래와 같이 추가될거다  
+  
+![pageClassDiagram_boardServiceDepend](https://user-images.githubusercontent.com/101965836/208122183-89f886c6-a304-4820-8474-f0c12a47cf17.png)  
+  
+이렇게 되면 BoardService 없이는 PageViewDTO를 생성할 수 없게 된다.  
+이때의 **문제점은 2가지** 정도 예상된다.  
+  
+#### 1. 다른 개발자가 PageViewDTO를 만드려 할 때  
+다른 개발자가 PageViewDTO를 만들려면  
+> "BoardService 에 있는 calculPrevPageList() calculNextPageList() 를 이용해서 pageList int\[]배열을 만든다음 값을 넣어줘야한다" 
+라는 것을 알아야 한다.  
+이는 적절히 추상화되지 않아서 부적절한 설계이다  
+   
+#### 2. PageViewDTO와 BoardService에 의존성이 생긴다  
+BoardService에 있는 method를 이용해야지만 PageViewDTO를 만들 수 있다.    
+상속같은 객체지향적 관계를 맺은건 아니지만   
+다른 클래스의 특정 메서드에 의존적이므로 의존성이 생긴다고 말할 수 있다.  
+  
+또한 만약 prev/nextPageList 로직이 바뀌더라도,   
+boardService에 있는 메서드를 바꾸는 것 보다는  
+그냥 새로은 PageNewViewDTO 를 만드는게 깔끔하다.  
+  
+---
+  
+### 그래서 PageViewDTO 안에 로직을 다 넣어놨다  
+nowPage와 pageSize만 넣어주면  
+생성자에서 알아서 calculPrev/NextPageList() 해줘서 자동으로 넣어주는게  
+딱 깔끔하게 추상화되기 때문이다.  
+  
+다른 개발자가 PageViewDTO를 만들려 하더라도  
+> nowPage에는 현재 사용자가 보는 페이지 번호를, pageSize에는 페이지당 표시할 게시글 수를 넣으면 됩니다  
+라고 간단한 한 문장으로 어떻게 만드는지 이해할 수 있게 된다.  
+  
+# 결론은  
+부모 클래스가 될 Page를 만들고, 이를 상속해서 각종 DTO와 DAO를 만들었다.  
+(Page를 abstract로 바꿔도 될 것 같다)  
+
+
