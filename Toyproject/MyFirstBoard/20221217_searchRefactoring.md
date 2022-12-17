@@ -88,6 +88,7 @@ List<Post> searchList = boardService.getSearchPostList(searchDAO, PageDAO);
   
 다른 개발자가 2 방식을 보면  
 > 아 검색결과 얻어올려면, 페이징 관련 정보랑, 검색 정보가 같이 넘어가야 하는구나  
+
 라고 생각할 수 있지만  
   
 1 방식을 보고 페이징과 검색정보가 같이 넘어가는지 아닌지 알려면  
