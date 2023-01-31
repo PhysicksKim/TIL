@@ -129,7 +129,43 @@ SELECT DISTINCT count(*) FROM ANIMAL_INS
 ---
   
 ---
+
+<br>
   
+# GROUP BY 의 조건 HAVING  
+
+HAVING 을 통해서 조건을 걸 수 있다.  
+SQL 쿼리를 처음 배울 때 WHERE 과 HAVING에 대해 헷갈렸었는데  
+별 거 아니다.  
+  
+결론부터 말하면  
+HAVING은 "집계함수가 적용된 다음, 조건을 거는 것" 이다.  
+  
+예시 코드로 보자  
+  
+```SQL
+SELECT city, count(*) 
+  FROM member WHERE age > 20 
+  GROUP BY city HAVING count(*) > 100000; 
+```
+위 쿼리는 
+  
+> 나이가 20 초과인(WHERE) 회원을 도시별로 집계한다.  
+> 그 다음, 회원 수가 10만 초과인(HAVING) 도시들만 추려낸다.  
+  
+이렇게 동작한다.  
+무슨 말인가 하면  
+WHERE 로 먼저 추려내고, 집계함수가 돌아간 다음, HAVING으로 집계한 내용을 추려낸다  
+  
+다르게 말하면  
+HAVING은 집계함수 결과값을 대상으로 조건을 걸 때 사용하는 것이다.    
+  
+<br>
+
+---
+
+---
+
 <br>
   
 # Correlated Subquery (상호연관 서브쿼리)
