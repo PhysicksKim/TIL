@@ -52,19 +52,23 @@
 <area>✔ 혼자 공부하는 컴퓨터구조 + 운영체제 (2023-02-02 ~ 2023-02-06) </area>  
   
 ## 노마드코더
-
-<area>✔ 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area> 
-
-## Youtube-CodingLab
+  
+<area>✔ 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
+  
+## Youtube  
+- CodingLab  
 <area>✔ Multiple Typing Text Animation in HTML CSS & JavaScript (2022-04-03)</area> [강의로 이동](https://www.youtube.com/watch?v=nxoHR9lltK0&list=PLImJ3umGjxdAuARwziklrT2QEELizOMtr&index=31)  
 <area>✔ Responsive Side Navigation Bar in HTML CSS And JavaScript | Dashboard Sidebar Menu (2022-04-04)</area> [강의로 이동](https://www.youtube.com/watch?v=wEfaoAa99XY)   
 <area>✔ How to make Card Slider in HTML CSS & JavaScript | Owl Carousel (2022-04-05)</area> [강의로 이동](https://www.youtube.com/watch?v=BKKcGb80MOs)   
 <area>✔ Password Show or Hide Toggle using HTML CSS & JavaScript | CodingLab (2022-04-06)</area> [강의로 이동](https://www.youtube.com/watch?v=aIff0nalld0)    
-
+  
+- Amigoscode  
+<area>⏳ Spring Security Tutorial - [NEW] [2023] (2023-03-10)</area> [강의로 이동](https://www.youtube.com/watch?v=b9O9NI-RJ3o)   
+  
 ## Inflearn 
 <area>✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/web-game-react)  
 <area>✔ 반드시 알고 넘어가야 할 웹 기술 기초편 (2022-04-09 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/%EC%9B%B9-%EA%B8%B0%EC%88%A0-%EA%B8%B0%EC%B4%88)   
-
+  
 <area>✔ 스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술 (2022-04-28 ~ 2022-04-29)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8)   
 <area>✔ 모든 개발자를 위한 HTTP 웹 기본 지식 (2022-05-08 ~ 2022-05-11)</area> [강의로 이동](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC)  
 <area>✔ 스프링 핵심 원리 - 기본편 (2022-05-12 ~ 2022-05-17)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)   
