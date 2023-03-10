@@ -21,3 +21,34 @@ Spring Security 에 별다른 설정을 안하면
 2. 인증 시스템이 Oauth를 사용하도록 설정    
 
 이 2가지를 설정 문제인 것 같다.  
+
+<br><br>
+
+---
+
+<br><br>
+
+# Spring Security Filter에 의해 인증로직을 거치게 됨  
+
+[출처 Spring Security Tutorial - [NEW] [2023] - Explain form login(14:46)](https://youtu.be/b9O9NI-RJ3o?t=874)  
+  
+> 어플리케이션이 처음 시작될때 스프링 시큐리티는 시큐리티 필터 체인 타입의 빈을 먼저 찾게 된다  
+> SecurityFilterChain 이라는 interface를 들어가서 Navigate to the spring bean declaration 을 통해 들어가보면  
+> SpringBootWebSecurityConfiguration 클래스   
+> -> SecurityFilterChainConfiguration 내부 스테틱 클래스   
+> -> defaultSecurityFilterChain() 메서드 를 보면    
+> HttpSecurity http 를 받아서   
+> ```
+> SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+>   http.authorizeRequests().anyRequest().authenticated();  
+>   http.formLogin();
+>   http.httpBasic();
+>   return http.build();
+> }
+> ```
+>  
+> 이렇게 http anyRequest()가 들어오면 무조건 authenticated() 로 검증을 거치고 .formLogin() 을 실행함을 알 수 있다.    
+> 다르게 말하면, http.authorizeRequests().anyRequest().authenticated(); 이 부분 때문에 곧바로 endpoint에 접근할 수 없게 돼서   
+> Spring은 모든 request에 대해서 저 코드를 실행하므로, 항상 authenticated() 를 실행해 검증하게 된다.  
+>   
+> 로그인 페이지가 뜨는 이유는 http.formLogin() 를 실행하기 때문이다.    
