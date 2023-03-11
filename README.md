@@ -63,7 +63,7 @@
 <area>✔ Password Show or Hide Toggle using HTML CSS & JavaScript | CodingLab (2022-04-06)</area> [강의로 이동](https://www.youtube.com/watch?v=aIff0nalld0)    
   
 - Amigoscode  
-<area>⏳ Spring Security Tutorial - [NEW] [2023] (2023-03-10)</area> [강의로 이동](https://www.youtube.com/watch?v=b9O9NI-RJ3o)   
+<area>✔ Spring Security Tutorial - [NEW] [2023] (2023-03-10 ~ 2023-03-11)</area> [강의로 이동](https://www.youtube.com/watch?v=b9O9NI-RJ3o)   
   
 ## Inflearn 
 <area>✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/web-game-react)  
