@@ -1,3 +1,8 @@
+> ### 20230314 추가   
+> @EnableWebSecurity 어노테이션 안 넣어줘서 아마 문제가 발생했던 것 같다.  
+> 해당 내용을 이전 내용 하단에 추가     
+
+---
 # 문제 발생  
 URL에 상관없이 무조건 localhost:8080 로 접근하면 Oauth2 로그인 화면이 떴다  
   
@@ -234,3 +239,23 @@ oauth 로그인 창까지 정상적으로 들어가진다.
 덕분에 Amigocode - spring security tutorial 쭉 배웠고,    
 HttpSecurity 라던가 Spring Security 에 대해 처음 발을 들이는 계기가 됐다    
     
+<br><br><br>  
+
+---
+
+<br><br><br>  
+
+# 20230314 추가 - @EnableWebSecurity 안 달아서 생긴 문제인듯  
+
+[알게 된 계기](https://github.com/PhysicksKim/TIL/blob/main/Spring/Security/20230314_%40EnableWebSecurity%EC%96%B8%EC%A0%9C%EC%93%B0%EB%8A%94%EA%B1%B0%EC%A7%80.md#%EC%B6%94%EA%B0%80--%EC%B6%94%EA%B0%80-%EC%84%A4%EB%AA%85---enablewebsecurity-%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98-%EC%97%86%EC%96%B4%EB%8F%84-%EB%8F%99%EC%9E%91%ED%95%9C%EB%8B%A4%EB%8A%94-%EC%A7%88%EB%AC%B8)  
+    
+@EnableWebSecurity 를 빼면     
+필터 체인 메서드가 등록이 안된다.    
+따라서 아무리 url들을 permitAll() 해줘도    
+어차피 필터 체인이 등록이 안되니까 모든 URL 에 대해서 default spring security setting 이 적용된다.     
+    
+그래서 아마    
+내가 @EnableWebSecurit 를 추가 안해주고    
+OAuth 가입 로직에서 문제도 겹치면서  
+모든 페이지에서 계속 OAuth 로그인 페이지가 뜨는 문제가 발생했던 것 같다.  
+  
