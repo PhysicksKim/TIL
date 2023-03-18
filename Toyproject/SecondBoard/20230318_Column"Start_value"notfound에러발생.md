@@ -173,3 +173,17 @@ dependencies {
 ```     
   
 해결 완료   
+
+<br>
+
+---
+
+<br>  
+
+# 추가 - 구버전 1.4.200 문서  
+[H2 1.4.200 문서](https://web.archive.org/web/20210315211844/http://h2database.com/html/main.html)  
+  
+<img width="817" alt="image" src="https://user-images.githubusercontent.com/101965836/226113463-50a2d3dc-e9ff-4c66-ad3e-605dd2d1a7d3.png">  
+
+Chat GPT 한테 물어보니까 알려주네  
+미쳤다  
