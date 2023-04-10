@@ -2,9 +2,20 @@
 [참고2](https://mangkyu.tistory.com/241)  
    
 # PECS (producer-extends, consumer-super)    
-   
-generics에서는 extends와 super를 쓸 수 있다   
-   
+     
+Generic Wildcard에서 extends를 써야하는가 super를 써야하는가?  
+헷갈린다.  
+  
+이를 구분하기 위해서 PECS 라는 말이 있다  
+메서드 매개변수에 있는 Collection이  
+자원을 제공하는지(producer) 값을 가져가는지(consumer)에 따라서 extends를 쓰거나 super를 써야한다는 말이다.  
+  
+근데 나는 produce와 consume이라고 하면 헷갈린다.  
+그리고 어떻게든 외웠다 하더라도, 왜?를 이해하지 못하고 그냥 외우면  
+나중에 또 헷갈려서 반대로 생각날 수 있다(실제로 그랬다)  
+  
+따라서 PECS보다 더 직관적인 연상방법이 필요하다.  
+     
 <br><br>   
    
 # PECS는 직관적이지 않다   
