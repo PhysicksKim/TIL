@@ -21,6 +21,7 @@
 <area>✔ JavaScript - var VS let VS const (2022-04-16)</area>  
 <area>✔ JavaScript - Promise 1,2 (2022-04-16)</area>  
 <area>✔ JavaScript Promise All | Race (2022-04-18)</area>  
+<area>✔ JavaScript 객체 지향 프로그래밍 (2023-05-06)</area>
    
 <area>✔ DATABASE1 (2022-03-25)</area>  
 <area>✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)</area>  
