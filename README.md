@@ -1,6 +1,18 @@
-# 배운 것들 
-[TIL 캘린더로 보기](https://physickskim.github.io/TIL-Calendar/)  
-⏳✔  
+|[TIL 캘린더로 보기](https://physickskim.github.io/TIL-Calendar/)|
+|:---|
+|![image](https://user-images.githubusercontent.com/101965836/236668226-42a0ac54-bc70-4acf-a982-ff541c3b3252.png)|
+|캘린더 형식으로 학습한 강의와 책 보기 - [이동](https://physickskim.github.io/TIL-Calendar/)|  
+ 
+<br>  
+
+---
+
+<br>  
+
+# 학습한 강의 & 책   
+  
+- ⏳ : 학습 중
+- ✔ : 학습 완료
   
 ## 생활코딩
 
@@ -56,10 +68,6 @@
 <area>✔ 테스트 주도 개발 - 켄트 벡 (2023-04-14 ~ 2023-04-20)</area>  
 <area>⏳ 모던 자바스크립트 Deep Dive (2023-05-04 ~ )</area>
   
-## 노마드코더
-  
-<area>✔ 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
-  
 ## Youtube  
 - CodingLab  
 <area>✔ Multiple Typing Text Animation in HTML CSS & JavaScript (2022-04-03)</area> [강의로 이동](https://www.youtube.com/watch?v=nxoHR9lltK0&list=PLImJ3umGjxdAuARwziklrT2QEELizOMtr&index=31)  
@@ -88,15 +96,13 @@
 <area>✔ 실전! 스프링 부트와 JPA 활용2 - API 개발과 성능 최적화 (2023-02-12 ~ 2023-02-14)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-API%EA%B0%9C%EB%B0%9C-%EC%84%B1%EB%8A%A5%EC%B5%9C%EC%A0%81%ED%99%94/dashboard)   
 <area>✔ 실전! 스프링 데이터 JPA (2023-02-15 ~ 2023-02-22)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-JPA-%EC%8B%A4%EC%A0%84/dashboard)  
 <area>✔ 실전! Querydsl (2023-02-24 ~ 2023-03-01)</area> [강의로 이동](https://www.inflearn.com/course/querydsl-%EC%8B%A4%EC%A0%84/dashboard)  
+  
 <area>✔ 스프링부트 시큐리티 & JWT 강의 (2023-03-17 ~ 2023-04-08)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)  
   
-## SQL  
-<area>✔ SQL 기초 - SQLZOO, W3school, Programmers_SQL (2022-06-21 ~ 2022-06-25)</area>
-
-## CS  
-<area>✔ 데이터베이스의 원리와 응용 (2022-07-19 ~ 2022-07-29)</area> [강의로 이동](http://www.kocw.net/home/search/kemView.do?kemId=1163794)   
-     
 ## etc
+<area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
 <area>✔ React Styled Components - Codevolution (2022-04-12)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLC3y8-rFHvwgu-G08-7ovbN9EyhF_cltM)  
 <area>✔ 그런 REST API로 괜찮은가 (2022-04-20)</area> [강의로 이동](https://www.youtube.com/watch?v=RP_f5dMoHFc)  
+<area>✔ SQL 기초 튜토리얼 문제풀이 - SQLZOO, W3school, Programmers_SQL (2022-06-21 ~ 2022-06-25)</area>  
+<area>✔ 데이터베이스의 원리와 응용 (2022-07-19 ~ 2022-07-29)</area> [강의로 이동](http://www.kocw.net/home/search/kemView.do?kemId=1163794)   
 <area>✔ 자바로 구현하고 배우는 자료구조 (2022-09-03 ~ 2022-11-06)</area> [강의로 이동](https://www.boostcourse.org/cs204/joinLectures/145114)  
