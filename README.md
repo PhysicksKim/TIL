@@ -21,7 +21,8 @@
 <area>✔ JavaScript - var VS let VS const (2022-04-16)</area>  
 <area>✔ JavaScript - Promise 1,2 (2022-04-16)</area>  
 <area>✔ JavaScript Promise All | Race (2022-04-18)</area>  
-<area>✔ JavaScript 객체 지향 프로그래밍 (2023-05-06)</area>
+<area>✔ JavaScript 객체 지향 프로그래밍 (2023-05-06)</area>  
+<area>⏳ JavaScript 입문 수업 (2023-05-07)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMA4uSig3hCjl7wTDeyIeZVU)  
    
 <area>✔ DATABASE1 (2022-03-25)</area>  
 <area>✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)</area>  
@@ -50,9 +51,10 @@
 <area>✔ 헤드 퍼스트 디자인 패턴 개정판 (2022-12-11 ~ 2022-12-25)</area>  
 <area>✔ 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 (2022-12-26 ~ 2023-01-07)</area>  
 <area>✔ 스프링 입문을 위한 자바 객체 지향의 원리와 이해 (2023-01-08 ~ 2023-01-13)</area>   
-<area>✔ 혼자 공부하는 컴퓨터구조 + 운영체제 (2023-02-02 ~ 2023-02-06) </area>  
-<area>✔ 모두의 네트워크 (2023-04-12 ~ 2023-04-13) </area>  
-<area>✔ 테스트 주도 개발 - 켄트 벡 (2023-04-14 ~ 2023-04-20) </area>  
+<area>✔ 혼자 공부하는 컴퓨터구조 + 운영체제 (2023-02-02 ~ 2023-02-06)</area>  
+<area>✔ 모두의 네트워크 (2023-04-12 ~ 2023-04-13)</area>  
+<area>✔ 테스트 주도 개발 - 켄트 벡 (2023-04-14 ~ 2023-04-20)</area>  
+<area>⏳ 모던 자바스크립트 Deep Dive (2023-05-04 ~ )</area>
   
 ## 노마드코더
   
