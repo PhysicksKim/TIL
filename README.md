@@ -106,3 +106,4 @@
 <area>✔ SQL 기초 튜토리얼 문제풀이 - SQLZOO, W3school, Programmers_SQL (2022-06-21 ~ 2022-06-25)</area>  
 <area>✔ 데이터베이스의 원리와 응용 (2022-07-19 ~ 2022-07-29)</area> [강의로 이동](http://www.kocw.net/home/search/kemView.do?kemId=1163794)   
 <area>✔ 자바로 구현하고 배우는 자료구조 (2022-09-03 ~ 2022-11-06)</area> [강의로 이동](https://www.boostcourse.org/cs204/joinLectures/145114)  
+<area>✔ 자바스크립트 중급 강좌 - 유튜브 코딩앙마 (2023-05-09)</area> [강의로 이동](https://www.youtube.com/watch?v=4_WLS9Lj6n4)  
