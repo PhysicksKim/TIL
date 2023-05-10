@@ -30,11 +30,13 @@
 <area>✔ JavaScript - callback function (2022-04-16)</area>  
 <area>✔ JavaScript - closure (2022-04-16)</area>  
 <area>✔ JavaScript - Execute context (2022-04-16)</area>  
-<area>✔ JavaScript - var VS let VS const (2022-04-16)</area>  
-<area>✔ JavaScript - Promise 1,2 (2022-04-16)</area>  
+<area>✔ JavaScript - var VS let VS const (2022-04-16)</area>   
+<area>✔ JavaScript - Promise (then, catch) (2022-04-16)</area>   
+<area>✔ JavaScript - Promise 2 - new Promise (2022-04-16)</area>   
 <area>✔ JavaScript Promise All | Race (2022-04-18)</area>  
 <area>✔ JavaScript 객체 지향 프로그래밍 (2023-05-06)</area>  
 <area>✔ JavaScript 입문 수업 (2023-05-07 ~ 2023-05-08)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMA4uSig3hCjl7wTDeyIeZVU)  
+<area>✔ JavaScript - async & await (2023-05-10)</area>  
    
 <area>✔ DATABASE1 (2022-03-25)</area>  
 <area>✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)</area>  
@@ -98,6 +100,8 @@
 <area>✔ 실전! Querydsl (2023-02-24 ~ 2023-03-01)</area> [강의로 이동](https://www.inflearn.com/course/querydsl-%EC%8B%A4%EC%A0%84/dashboard)  
   
 <area>✔ 스프링부트 시큐리티 & JWT 강의 (2023-03-17 ~ 2023-04-08)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)  
+  
+<area>⏳ 처음 만난 리액트 (2023-05-10 ~)</area> [강의로 이동](https://www.inflearn.com/course/%EC%B2%98%EC%9D%8C-%EB%A7%8C%EB%82%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8)   
   
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
