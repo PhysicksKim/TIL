@@ -79,6 +79,8 @@
   
 - Amigoscode  
 <area>✔ Spring Security Tutorial - [NEW] [2023] (2023-03-10 ~ 2023-03-11)</area> [강의로 이동](https://www.youtube.com/watch?v=b9O9NI-RJ3o)   
+
+<area>⏳ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-12 ~ ) [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
   
 ## Inflearn 
 <area>✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/web-game-react)  
@@ -96,12 +98,12 @@
 <area>✔ 자바 ORM 표준 JPA 프로그래밍 - 기본편 (2023-01-18 ~ 2023-02-01)</area> [강의로 이동](https://www.inflearn.com/course/ORM-JPA-Basic/dashboard)  
 <area>✔ 실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발 2회차 (2023-02-07 ~ 2023-02-11)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-%ED%99%9C%EC%9A%A9-1)    
 <area>✔ 실전! 스프링 부트와 JPA 활용2 - API 개발과 성능 최적화 (2023-02-12 ~ 2023-02-14)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-API%EA%B0%9C%EB%B0%9C-%EC%84%B1%EB%8A%A5%EC%B5%9C%EC%A0%81%ED%99%94/dashboard)   
-<area>✔ 실전! 스프링 데이터 JPA (2023-02-15 ~ 2023-02-22)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-JPA-%EC%8B%A4%EC%A0%84/dashboard)  
-<area>✔ 실전! Querydsl (2023-02-24 ~ 2023-03-01)</area> [강의로 이동](https://www.inflearn.com/course/querydsl-%EC%8B%A4%EC%A0%84/dashboard)  
+<area>✔ 실전! 스프링 데이터 JPA (2023-02-15 ~ 2023-02-22)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-JPA-%EC%8B%A4%EC%A0%84/dashboard)   
+<area>✔ 실전! Querydsl (2023-02-24 ~ 2023-03-01)</area> [강의로 이동](https://www.inflearn.com/course/querydsl-%EC%8B%A4%EC%A0%84/dashboard)   
+   
+<area>✔ 스프링부트 시큐리티 & JWT 강의 (2023-03-17 ~ 2023-04-08)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)   
   
-<area>✔ 스프링부트 시큐리티 & JWT 강의 (2023-03-17 ~ 2023-04-08)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)  
-  
-<area>⏳ 처음 만난 리액트 (2023-05-10 ~)</area> [강의로 이동](https://www.inflearn.com/course/%EC%B2%98%EC%9D%8C-%EB%A7%8C%EB%82%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8)   
+<area>✔ 처음 만난 리액트 (2023-05-10 ~ 2023-05-12)</area> [강의로 이동](https://www.inflearn.com/course/%EC%B2%98%EC%9D%8C-%EB%A7%8C%EB%82%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8)     
   
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
