@@ -79,8 +79,9 @@
   
 - Amigoscode  
 <area>✔ Spring Security Tutorial - [NEW] [2023] (2023-03-10 ~ 2023-03-11)</area> [강의로 이동](https://www.youtube.com/watch?v=b9O9NI-RJ3o)   
-
-<area>⏳ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-12 ~ ) [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
+  
+- etc  
+<area>⏳ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-15 ~ )</area> [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
   
 ## Inflearn 
 <area>✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/web-game-react)  
