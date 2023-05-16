@@ -68,7 +68,7 @@
 <area>✔ 혼자 공부하는 컴퓨터구조 + 운영체제 (2023-02-02 ~ 2023-02-06)</area>  
 <area>✔ 모두의 네트워크 (2023-04-12 ~ 2023-04-13)</area>  
 <area>✔ 테스트 주도 개발 - 켄트 벡 (2023-04-14 ~ 2023-04-20)</area>  
-<area>⏳ 모던 자바스크립트 Deep Dive (2023-05-04 ~ )</area>
+<area>✔ 모던 자바스크립트 Deep Dive (2023-05-04 ~ )</area>
   
 ## Youtube  
 - CodingLab  
@@ -81,7 +81,7 @@
 <area>✔ Spring Security Tutorial - [NEW] [2023] (2023-03-10 ~ 2023-03-11)</area> [강의로 이동](https://www.youtube.com/watch?v=b9O9NI-RJ3o)   
   
 - etc  
-<area>⏳ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-15 ~ )</area> [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
+<area>✔ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-15 ~ 2023-05-16)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
   
 ## Inflearn 
 <area>✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/web-game-react)  
