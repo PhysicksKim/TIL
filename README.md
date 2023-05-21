@@ -106,7 +106,7 @@
   
 <area>✔ 처음 만난 리액트 (2023-05-10 ~ 2023-05-12)</area> [강의로 이동](https://www.inflearn.com/course/%EC%B2%98%EC%9D%8C-%EB%A7%8C%EB%82%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8)     
   
-<area>⏳ 스프링부트 개념정리 (이론) (2023-05-19 ~ )</area>[강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EA%B0%9C%EB%85%90%EC%A0%95%EB%A6%AC/dashboard)  
+<area>✔ 스프링부트 개념정리 (이론) (2023-05-19 ~ 2023-05-21)</area>[강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EA%B0%9C%EB%85%90%EC%A0%95%EB%A6%AC/dashboard)  
   
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
