@@ -84,6 +84,10 @@
 - etc  
 <area>✔ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-15 ~ 2023-05-16)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
   
+- 널널한 개발자  
+<area>⏳ 곰책으로 쉽게 배우는 최소한의 운영체제론 (2023-06-14 ~ )</area> [강의로 이동](https://www.youtube.com/watch?v=nJ_lP8Iw05Y&list=PLXvgR_grOs1DGFOeD792kHlRml0PhCe9l&index=3) [(인프런 페이지)](https://www.inflearn.com/course/%EA%B3%B0%EC%B1%85-%EC%89%BD%EA%B2%8C-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C)   
+  
+  
 ## Inflearn 
 <area>✔ 웹 게임을 만들며 배우는 React (2022-04-03 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/web-game-react)  
 <area>✔ 반드시 알고 넘어가야 할 웹 기술 기초편 (2022-04-09 ~ 2022-04-11)</area> [강의로 이동](https://www.inflearn.com/course/%EC%9B%B9-%EA%B8%B0%EC%88%A0-%EA%B8%B0%EC%B4%88)   
