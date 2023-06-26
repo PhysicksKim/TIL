@@ -85,7 +85,7 @@
 <area>✔ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-15 ~ 2023-05-16)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
   
 - 널널한 개발자  
-<area>⏳ 곰책으로 쉽게 배우는 최소한의 운영체제론 (2023-06-14 ~ )</area> [강의로 이동](https://www.youtube.com/watch?v=nJ_lP8Iw05Y&list=PLXvgR_grOs1DGFOeD792kHlRml0PhCe9l&index=3) [(인프런 페이지)](https://www.inflearn.com/course/%EA%B3%B0%EC%B1%85-%EC%89%BD%EA%B2%8C-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C)   
+<area>✔ 곰책으로 쉽게 배우는 최소한의 운영체제론 (2023-06-14 ~ 2023-06-26)</area> [강의로 이동](https://www.youtube.com/watch?v=nJ_lP8Iw05Y&list=PLXvgR_grOs1DGFOeD792kHlRml0PhCe9l&index=3) [(인프런 페이지)](https://www.inflearn.com/course/%EA%B3%B0%EC%B1%85-%EC%89%BD%EA%B2%8C-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C)   
   
   
 ## Inflearn 
@@ -108,10 +108,12 @@
 <area>✔ 실전! Querydsl (2023-02-24 ~ 2023-03-01)</area> [강의로 이동](https://www.inflearn.com/course/querydsl-%EC%8B%A4%EC%A0%84/dashboard)   
    
 <area>✔ 스프링부트 시큐리티 & JWT 강의 (2023-03-17 ~ 2023-04-08)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)   
-  
+   
 <area>✔ 처음 만난 리액트 (2023-05-10 ~ 2023-05-12)</area> [강의로 이동](https://www.inflearn.com/course/%EC%B2%98%EC%9D%8C-%EB%A7%8C%EB%82%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8)      
   
 <area>✔ 스프링부트 개념정리 - 이론 (2023-05-19 ~ 2023-05-21)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EA%B0%9C%EB%85%90%EC%A0%95%EB%A6%AC/dashboard)    
+  
+<area>⏳ 외워서 끝내는 네트워크 핵심이론 - 기초 (2023-06-26 ~ )</area> [강의로 이동](https://www.inflearn.com/course/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%ED%95%B5%EC%8B%AC%EC%9D%B4%EB%A1%A0-%EA%B8%B0%EC%B4%88/dashboard)  
    
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
