@@ -3,10 +3,44 @@ Abstract Class를 보다보니, Java가 왜 java 8 부터 Interface에서도 구
 
 ### Interface VS Abstract Class 차이 모른다면  
 [먼저 읽어보세요 - 20230112_abstract와interface차이.md](https://github.com/PhysicksKim/TIL/blob/0d8a9ec3171a06d8e2ee6382b4a80010ef751e3b/Java/20230112_abstract%EC%99%80interface%EC%B0%A8%EC%9D%B4.md)  
+> Abstract Class 와 Interface 의 차이는, steteful VS stateless 의 차이다.        
   
 <br>  
+
+# Default Method가 추가된 이유  
+1. 기존에 여러 곳에서 사용되던 Interface에 새 메서드가 추가되면, 이에 따른 구현을 전부 다시 해줘야 하는 번거로움이 있었다.
+2. 그래서 이를 해결하고자 default method 라는 게 Java 8 에서 추가됐다.
+3. 처음부터 default method가 있지 않았던 이유는 뭘까 뇌피셜로 생각해보니, 객체지향 철학에서 온 것 같다.
+4. 어떤 객체지향 철학인가? 를 알려면, Abstract Class와 Interface의 차이를 보는 게 좋을 것 같다.  
   
-### Abstract Class를 보던 중...  
+<br>  
+
+# 의문이 생긴 계기 - "왜 Default Method가 처음부터 없었지?"  
+
+아래 내용은 주로 Abstract Class VS Interface 이야기이다.  
+그래서 미리 Default Method 의문이 왜 들었는지 그냥 끝내고 가도록 하겠다.  
+
+## Default Method 의문이 든 이유  
+Abstract vs Interface 비교하다가 생각이 든 점이 있다.    
+구현된 메서드를 가질 수 있는가 없는가가 차이로 설명되는 책을 봤었는데  
+Java 8에서 추가된 Default Method 를 사용하면 Interface도 구현된 메서드를 가질 수 있게 됐다.  
+그럼 왜 애초부터 Default Method 기능을 넣지 않은거지?   
+  
+이에 대한 답으로는  
+처음에는 Java의 객체지향 철학에 따라
+Abstract VS Interface는 State 개념으로 구분하고자 했고,  
+method 구현도 하나의 State로 보고, Interface는 구현된 Method를 가질 수 없도록 설계했던 것 같다.  
+그런데 시간이 지나면서, 현실적으로 보니까 Method 구현 보다는 Field가 갖는 State 문제가 큰거고  
+실용적 관점에서는 그냥 Interface가 Default Method를 가질 수 있도록 하는 게 더 좋았는 것을 깨달은 것 같다.  
+그래서 뒤늦게 Java 8 에서 Default Method라는 것을 추가한 것 같다.  
+
+<br><br><br>
+
+---  
+  
+# Abstract Class VS Interface 이야기  
+    
+### Abstract Class를 보던 중 Abstract Class와 Interface에 대해 다시 생각해봄  
 StringBuilder의 소스코드를 봤는데  
 AbstractStringBuilder 가 있었다.  
   
@@ -27,8 +61,8 @@ if (cs instanceOf AbstractStringBuilder) {
   
 <br>
   
-# 내 생각   
-- 분류의 차이. 상태를 가질 수 있는가의 차이.  
+# Abstract VS Interface 차이가 뭔지 내 생각은 이랬다     
+- 분류의 차이. **상태(state)**를 가질 수 있는가의 차이.  
   
 Class 상속이 의미하는 바와  
 Interface 구현이 의미하는 바가 다르다.  
@@ -45,7 +79,7 @@ Interface 구현이 의미하는 바가 다르다.
   
 이렇게만 보면 또 애매하다. 둘 다 그럴싸한데?  
     
-여기서 또 하나 추가해야하는 개념이 바로 상태(state)이다    
+여기서 중요한 개념이 바로 **상태(state)**이다    
   
 <br>  
   
