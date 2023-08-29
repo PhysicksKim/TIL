@@ -133,3 +133,46 @@ Bun 에서는 2.6초 밖에 안걸린다고 한다.
 경우에 따라 다를 수 있지만  
 어쨌건 Node.js보다 Bun이 그냥 빠르다.  
   
+<br><br><br>  
+
+---
+
+
+<br><br><br>  
+
+---
+
+# 추가 
+
+---
+
+# 추측 - 왜 JavaScript 가 Java 보다 잦은 I/O에 유리한가?  
+  
+### Java (Spring)   
+: Multi-Thread 기반으로 동시에 I/O 를 처리     
+    
+### JavaScript (Express라 설명한 Node.js)   
+: Single Thread 지만 Non-Blocking I/O 기반으로 동시(?)에 I/O를 처리   
+
+<br>  
+   
+### Java 가 단일 I/O 처리는 빠르다 
+추측해보면   
+Java 가 단일 코드 처리 자체는 빠르다는 말에 따라서  
+단일 I/O 처리도 더 빠를 것이다.  
+  
+<br>  
+   
+### 작은 I/O 가 여럿 일어나면, Java가 더 느리다  
+이는 추측해보면    
+   
+Java 는 Multi-Thread로 동작해서    
+오버헤드가 많아지고 별 요청 아닌데도 Thread 하나씩 붙어야 한다는 단점이 있다.   
+또한 요청마다 Thread가 생기므로 메모리도 더 많이 쓰게 된다.   
+  
+반면 JavaScript 는 Non-Blocking 으로 처리해서   
+그냥 Event Queue에다가 집어넣기만 하면 되므로 오버헤드와 메모리 사용이 더 적다.     
+    
+### 참고한 글  
+[Is non-blocking I/O really faster than multi-threaded blocking I/O?](https://stackoverflow.com/questions/8546273/is-non-blocking-i-o-really-faster-than-multi-threaded-blocking-i-o-how)    
+[Why is Non blocking asynchronous single-threaded faster for IO than blocking multi-threaded for some applications](https://stackoverflow.com/questions/63489917/why-is-non-blocking-asynchronous-single-threaded-faster-for-io-than-blocking-mul)  
