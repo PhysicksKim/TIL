@@ -114,9 +114,11 @@
 <area>✔ 스프링부트 개념정리 - 이론 (2023-05-19 ~ 2023-05-21)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EA%B0%9C%EB%85%90%EC%A0%95%EB%A6%AC/dashboard)    
   
 <area>✔ 외워서 끝내는 네트워크 핵심이론 - 기초 (2023-06-26 ~ 2023-07-07)</area> [강의로 이동](https://www.inflearn.com/course/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%ED%95%B5%EC%8B%AC%EC%9D%B4%EB%A1%A0-%EA%B8%B0%EC%B4%88/dashboard)  
-
-<area>⏳ 2주만에 통과하는 알고리즘 코딩테스트 (2023-09-17 ~ )</area> [강의로 이동](https://www.inflearn.com/course/2%EC%A3%BC%EB%A7%8C%EC%97%90-%ED%86%B5%EA%B3%BC%ED%95%98%EB%8A%94-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EC%BD%94%EB%94%A9%ED%85%8C%EC%8A%A4%ED%8A%B8/dashboard)  
-   
+  
+<area>⏳ 2주만에 통과하는 알고리즘 코딩테스트 (2023-09-17 ~ )</area> [강의로 이동](https://www.inflearn.com/course/2%EC%A3%BC%EB%A7%8C%EC%97%90-%ED%86%B5%EA%B3%BC%ED%95%98%EB%8A%94-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EC%BD%94%EB%94%A9%ED%85%8C%EC%8A%A4%ED%8A%B8/dashboard)   
+  
+<area>✔ 따라하며 배우는 노드, 리액트 시리즈 - 기본 강의 (2023-09-19)</area> [강의로 이동](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%A9%B0-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EB%85%B8%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EA%B8%B0%EB%B3%B8#)  
+    
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
 <area>✔ React Styled Components - Codevolution (2022-04-12)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLC3y8-rFHvwgu-G08-7ovbN9EyhF_cltM)  
