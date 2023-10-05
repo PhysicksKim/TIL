@@ -119,6 +119,9 @@
    
 <area>✔ 따라하며 배우는 노드, 리액트 시리즈 - 기본 강의 (2023-09-19)</area> [강의로 이동](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%A9%B0-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EB%85%B8%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EA%B8%B0%EB%B3%B8#)   
 <area>✔ 한입 크기로 잘라 먹는 리액트 (2023-09-20 ~ 2023-10-01)</area> [강의로 이동](https://www.inflearn.com/course/%ED%95%9C%EC%9E%85-%EB%A6%AC%EC%95%A1%ED%8A%B8/dashboard)   
+
+# udemy 
+<area>⏳ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ )</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/) 
    
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
