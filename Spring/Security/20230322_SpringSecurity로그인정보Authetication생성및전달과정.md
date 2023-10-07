@@ -15,7 +15,7 @@
     
 ![KakaoTalk_20230322_234841978](https://user-images.githubusercontent.com/101965836/226943270-1af66fc3-f52d-43f9-9e9a-21553cbca0ea.jpg)  
   
-
+  
 # 설명  
 
 <pre>
@@ -29,3 +29,10 @@
 6. Authentication 객체 저장: 인증에 성공하면, 해당 Authentication 객체는 SecurityContext에 저장됩니다.
 7. Controller와 Service: SecurityContext에 저장된 Authentication 객체는 Controller의 파라미터로 전달될 수 있고, SecurityContextHolder를 통해 서비스 계층에서도 접근 가능합니다.
 </pre>
+
+<br><br>  
+
+# 기본 Spring Security 로그인 Form 요청시 처리 과정  
+  
+![image](https://github.com/PhysicksKim/TIL/assets/101965836/4bcb7bf6-b5cd-4264-aa57-595ce67a6fb4)
+  
