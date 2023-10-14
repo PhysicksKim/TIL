@@ -8,3 +8,8 @@ Spring Security 에서는 아래와 같이 CSRF 토큰 및 인증을 관리한�
 4. 서버는 Request 에서 CSRF Token과 JSESSIONID를 추출한다.   
 5. 앞서 (2) 과정에서 서버 메모리에 저장해둔 {CSRF Token - JSESSIONID} 와 Request 에서 추출한 {CSRF Token - JSESSIONID} 가 일치하는지 확인한다. 일치하면 통과하고 로직을 수행한다.    
   
+<br><br>  
+  
+# csrf token 생성 시 CsrfFilter 흐름 
+
+![SpringSecurity_CsrfFilter에서csrfToken생성흐름](https://github.com/PhysicksKim/TIL/assets/101965836/31da7067-3f25-4e28-a845-68a0b7dd4c4a)
