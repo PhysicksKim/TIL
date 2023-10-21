@@ -121,7 +121,7 @@
 <area>✔ 한입 크기로 잘라 먹는 리액트 (2023-09-20 ~ 2023-10-01)</area> [강의로 이동](https://www.inflearn.com/course/%ED%95%9C%EC%9E%85-%EB%A6%AC%EC%95%A1%ED%8A%B8/dashboard)   
 
 # udemy 
-<area>⏳ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ )</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/) 
+<area>✔ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ 2023-10-21)</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/) 
    
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
