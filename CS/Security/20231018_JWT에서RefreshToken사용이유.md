@@ -1,4 +1,5 @@
-[참고 1](https://stackoverflow.com/questions/38986005/what-is-the-purpose-of-a-refresh-token)  
+[참고 1](https://stackoverflow.com/questions/38986005/what-is-the-purpose-of-a-refresh-token)    
+[참고 2](https://velog.io/@park2348190/JWT%EC%97%90%EC%84%9C-Refresh-Token%EC%9D%80-%EC%99%9C-%ED%95%84%EC%9A%94%ED%95%9C%EA%B0%80)  
 아주 크게 뇌피셜
   
 ---  
@@ -70,6 +71,43 @@ Access Token + Refresh Token 방식은 즉각적인 무효화는 어렵고
 > Network 에 password 같은 민감한 정보가 자주 오가는 것 자체가 안좋은 형태라고 한다.
 > 물론 이는 아주 근본적으로 Refresh Token의 이점이라고 보기는 어렵지 않나 싶다.
   
+<br><br>
+
+# Refresh Token 유의사항
+
+## 1. Access Token 만료시 Refresh Token 도 재발급  
+   
+Refresh Token 을 1회용으로 두는 것이다.    
+이렇게 하면 단발성 Refresh Token 탈취에 대응할 수 있다.  
+  
+Refresh Token을 1회용으로 두더라도 앞서 말한 장점들을 지킬 수 있다.    
+Refresh Token 재발급 비용이 들겠지만, 그렇게 크지는 않을 것 같다.   
+(예를 들면 접속자 1명당 30분에 1번 요청 수준이니까)  
+
+실제로 ietf 에서도 매 Access Token 재발급 마다 Refresh Token 재발급을 권장한다.  
+  
+> [ietf - 8. Refresh Tokens](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps-00#section-8)  
+> If an authorization server does choose to issue refresh tokens to  
+> browser-based applications, then it MUST issue a new refresh token  
+> with every access token refresh response.  
+  
+### 왜  
+   
+> Doing this mitigates the risk of a leaked refresh token,   
+> as a leaked refresh token can be detected if both the attacker and the legitimate client attempt to   
+> use the same refresh token.  
+  
+Access Token 재발급에 Refresh Token도 같이 재발급 하면   
+공격자가 Refresh Token 을 탈취해서 재발급 요청을 했음을 감지할 수 있다.        
+  
+<br>  
+  
+## 2. Token을 어디에 저장해야할까   
+   
+[참고 - Where to store the refresh token on the Client?](https://stackoverflow.com/questions/57650692/where-to-store-the-refresh-token-on-the-client)    
+  
+http-only 쿠키에 저장하길 권장한다.  
+일반 쿠키, 로컬 스토리지는 javascript로 접근할 수 있으므로 권장하지 않는다.  
   
 <br><br>  
    
@@ -81,4 +119,5 @@ Refresh Token 을 둠으로 인해서 빈번한 Access 작업마다 DB 에서 ID
 단순 세션보다 DB 부하를 줄여준다는 장점까지 더해진다.   
 따라서 세션 장점과 토큰 장점을 어느정도 융합한 형태이다.   
   
-  
+그리고 Refresh Token 자체가 장점도 많지만 보안 위험도 높으니까  
+주의 사항을 잘 체크하고 보안에 신경써서 구현해야 한다.  
