@@ -1,6 +1,9 @@
 [참고 1](https://stackoverflow.com/questions/38986005/what-is-the-purpose-of-a-refresh-token)    
-[참고 2](https://velog.io/@park2348190/JWT%EC%97%90%EC%84%9C-Refresh-Token%EC%9D%80-%EC%99%9C-%ED%95%84%EC%9A%94%ED%95%9C%EA%B0%80)  
-아주 크게 뇌피셜
+[참고 2](https://velog.io/@park2348190/JWT%EC%97%90%EC%84%9C-Refresh-Token%EC%9D%80-%EC%99%9C-%ED%95%84%EC%9A%94%ED%95%9C%EA%B0%80)   
+[참고 3 - Where to store JWT refresh tokens](https://security.stackexchange.com/questions/271157/where-to-store-jwt-refresh-tokens)    
+[참고 4 - Where to store acces and refresh tokens](https://www.reddit.com/r/node/comments/12ailfn/where_to_store_acces_and_refresh_tokens/)  
+  
+뇌피셜 아주 크게 포함  
   
 ---  
   
@@ -109,6 +112,52 @@ Access Token 재발급에 Refresh Token도 같이 재발급 하면
 http-only 쿠키에 저장하길 권장한다.  
 일반 쿠키, 로컬 스토리지는 javascript로 접근할 수 있으므로 권장하지 않는다.  
   
+<br>  
+
+## 3. Refresh Token 을 Server Side의 DB에 저장 할 때, 해싱해서 저장한다  
+해커가 DB 에서 Refresh Token을 탈취할 위험 또한 존재한다.   
+그래서 Refresh Token 을 저장할 때에는 해싱을 거쳐 DB에 저장하는 게 좋다.  
+
+어차피 유효성 검증에서는 받은 Refresh Token 을 해싱해서 검증하면 된다.  
+(Spring 에서 Password Encoder 를 활용해서 검증하면 된다. 비밀번호 검증이랑 매커니즘이 똑같으니까.)    
+  
+<br>  
+
+## 4. Client Side 에 Refresh Token 저장은?  
+크게 2가지 방법이 있다.  
+  
+1) HttpOnly 쿠키 저장 (HTTP only + Secure 쿠키)  
+2) Local Storage 에 저장
+
+| |HttpOnly 쿠키|Local Storage|
+|---|---|---|
+|장점|탈취 위험 비교적 적음|필요할 때에만 Request 에 담아 보낼 수 있음 <br> (네트워크 노출 적음)|
+|단점|매 Request 마다 자동으로 담아 보내짐 <br> (네트워크 노출 많음)|탈취 위험이 비교적 큼|
+
+> XSS 공격에 대한 위험은 어차피 두 방식 다 존재한다.  
+
+### Server Side Rendering(SSR) App 에서는 Token 다루기가 까다롭다  
+Client Side Rendering(CSR) 에서는 어차피 공통된 JS 코드를 넣기도 쉽고, 또 이를 잘 지원한다. (ex. React)  
+따라서 CSR 에서는 Token 처리 로직을 모든 페이지에 넣어두기 쉽다. SPA 같은 경우 더욱 적합하다.  
+
+반면 서버 사이드 랜더링의 경우에는 애매해진다.  
+Thymeleaf 같은 경우 모든 페이지에 공통으로 JS 를 넣어주는 기능이 없다.  
+따라서 개발자가 모든 페이지에 다 Token 처리 해주는 JS 를 넣어줘야 하는데  
+실수로 누락된다면 문제가 생긴다.  
+  
+따라서 SSR 에서는 HttpOnly 쿠키를 쓰는게 더 편하기도 하고  
+아예 Token 방식의 단점이 너무 커지면 Session 방식으로 돌아가는 것도 고민해볼만 하다.  
+  
+<br><br>  
+
+# 좋은 인터페이스 설계 필요해 보임  
+
+생각보다 Token 의 구현 방식이 세부적으로 들어가면 다양해지는 것 같다.    
+Token 저장 DB가 바뀔 수 있고    
+Token 방식이 바뀌어서 검증 로직이 바뀔 수 있다.  
+심지어 Token 방식에서 Session 방식으로 바뀔 수 있다.  
+따라서 잘 추상화 된 설계가 중요해 보인다.  
+
 <br><br>  
    
 ### 정리    
