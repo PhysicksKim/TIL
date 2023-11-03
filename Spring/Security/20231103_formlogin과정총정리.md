@@ -2,13 +2,14 @@
 
 Form Login 을 구현해주는 개발자 입장에서 전체 과정을 정리
 
-1. UsernamePasswordAuthenticationFilter 를 구현하고 등록한다. 이 필터는 FormLogin 요청을 처리하는 필터이다. Security Config 에서 .loginProcessingUrl(String url) 을 설정해주면, 필터는 해당 URL 로 Form Login POST 요청을 받아서 처리한다. 
+1. UsernamePasswordAuthenticationFilter 를 구현하고 등록한다. 이 필터는 FormLogin 요청을 처리하는 필터이다. Security Config 에서 .loginProcessingUrl(String url) 을 설정해주면, 필터는 해당 URL 로 Form Login POST 요청을 받아서 처리한다.   
+  
 2. 앞서 말한 UsernamePasswordAuthenticationFilter 구현에 대해 설명하면, attemptAuthentication() 메서드를 오버라이드 해서 필터 로직을 처리해줘야 한다. 필터에서 처리해줘야 하는 작업은 아래와 같다.  
 2-1. HttpServletRequest 에서 form data 로 넘어온 로그인 요청 정보를 추출해낸다. 예를 들어 email 과 password 를 추출한다. 
 2-2. 앞서 추출한 로그인 요청 정보를 바탕으로 Token을 만든다. 예를 들어 UsernamePasswordAuthenticationToken 을 만든다. 참고로 여기서 사용한 UsernamePasswordAuthenticationToken 클래스는 Authentication 을 구현한 클래스이다. 
-2-3. (선택사항) setDetails(request, token); 를 통해서 request 에서 sessionID 와 IP 를 추출해서 token 안에 details 필드에 저장한다. 
-2-4.  this.getAuthenticationManager().authenticate(token); 을 통해서 AuthenticationManager 에게 해당 token이 유효한지 인증 요청을 보낸다. 
-
+2-3. (선택사항) setDetails(request, token); 를 통해서 request 에서 sessionID 와 IP 를 추출해서 token 안에 details 필드에 저장한다. 여기서 setDetails 메서드는 UsernamePasswordAuthenticationFilter.setDetails() 가 먼저 호출이되고, UsernamePasswordAuthenticationFilter 에서 구현한 setDetails를 보면 그냥 단순하게 토큰의 setDetails() 메서드를 다시 호출할 뿐이다 (즉, UsernamePasswordAuthenticationToken.setDetails(...)를 할 뿐이다) 따라서 개발자가 "나는 sessionID 와 IP 말고 otp 정보나 휴대폰 인증 결과 같은 다른 정보들을 로그인 과정에서 받아서 token 안에다가 넣어두고 싶어" 라고 한다면 그냥 UsernamePasswordAuthenticationFilter 에서 setDetails 를 override 해서 수정해주면 된다.   
+2-4. this.getAuthenticationManager().authenticate(token); 을 통해서 AuthenticationManager 에게 해당 token이 유효한지 인증 요청을 보낸다.   
+  
 3. AuthenticationManager 는 현재 서버에 등록된 AuthenticationProvider 들을 순회하면서, 전달받은 Authenticaion 객체를 해당 AuthenticationProvider 가 다룰 수 있는지 체크한다. 여기에는 AuthenticationProvider 인터페이스에서 선언된 supports() 메서드를 사용한다. 예를 들어 UsernamePasswordAuthenticationToken 을 생성해서 AuthenticationManager.authenticate(usernamePasswordAuthenticationToken) 와 같이 넘겨준 경우, authenticate() 메서드 에서는 Authentication authentication 으로 다형성을 활용해 token 을 받은 다음, 해당 authentication 객체를 처리해줄 수 있는 AuthenticationProvider 가 있는지 찾아본다. 그리고 UsernamePasswordAuthenticationToken 의 경우 DaoAuthenticationProvider 가 이를 처리해줄 수 있다고 알려준다. AuthenticationProvider 인터페이스에는 supports(Class<?> authentication) 메서드가 있는데, 이 메서드에서 전달 받은 authentication class 를 해당 구현체가 처리해줄 수 있는지 여부를 boolean으로 반환해서 AuthenticationManager 에게 알려준다. DaoAuthenticationProvider 에는 supports() 메서드에서 "return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication)); 이라고 코드가 작성되어 있으며, 위 코드를 보아서 DaoAuthenticationProvider 는 UsernamePasswordAuthenticationToken 을 처리하기 위해 존재함을 알 수 있다. 
 
 4. DaoAuthenticationProvider 는 UsernamePasswordAuthenticationToken 을 전달받아서 AuthenticationProvider 에서 정의된 authenticate() 메서드를 수행해서 해당 token이 유효한 인증 요청 인지를 검사한다. 즉 인증(authentication) 과정을 수행한다. 
