@@ -21,10 +21,11 @@ auth username : NULL
 
 <br><br>  
 
-# AnonymousAuthenticationToken 이 들어가지 않는 이유  
-[참고](https://stackoverflow.com/questions/60094034/is-there-a-way-to-get-a-non-null-principal-authentication-using-spring-security)  
-
-```
+# AnonymousAuthenticationToken 이 들어가지 않는 이유   
+[참고1 - stackoverflow 질문글](https://stackoverflow.com/questions/60094034/is-there-a-way-to-get-a-non-null-principal-authentication-using-spring-security)    
+[참고2 - 위 질문 글에서 타고 들어간 git issue](https://github.com/spring-projects/spring-security/issues/4011)   
+  
+```java
 public class SecurityContextHolderAwareRequestWrapper extends HttpServletRequestWrapper {
 
   // 생략
