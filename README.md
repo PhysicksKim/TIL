@@ -70,7 +70,8 @@
 <area>✔ 테스트 주도 개발 - 켄트 벡 (2023-04-14 ~ 2023-04-20)</area>   
 <area>✔ 모던 자바스크립트 Deep Dive (2023-05-04 ~ 2023-05-16)</area>   
 <area>✔ 자바 코딩인터뷰 완벽 가이드 ch01 ~ ch10 (2023-05-22 ~ 2023-06-05)</area>   
-   
+<area>⏳ 도메인 주도 개발 시작하기 (2023-11-12 ~ )</area>   
+     
 ## Youtube  
 - CodingLab  
 <area>✔ Multiple Typing Text Animation in HTML CSS & JavaScript (2022-04-03)</area> [강의로 이동](https://www.youtube.com/watch?v=nxoHR9lltK0&list=PLImJ3umGjxdAuARwziklrT2QEELizOMtr&index=31)  
