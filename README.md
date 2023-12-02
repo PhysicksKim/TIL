@@ -120,7 +120,7 @@
    
 <area>✔ 따라하며 배우는 노드, 리액트 시리즈 - 기본 강의 (2023-09-19)</area> [강의로 이동](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%A9%B0-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EB%85%B8%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EA%B8%B0%EB%B3%B8#)   
 <area>✔ 한입 크기로 잘라 먹는 리액트 (2023-09-20 ~ 2023-10-01)</area> [강의로 이동](https://www.inflearn.com/course/%ED%95%9C%EC%9E%85-%EB%A6%AC%EC%95%A1%ED%8A%B8/dashboard)   
-<area>⏳ Practical Testing: 실용적인 테스트 가이드 (2023-11-25 ~ )</area> [강의로 이동](https://www.inflearn.com/course/practical-testing-%EC%8B%A4%EC%9A%A9%EC%A0%81%EC%9D%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B0%80%EC%9D%B4%EB%93%9C/dashboard)  
+<area>✔ Practical Testing: 실용적인 테스트 가이드 (2023-11-25 ~ 2023-12-02)</area> [강의로 이동](https://www.inflearn.com/course/practical-testing-%EC%8B%A4%EC%9A%A9%EC%A0%81%EC%9D%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B0%80%EC%9D%B4%EB%93%9C/dashboard)  
 
 # udemy 
 <area>✔ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ 2023-10-21)</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/) 
