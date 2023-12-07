@@ -27,6 +27,7 @@ A. query parameter RedirectURL
 B. Form Hidden 값  
 C. Save Request Cache  
 
+<br>
 
 ## 1. 전부 redirect URL 로 바꾸면 안되나요??  
 
@@ -38,7 +39,21 @@ C. Save Request Cache
 AuthenticationEntryPoint 에서 GET /login 으로 Redirect 할 때 'Login 성공 Redirect URL' 을 추가할 수 있을 것 같음.  
 ExceptionTranslationFilter 에서 저장한 RequestCache 를 꺼내서 Redirect URL 에다가 추가할 수 있다.  
 
-
+<br>
+  
 ## 2. 전부 Request Cache 로 통일하면 안되나요?  
-Request Cache 로 통일하면 심플할 수 있기는 한데,  
-Modal 로그인으로 접근하면 ExceptionTranslationFilter 를 거치지 않기 때문에 saveRequest() 메서드를 거칠 수  없다. 결국 수동으로 직접 Request 를 cache 하는 작업을 해야 하는데, 이 부분은 아직 직접 구현해보지는 않아서 어떤 장단점이 있을지 예측하긴 힘들다. 하지만 본질적으로 "진입점이 다양하다" 라는 문제 때문에 흐름이 더 복잡해진 거라서, 어차피 Request Cache 한다고 하더라도 마찬가지로 여러 인터페이스를 구현해야 하는 것은 변함이 없다.  
+Request Cache 로 통일하면 심플할 수 있기는 하지만 구현이 어렵다.  
+  
+그리고 결정적으로 Modal Login Redirect 처리는 RequestCache 기반으로 곧바로 할 수 없다.  
+  
+### Modal Login 문제점  
+Request Cache 기반 Redirect 는 Request URL 로 다시 보내는 방식으로 동작한다.  
+반면 Modal Login Success Redirect 는 Referer URL 로 다시 보내는 방식으로 동작한다.  
+  
+따라서 Modal Login 의 request 를 곧바로 cache 에 넣는다고 동작하는 게 아니다.     
+Modal Login Redirect 에서 Request Cache 방식을 사용하려면  
+referer URL 을 빼낸 다음 Servlet Request 를 억지로 만들어서 request URL 에 넣어줘야 한다.    
+  
+사실 모든 문제의 원흉은 Modal Login 이긴 하다.  
+하지만 사용자 경험을 위해서 Modal Login 을 남겨두고, 구조적인 문제를 감수하는 게 좋지 않을까 싶어서 일단 Modal Login을 남겨두자.  
+  
