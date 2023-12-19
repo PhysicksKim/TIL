@@ -70,7 +70,7 @@
 ✔❗ ~~테스트 주도 개발 - 켄트 벡~~ (2023-04-14 ~ 2023-04-20)  (테스트 코드 작성 방법도 모르고 첫 회독을 하니 하나도 기억 안남)     
 <area>✔ 모던 자바스크립트 Deep Dive (2023-05-04 ~ 2023-05-16)</area>   
 <area>✔ 자바 코딩인터뷰 완벽 가이드 ch01 ~ ch10 (2023-05-22 ~ 2023-06-05)</area>   
-<area>✔ 도메인 주도 개발 시작하기 (ch1 ~ ch5) (2023-11-12 ~ 2023-12-19)</area> (뒤쪽 디테일 내용은 ToyProject 에 도메인 주도 개발 적용 후에 해보는 게 좋을듯함)   
+<area>✔ 도메인 주도 개발 시작하기 ch1 ~ ch5 (2023-11-12 ~ 2023-12-19)</area> (뒤쪽 디테일 내용은 ToyProject 에 도메인 주도 개발 적용 후에 해보는 게 좋을듯함)   
      
 ## Youtube  
 - CodingLab  
@@ -126,6 +126,7 @@
 
 # udemy 
 <area>✔ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ 2023-10-21)</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/) 
+<area>⌛ Spring Boot Unit Testing with JUnit, Mockito and MockMvc (2023-12-20 ~ )</area> [강의로 이동](https://www.udemy.com/course/spring-boot-unit-testing/)  
    
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
