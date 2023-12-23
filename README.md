@@ -80,7 +80,7 @@
 <area>✔ Password Show or Hide Toggle using HTML CSS & JavaScript | CodingLab (2022-04-06)</area> [강의로 이동](https://www.youtube.com/watch?v=aIff0nalld0)    
   
 - Amigoscode  
-<area>✔ Spring Security Tutorial - [NEW] [2023] (2023-03-10 ~ 2023-03-11)</area> [강의로 이동](https://www.youtube.com/watch?v=b9O9NI-RJ3o)   
+<area>✔ Spring Security Tutorial - NEW 2023 (2023-03-10 ~ 2023-03-11)</area> [강의로 이동](https://www.youtube.com/watch?v=b9O9NI-RJ3o)   
   
 - etc  
 <area>✔ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-15 ~ 2023-05-16)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
@@ -126,7 +126,7 @@
 
 # udemy 
 <area>✔ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ 2023-10-21)</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/) 
-<area>⌛ Spring Boot Unit Testing with JUnit, Mockito and MockMvc (2023-12-20 ~ )</area> [강의로 이동](https://www.udemy.com/course/spring-boot-unit-testing/)  
+<area>✔ Spring Boot Unit Testing with JUnit, Mockito and MockMvc (2023-12-20 ~ 2023-12-23)</area> [강의로 이동](https://www.udemy.com/course/spring-boot-unit-testing/)  
    
 ## etc
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>   
