@@ -66,8 +66,7 @@
 <area>✔ 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 (2022-12-26 ~ 2023-01-07)</area>   
 <area>✔ 스프링 입문을 위한 자바 객체 지향의 원리와 이해 (2023-01-08 ~ 2023-01-13)</area>    
 <area>✔ 혼자 공부하는 컴퓨터구조 + 운영체제 (2023-02-02 ~ 2023-02-06)</area>   
-<area>✔ 모두의 네트워크 (2023-04-12 ~ 2023-04-13)</area>   
-✔❗ ~~테스트 주도 개발 - 켄트 벡~~ (2023-04-14 ~ 2023-04-20)  (테스트 코드 작성 방법도 모르고 첫 회독을 하니 하나도 기억 안남)     
+<area>✔ 모두의 네트워크 (2023-04-12 ~ 2023-04-13)</area>    
 <area>✔ 모던 자바스크립트 Deep Dive (2023-05-04 ~ 2023-05-16)</area>   
 <area>✔ 자바 코딩인터뷰 완벽 가이드 ch01 ~ ch10 (2023-05-22 ~ 2023-06-05)</area>   
 <area>✔ 도메인 주도 개발 시작하기 ch1 ~ ch5 (2023-11-12 ~ 2023-12-19)</area> (뒤쪽 디테일 내용은 ToyProject 에 도메인 주도 개발 적용 후에 해보는 게 좋을듯함)   
@@ -123,6 +122,8 @@
 <area>✔ Practical Testing: 실용적인 테스트 가이드 (2023-11-25 ~ 2023-12-02)</area> [강의로 이동](https://www.inflearn.com/course/practical-testing-%EC%8B%A4%EC%9A%A9%EC%A0%81%EC%9D%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B0%80%EC%9D%B4%EB%93%9C/dashboard)  
   
 <area>✔ 김영한의 자바 입문 - 코드로 시작하는 자바 첫걸음 (2023-12-12)</area> [강의로 이동](https://www.inflearn.com/course/%EA%B9%80%EC%98%81%ED%95%9C%EC%9D%98-%EC%9E%90%EB%B0%94-%EC%9E%85%EB%AC%B8#)  
+
+<area>⏳ Spring Boot 3.x 를 이용한 RESTful Web Services 개발 (2023-12-24 ~ )</area> [강의로 이동](https://www.inflearn.com/course/spring-boot-restful-web-services/dashboard)  
 
 # udemy 
 <area>✔ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ 2023-10-21)</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/) 
