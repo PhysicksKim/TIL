@@ -64,7 +64,7 @@ chrome extension 중에서 CORS를 disable 해주는 확장 프로그램이 있�
   
 <br><br>  
 
-# 그런데, api 서버 호출 문제  
+# 문제발생 : Library 가 고정된 주소로 API 호출
 비공식 chzzk api 라이브러리를 사용하던 중 문제가 생겼다.   
 대부분의 경우 라이브러리는 fetch 데이터의 처리 작업을 도와주는 정도로 동작한다.  
 반면 비공식 chzzk api 라이브러리의 경우  
@@ -78,4 +78,29 @@ proxy server 에서 chzzk 라이브러리를 사용해 동작하도록 구현해
 따라서 단순히 http-proxy-middleware 를 사용해 해결할 수 없고  
 직접 node backend 를 구축하고 node backend 에서 chzzk 라이브러리를 사용해야 한다.  
   
+<br><br>  
 
+# 대안 : Chrome Extension  
+크롬 확장프로그램은 일반 웹 페이지와 다르게 좀 더 유연한 보안정책을 사용한다.  
+확장프로그램에서는 SOP에 따르지 않고  
+허용하는 Origin 을 Client 측에 지정해줄 수 있다.  
+  
+아래의 <code>manifest.json</code> 예시와 같이,   
+permissions 옵션에 허용하고자 하는 Origin 을 입력해주면 된다.  
+
+```
+{
+    "name": "my extension",
+    "description": "how to allow other origin in extension",
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "permissions": "https://api.chzzk.naver.com",
+    ...
+}
+```
+  
+따라서 간단한 앱에는 크롬 확장프로그램을 활용해서 개발해주면서 CORS를 간단히 해결할 수 있다.  
+특히 Toy Project 를 하다가 CORS 문제에 마주쳤는데, proxy server 를 따로 두기에는 과하다 싶을 수 있다.    
+이런 경우에는 확장프로그램으로 간단히 해결할 수 있을지를 생각해봐도 좋을 것 같다.      
+확장프로그램에서는 보안정책을 좀 더 자유롭게 설정할 수 있기 때문이다.  
+  
