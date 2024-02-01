@@ -83,6 +83,7 @@
   
 - etc  
 <area>✔ React Hooks에 취한다 - 리액트 훅스 쉽게 마스터하기 (2023-05-15 ~ 2023-05-16)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLZ5oZ2KmQEYjwhSxjB_74PoU6pmFzgVMO)  
+<area>✔ Spring Websocket Course - Bouali Ali (2024-02-01)</area> [강의1로 이동](https://youtu.be/TywlS9iAZCM?feature=shared) [강의2로 이동](https://youtu.be/7T-HnTE6v64?feature=shared)    
   
 - 널널한 개발자  
 <area>✔ 곰책으로 쉽게 배우는 최소한의 운영체제론 (2023-06-14 ~ 2023-06-26)</area> [강의로 이동](https://www.youtube.com/watch?v=nJ_lP8Iw05Y&list=PLXvgR_grOs1DGFOeD792kHlRml0PhCe9l&index=3) [(인프런 페이지)](https://www.inflearn.com/course/%EA%B3%B0%EC%B1%85-%EC%89%BD%EA%B2%8C-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C)   
