@@ -117,6 +117,7 @@
 <area>✔ 외워서 끝내는 네트워크 핵심이론 - 기초 (2023-06-26 ~ 2023-07-07)</area> [강의로 이동](https://www.inflearn.com/course/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%ED%95%B5%EC%8B%AC%EC%9D%B4%EB%A1%A0-%EA%B8%B0%EC%B4%88/dashboard)  
   
 <area>✔ 2주만에 통과하는 알고리즘 코딩테스트 (2023-09-17 ~ 2023-10-04)</area> [강의로 이동](https://www.inflearn.com/course/2%EC%A3%BC%EB%A7%8C%EC%97%90-%ED%86%B5%EA%B3%BC%ED%95%98%EB%8A%94-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EC%BD%94%EB%94%A9%ED%85%8C%EC%8A%A4%ED%8A%B8/dashboard)   
+<area>✔ 2주만에 통과하는 알고리즘 코딩테스트 2회차 (2024-03-19 ~ 2023-03-22)</area>  
    
 <area>✔ 따라하며 배우는 노드, 리액트 시리즈 - 기본 강의 (2023-09-19)</area> [강의로 이동](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%A9%B0-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EB%85%B8%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EA%B8%B0%EB%B3%B8#)   
 <area>✔ 한입 크기로 잘라 먹는 리액트 (2023-09-20 ~ 2023-10-01)</area> [강의로 이동](https://www.inflearn.com/course/%ED%95%9C%EC%9E%85-%EB%A6%AC%EC%95%A1%ED%8A%B8/dashboard)   
