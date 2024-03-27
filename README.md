@@ -38,9 +38,11 @@
 <area>✔ JavaScript 입문 수업 (2023-05-07 ~ 2023-05-08)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMA4uSig3hCjl7wTDeyIeZVU)  
 <area>✔ JavaScript - async & await (2023-05-10)</area>  
     
-<area>⏳ Redux (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMB-iGMgONoRPArZfjRuRNVc)  
+<area>⏳ Redux (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMB-iGMgONoRPArZfjRuRNVc)   
 <area>⏳ React-Redux (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/watch?v=yjuwpf7VH74)   
 <area>⏳ React-Redux Workshop (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/watch?v=Cwwsv_OaWhM)   
+<area>⏳ Redux Toolkit (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/watch?v=9wrHxqI6zuM)  
+<area>⏳ Redux Toolkit - thunk (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/watch?v=K-3sBc2pUJ4)     
   
 <area>✔ DATABASE1 (2022-03-25)</area>  
 <area>✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)</area>  
