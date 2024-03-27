@@ -37,7 +37,11 @@
 <area>✔ JavaScript 객체 지향 프로그래밍 (2023-05-06)</area>  
 <area>✔ JavaScript 입문 수업 (2023-05-07 ~ 2023-05-08)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMA4uSig3hCjl7wTDeyIeZVU)  
 <area>✔ JavaScript - async & await (2023-05-10)</area>  
-   
+    
+<area>⏳ Redux (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMB-iGMgONoRPArZfjRuRNVc)  
+<area>⏳ React-Redux (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/watch?v=yjuwpf7VH74)   
+<area>⏳ React-Redux Workshop (2024-03-28 ~) </area> [강의로 이동](https://www.youtube.com/watch?v=Cwwsv_OaWhM)   
+  
 <area>✔ DATABASE1 (2022-03-25)</area>  
 <area>✔ DATABASE2 - MySQL (2022-03-25 ~ 2022-03-26)</area>  
 <area>✔ 관계형 데이터 모델링 (2022-08-11 ~ 2022-08-12)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMDF6rHsY9qMuJMd295Yk4sa)  
