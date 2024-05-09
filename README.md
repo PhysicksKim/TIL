@@ -37,6 +37,7 @@
 <area>✔ JavaScript 객체 지향 프로그래밍 (2023-05-06)</area>  
 <area>✔ JavaScript 입문 수업 (2023-05-07 ~ 2023-05-08)</area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMA4uSig3hCjl7wTDeyIeZVU)  
 <area>✔ JavaScript - async & await (2023-05-10)</area>  
+<area>✔ JavaScript - Immutability (2024-05-09)</area>  [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMBxNK38TqfBWk-QpEI7UkY8)  
     
 <area>✔ Redux (2024-03-28) </area> [강의로 이동](https://www.youtube.com/playlist?list=PLuHgQVnccGMB-iGMgONoRPArZfjRuRNVc)   
 <area>✔ React-Redux (2024-03-28) </area> [강의로 이동](https://www.youtube.com/watch?v=yjuwpf7VH74)   
