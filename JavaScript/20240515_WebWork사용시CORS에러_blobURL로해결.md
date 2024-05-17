@@ -37,3 +37,52 @@ worker.onmessage = (event) => {
 // 사용 후 Blob URL 해제
 URL.revokeObjectURL(worker_url);
 ```
+
+## 코드 설명    
+핵심은 <code>URL.createObjectURL(new Blob(...))</code> 를 통해서,    
+"""불러온 js 내용을 마치 코드 내부에서 생성한 js 코드 라인인 것 처럼""" 처리하는 것이다.   
+    
+그러면 여기서 <code>new Blob(...)</code> 생성자 안에 들어갈 Blob 의 content 를 어떻게 가져올 것인가?    
+    
+여기에는 위 코드에서는 importScript() 함수를 사용했고,    
+또 다르게는 단순히 fetch() 하여 파일을 가져온 후 text(=payload)를 그대로 Blob Content 로 넣어서 생성할 수 있다.    
+   
+> ### importScript()  
+> importScript() 함수는, 해당 url 에서 스크립트를 가져온 다음,  
+> 스크립트를 곧장 실행하는 함수에 해당한다.  
+> 따라서 단순하게 해당 라인이 url js 파일 내용으로 대체되는 것이라 생각하면 된다.  
+  
+### fetch() 사용  
+
+단순하게 fetch() 를 사용해서 파일을 가져온 다음, 파일의 payload 를 추출해서  
+마치 webworker 에 텍스트를 그대로 넣을 수도 있다.  
+  
+```typescript  
+export class CorsWorker {
+  private readonly url: string | URL;
+  private readonly options?: WorkerOptions;
+
+  constructor(url: string | URL, options?: WorkerOptions) {
+    this.url = url;
+    this.options = options;
+  }
+
+  async createWorker(): Promise<Worker> {
+    const f = await fetch(this.url);
+    const t = await f.text();
+    const b = new Blob([t], {
+      type: 'application/javascript',
+    });
+    const url = URL.createObjectURL(b);
+    const worker = new Worker(url, this.options);
+    return worker;
+  }
+}
+```
+  
+단지 importScript() 와 차이는 importScript 는 WebWorker.js 파일을 가져와서 해당 라인이 가져온 WebWorker 내용으로 대체된다는 것이고  
+fetch() 는 그대로 js 파일의 text 로 추출하여서 webWorker 안에 넣어버리는 것이다.  
+  
+두 방식 다 별 차이 없이, 그냥 Blob Constructor 안에 content 로 js script 내용을 넣을 수 있기만 하면 된다.  
+
+>  심지어 js script webworker 를 그냥 raw string 으로 하드코딩해서 넣어도 동작한다.  
