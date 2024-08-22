@@ -47,3 +47,22 @@ dev, prod 둘 다 alias 설정을 적어줘야한다.
 
 tsconfig.json 파일이 위치한 경로를 기준으로 각 alias 가 지칭하는 위치를 위와 같이 paths 에 적어준다. 
   
+<br><br>
+
+# + 3. Jest 에서 인식할 수 있도록 alias 설정  
+
+package.json 에서 jest 에서 alias 를 인식할 수 있도록 설정해줘야 한다. 
+
+```json
+"jest": {
+  ...
+  "moduleNameMapper": {
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
+    "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+    "^@src/(.*)$": "<rootDir>/src/$1",
+    "^@main/(.*)$": "<rootDir>/src/main/$1",
+    "^@app/(.*)$": "<rootDir>/src/renderer/pages/app/$1",
+    "^@matchlive/(.*)$": "<rootDir>/src/renderer/pages/matchlive/$1"
+  },
+```
+
