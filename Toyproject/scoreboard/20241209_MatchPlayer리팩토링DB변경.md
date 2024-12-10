@@ -71,4 +71,16 @@ Fixture - MatchPlayer - MatchPlayer -(nullable)- Player
 고객이 생산해낸 정보(ex. 주문기록, 거래기록 등)가 소실되지 않아야 한다면   
 이 같은 마이그레이션 전략이 매우 중요할 것 같다.  
 
-  
+<br>
+
+--- 
+
+<br> 
+
+# 데이터 수정 과정  
+
+- 20241210
+DB 에서 fixture 에서 available 모두 0(false)으로 변경 하고, available fixture 들 다시 새롭게 지정
+이유 : 이전 데이터들은 이제 사용할 수 없으니 available remove 일일이 하기 보다 한번에 수행. 어차피 job 에 의한 데이터 클린업을 해도 엔티티 자체가 변경됐으므로 이전데이터 제거작업은 불가
+    
+- 
