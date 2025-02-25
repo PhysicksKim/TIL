@@ -151,4 +151,5 @@
   
 <area>✔ Unity pathway - Unity Essentials (2024-04-19)</area> [강의로 이동](https://learn.unity.com/pathway/unity-essentials)  
 
-<area>✔ 블렌더 완벽 가이드: 초심자를 위한 3D 모델링 마스터하기 (2024-04-20 ~ 2024-04-22)</area> [강의로 이동](https://www.udemy.com/course/blender-tutorial-korean/)  
+<area>✔ 블렌더 완벽 가이드: 초심자를 위한 3D 모델링 마스터하기 (2024-04-20 ~ 2024-04-22)</area> [강의로 이동](https://www.udemy.com/course/blender-tutorial-korean/)   
+<area>⏳ Nand2Tetris - Build a Modern Computer from First Principles (2025-05-25 ~)</area> [강의로 이동 - coursera](https://www.coursera.org/learn/build-a-computer)   
