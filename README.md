@@ -79,7 +79,7 @@
 <area>✔ 도메인 주도 개발 시작하기 ch1 ~ ch5 (2023-11-12 ~ 2023-12-19)</area> (뒤쪽 디테일 내용은 ToyProject 에 도메인 주도 개발 적용 후에 해보는 게 좋을듯함)   
 <area>✔ 함께 자라기 애자일로 가는 길 (2024-10-06 ~ 2024-10-09)</area>  
 <area>⏳ 컴퓨터 밑바닥의 비밀 - 루 샤오펑 (2025-02-24 ~)</area>  
-<area>⏳ 밑바닥부터 만드는 컴퓨팅 시스템 - I부 하드웨어 (2025-02-26 ~)</area>  
+<area>✔ 밑바닥부터 만드는 컴퓨팅 시스템 - I부 하드웨어 (2025-02-26 ~ 2025-02-28)</area>  
      
 ## Youtube  
 - CodingLab  
@@ -153,4 +153,4 @@
 <area>✔ Unity pathway - Unity Essentials (2024-04-19)</area> [강의로 이동](https://learn.unity.com/pathway/unity-essentials)  
 
 <area>✔ 블렌더 완벽 가이드: 초심자를 위한 3D 모델링 마스터하기 (2024-04-20 ~ 2024-04-22)</area> [강의로 이동](https://www.udemy.com/course/blender-tutorial-korean/)   
-<area>⏳ Nand2Tetris - Build a Modern Computer from First Principles (2025-05-25 ~)</area> [강의로 이동 - coursera](https://www.coursera.org/learn/build-a-computer)   
+<area>✔ Nand2Tetris - Build a Modern Computer from First Principles (2025-02-25 ~ 2025-02-28)</area> [강의로 이동 - coursera](https://www.coursera.org/learn/build-a-computer)   
