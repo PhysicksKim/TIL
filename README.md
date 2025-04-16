@@ -142,8 +142,8 @@
 
 <area>✔ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ 2023-10-21)</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/)  
 <area>✔ Spring Boot Unit Testing with JUnit, Mockito and MockMvc (2023-12-20 ~ 2023-12-23)</area> [강의로 이동](https://www.udemy.com/course/spring-boot-unit-testing/)  
-<area>✔ Typescript :기초부터 실전형 프로젝트까지 with React + NodeJS (2024-01-06 ~ 2024-01-14)</area>[강의로 이동](https://www.udemy.com/course/best-typescript-21/)
-<area>⏳ Fundamentals of Operating Systems (2025-04-08 ~ )</area>[강의로 이동](https://www.udemy.com/course/fundamentals-of-operating-systems/)  
+<area>✔ Typescript :기초부터 실전형 프로젝트까지 with React + NodeJS (2024-01-06 ~ 2024-01-14)</area>[강의로 이동](https://www.udemy.com/course/best-typescript-21/)  
+<area>✔ Fundamentals of Operating Systems (2025-04-08 ~ 2025-04-16)</area>[강의로 이동](https://www.udemy.com/course/fundamentals-of-operating-systems/)  
 
 ## etc
 
