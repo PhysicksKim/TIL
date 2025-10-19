@@ -139,12 +139,13 @@
 <area>✔ 자바 개발자를 위한 코틀린 입문 (2025-04-04 ~ 2025-04-05)</area> [강의로 이동](https://www.inflearn.com/course/java-to-kotlin/dashboard)
 
 # udemy
-
+  
 <area>✔ Spring Security 6 Zero to Master along with JWT,OAUTH2 (2023-10-05 ~ 2023-10-21)</area> [강의로 이동](https://www.udemy.com/course/spring-security-zero-to-master/)  
 <area>✔ Spring Boot Unit Testing with JUnit, Mockito and MockMvc (2023-12-20 ~ 2023-12-23)</area> [강의로 이동](https://www.udemy.com/course/spring-boot-unit-testing/)  
-<area>✔ Typescript :기초부터 실전형 프로젝트까지 with React + NodeJS (2024-01-06 ~ 2024-01-14)</area>[강의로 이동](https://www.udemy.com/course/best-typescript-21/)  
-<area>✔ Fundamentals of Operating Systems (2025-04-08 ~ 2025-04-16)</area>[강의로 이동](https://www.udemy.com/course/fundamentals-of-operating-systems/)  
-
+<area>✔ Typescript :기초부터 실전형 프로젝트까지 with React + NodeJS (2024-01-06 ~ 2024-01-14)</area> [강의로 이동](https://www.udemy.com/course/best-typescript-21/)  
+<area>✔ Fundamentals of Operating Systems (2025-04-08 ~ 2025-04-16)</area> [강의로 이동](https://www.udemy.com/course/fundamentals-of-operating-systems/)  
+<area>✔ 백엔드 엔지니어링 (Backend Engineering) 마스터하기 (2025-09-23 ~ 2025-10-19)</area> [강의로 이동](https://www.udemy.com/course/fundamentals-of-backend-engineering-communications-protocols-korean)    
+  
 ## etc
 
 <area>✔ 노마드코더 - 바닐라 JS로 크롬 앱 만들기 (2022-03-30 ~ 2022-04-01)</area>  
