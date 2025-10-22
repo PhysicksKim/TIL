@@ -109,8 +109,9 @@
 <area>✔ 스프링 핵심 원리 - 기본편 (2022-05-12 ~ 2022-05-17)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)  
 <area>✔ 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술 (2022-05-17 ~ 2022-05-28)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-1)  
 <area>✔ 스프링 MVC 2편 - 백엔드 웹 개발 활용 기술 (2022-06-02 ~ 2022-06-18)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2)  
-<area>✔ 스프링 DB 1편 - 데이터 접근 핵심 원리 (2022-06-19 ~ 2022-06-29)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1)  
-<area>✔ 스프링 DB 2편 - 데이터 접근 활용 기술 (2022-06-30 ~ 2022-07-05)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-2)
+<area>✔ 스프링 DB 1편 - 데이터 접근 핵심 원리 (2022-06-19 ~ 2022-06-29)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1)   
+<area>✔ 스프링 DB 2편 - 데이터 접근 활용 기술 (2022-06-30 ~ 2022-07-05)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-2)  
+<area>✔ 스프링 핵심 원리 - 고급편 (2025-10-20 ~ 2025-10-23)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B3%A0%EA%B8%89%ED%8E%B8)   
 
 <area>✔ 실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발 (2023-01-14 ~ 2023-01-17)</area> [강의로 이동](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-%ED%99%9C%EC%9A%A9-1)  
 <area>✔ 자바 ORM 표준 JPA 프로그래밍 - 기본편 (2023-01-18 ~ 2023-02-01)</area> [강의로 이동](https://www.inflearn.com/course/ORM-JPA-Basic/dashboard)  
