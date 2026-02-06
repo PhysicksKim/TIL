@@ -147,7 +147,8 @@
 <area>✔ Typescript :기초부터 실전형 프로젝트까지 with React + NodeJS (2024-01-06 ~ 2024-01-14)</area> [강의로 이동](https://www.udemy.com/course/best-typescript-21/)  
 <area>✔ Fundamentals of Operating Systems (2025-04-08 ~ 2025-04-16)</area> [강의로 이동](https://www.udemy.com/course/fundamentals-of-operating-systems/)  
 <area>✔ 백엔드 엔지니어링 (Backend Engineering) 마스터하기 (2025-09-23 ~ 2025-10-19)</area> [강의로 이동](https://www.udemy.com/course/fundamentals-of-backend-engineering-communications-protocols-korean)    
-<area>⏳ Redis : 개발자를 위한 Redis 완벽 가이드 (2025-12-16 ~)</area> [강의로 이동](https://www.udemy.com/course/redis-the-complete-developers-guide-korean)    
+<area>✔ Redis : 개발자를 위한 Redis 완벽 가이드 (2025-12-16 ~ 2026-02-06)</area> [강의로 이동](https://www.udemy.com/course/redis-the-complete-developers-guide-korean)    
+
   
 ## etc
 
